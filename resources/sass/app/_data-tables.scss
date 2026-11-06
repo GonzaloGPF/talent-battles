@@ -1,0 +1,30 @@
+.data-table {
+  width: 100%;
+}
+
+.data-table-searcher .v-input__slot {
+  margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 960px){
+  .simple-table thead {
+    display: none;
+  }
+  .simple-table tr {
+    /*background-color: rgba(39, 34, 34, 0.99);*/
+    display: block;
+    text-align: center;
+    margin: 1rem 10px;
+  }
+  .simple-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .simple-table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+  }
+}

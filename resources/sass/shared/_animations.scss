@@ -1,0 +1,41 @@
+@keyframes PulseBlur {
+    0% {
+        box-shadow: 0 0 8px 0;
+    }
+    100% {
+        box-shadow: 0 0 12px 6px;
+    }
+}
+
+@keyframes ShineAnimation {
+    from {
+        background-repeat: no-repeat;
+        background-image:-webkit-linear-gradient(
+                top left,
+                rgba(255, 255, 255, 0.0) 0%,
+                rgba(255, 255, 255, 0.0) 45%,
+                rgba(255, 255, 255, 0.5) 48%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0.5) 52%,
+                rgba(255, 255, 255, 0.0) 57%,
+                rgba(255, 255, 255, 0.0) 100%
+        );
+        background-position: -350px -350px;
+        background-size: 600px 600px
+    }
+    to {
+        background-repeat: no-repeat;
+        background-position: 250px 250px;
+    }
+}
+
+.promoted {
+    outline: solid;
+    animation: PulseBlur 2s infinite;
+    animation-direction: alternate;
+}
+
+.shine-me {
+    //width: 100%; /*Make sure the animation is over the whole element*/
+    animation: ShineAnimation 6s infinite;
+}

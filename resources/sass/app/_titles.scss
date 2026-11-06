@@ -1,0 +1,45 @@
+@use "../shared/fonts";
+
+.menu-title-brand {
+  @extend .brand-font;
+  font-size: 1rem !important;
+}
+
+.title-brand {
+    @extend .brand-font;
+    font-size: 2rem !important;
+    font-weight: 400;
+    line-height: 3.125rem;
+}
+
+.subtitle-brand {
+    @extend .title-brand;
+    font-size: .75rem !important;
+    font-weight: 300;
+    line-height: 2rem;
+}
+
+.mini-title-brand {
+    @extend .title-brand;
+    font-size: 0.75rem !important;
+    font-weight: 100;
+    line-height: 1rem;
+}
+
+@media screen and (min-width: 900px) {
+  .menu-title-brand {
+    font-size: 1.2rem !important;
+  }
+
+  .title-brand {
+    font-size: 3rem !important;
+  }
+
+  .subtitle-brand {
+    font-size: 1.25rem !important;
+  }
+
+  .mini-title-brand {
+    font-size: 0.75rem !important;
+  }
+}

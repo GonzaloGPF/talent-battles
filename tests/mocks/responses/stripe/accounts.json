@@ -1,0 +1,199 @@
+{
+  "object": "list",
+  "url": "/v1/accounts",
+  "has_more": false,
+  "data": [
+    {
+      "id": "acct_test1",
+      "object": "account",
+      "business_profile": {
+        "mcc": "5734",
+        "name": null,
+        "product_description": "Social Media for music producers and designers",
+        "support_address": null,
+        "support_email": null,
+        "support_phone": "+34600000000",
+        "support_url": null,
+        "url": "https://example.com"
+      },
+      "business_type": "individual",
+      "capabilities": {
+        "card_payments": "active",
+        "transfers": "active"
+      },
+      "charges_enabled": true,
+      "company": {
+        "address": {
+          "city": "Madrid",
+          "country": "ES",
+          "line1": "Test Street 1",
+          "line2": null,
+          "postal_code": "28000",
+          "state": "Test"
+        },
+        "directors_provided": false,
+        "executives_provided": false,
+        "name": null,
+        "owners_provided": false,
+        "phone": "+34600000000",
+        "tax_id_provided": false,
+        "vat_id_provided": true,
+        "verification": {
+          "document": {
+            "back": null,
+            "details": null,
+            "details_code": null,
+            "front": null
+          }
+        }
+      },
+      "controller": {
+        "type": "account"
+      },
+      "country": "ES",
+      "created": 1480588454,
+      "default_currency": "eur",
+      "details_submitted": true,
+      "email": "seller@example.com",
+      "external_accounts": {
+        "object": "list",
+        "data": [
+          {
+            "id": "ba_test2",
+            "object": "bank_account",
+            "account": "acct_test1",
+            "account_holder_name": null,
+            "account_holder_type": null,
+            "available_payout_methods": [
+              "standard"
+            ],
+            "bank_name": "CAIXABANK, S.A.",
+            "country": "ES",
+            "currency": "eur",
+            "default_for_currency": true,
+            "fingerprint": "fingerprint_test",
+            "last4": "4242",
+            "metadata": {},
+            "routing_number": "110000000",
+            "status": "new"
+          }
+        ],
+        "has_more": false,
+        "url": "/v1/accounts/acct_test1/external_accounts"
+      },
+      "individual": {
+        "id": "person_test3",
+        "object": "person",
+        "account": "acct_test1",
+        "address": {
+          "city": "Madrid",
+          "country": "ES",
+          "line1": "Test Street 1",
+          "line2": null,
+          "postal_code": "28000",
+          "state": "Test"
+        },
+        "created": 1480588454,
+        "dob": {
+          "day": 1,
+          "month": 1,
+          "year": 1990
+        },
+        "email": "seller@example.com",
+        "first_name": "Test",
+        "last_name": "Seller",
+        "metadata": {},
+        "phone": "+34600000000",
+        "relationship": {
+          "director": false,
+          "executive": false,
+          "owner": true,
+          "percent_ownership": null,
+          "representative": true,
+          "title": null
+        },
+        "requirements": {
+          "currently_due": [],
+          "errors": [],
+          "eventually_due": [],
+          "past_due": [],
+          "pending_verification": []
+        },
+        "verification": {
+          "additional_document": {
+            "back": null,
+            "details": null,
+            "details_code": null,
+            "front": null
+          },
+          "details": null,
+          "details_code": null,
+          "document": {
+            "back": null,
+            "details": null,
+            "details_code": null,
+            "front": null
+          },
+          "status": "verified"
+        }
+      },
+      "metadata": {},
+      "payouts_enabled": true,
+      "requirements": {
+        "current_deadline": null,
+        "currently_due": [],
+        "disabled_reason": "rejected.fraud",
+        "errors": [],
+        "eventually_due": [],
+        "past_due": [],
+        "pending_verification": []
+      },
+      "settings": {
+        "bacs_debit_payments": {},
+        "branding": {
+          "icon": null,
+          "logo": null,
+          "primary_color": null,
+          "secondary_color": null
+        },
+        "card_issuing": {
+          "tos_acceptance": {
+            "date": null,
+            "ip": null
+          }
+        },
+        "card_payments": {
+          "decline_on": {
+            "avs_failure": false,
+            "cvc_failure": false
+          },
+          "statement_descriptor_prefix": "TEST"
+        },
+        "dashboard": {
+          "display_name": "Talentbattles",
+          "timezone": "Europe/Madrid"
+        },
+        "payments": {
+          "statement_descriptor": "TEST SELLER",
+          "statement_descriptor_kana": null,
+          "statement_descriptor_kanji": null
+        },
+        "payouts": {
+          "debit_negative_balances": true,
+          "schedule": {
+            "delay_days": 7,
+            "interval": "daily"
+          },
+          "statement_descriptor": null
+        },
+        "sepa_debit_payments": {}
+      },
+      "tos_acceptance": {
+        "date": 1620495678,
+        "ip": "81.203.205.1",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"
+      },
+      "type": "custom"
+    }
+  ]
+}

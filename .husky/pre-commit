@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/common.sh"
+
+export $(grep -v '^#' .env | xargs)
+
+service_name="${APP_CONTAINER}-${APP_SERVICE}-1"
+
+docker exec ${service_name} yarn js-lint
+docker exec ${service_name} yarn style-lint
+
+exit 0

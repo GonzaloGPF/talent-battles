@@ -1,0 +1,19 @@
+.badge {
+    font-size: .75rem;
+    padding: .2rem .5rem .2rem;
+    border-radius: .5rem;
+    white-space: nowrap;
+
+    &[class$='-500'],
+    &[class$='-600'],
+    &[class$='-700'],
+    &[class$='-800'],
+    &[class$='-900'],
+    &.bg-black{
+        color: white
+    }
+
+    &.yellow{
+        color: black
+    }
+}

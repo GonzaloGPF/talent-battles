@@ -1,0 +1,19 @@
+{
+    "$schema": "https://larecipe.saleem.dev/schemas/3.x/larecipe.json",
+    "name": "Talent Battles",
+    "description": "TalentBattles documentation",
+    "favicon": "images/favicon.svg",
+    "theme": {
+        "accent": "#787AF6"
+    },
+    "versions": [
+        {
+            "id": "es",
+            "default": true
+        },
+        {
+            "id": "en"
+        }
+    ],
+    "landing": "introduction"
+}
