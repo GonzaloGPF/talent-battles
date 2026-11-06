@@ -1,0 +1,19 @@
+.login-container {
+  padding: 25px 30px 30px 30px;
+  margin: 10% 0;
+  box-shadow: -2px 4px 25px -5px #000;
+  background-color: white;
+  background-size: cover;
+  width: 600px;
+
+  .logo {
+    width: 110px;
+    height: auto;
+  }
+}
+
+.login-form {
+  input {
+    border: none;
+  }
+}

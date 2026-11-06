@@ -1,0 +1,1387 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^PHPDoc tag @return with type array\|null is not subtype of native type Stripe\\Account\|null\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: app/Api/StripeApi.php
+
+		-
+			message: '#^Parameter \#1 \$amount of method App\\Models\\User\:\:creditBalance\(\) expects int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Api/StripeApi.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: App\\Objects\\StripeLineItem, Closure\(App\\Models\\OrderLine\)\: App\\Objects\\StripeLineItem given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Api/StripeApi.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>currency" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Api/StripeApi.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type Stripe\\Checkout\\Session\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Api/StripeApi.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: app/Console/Commands/Live/CreateBattles.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: \(App\\Models\\Battle\|null\), Closure\(App\\Models\\Track\)\: \(App\\Models\\Battle\|null\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Console/Commands/Live/CreateBattles.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 2
+			path: app/Console/Commands/Live/CreateVotes.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between App\\Enums\\BattleTypes\:\:DESIGN and App\\Enums\\BattleTypes\:\:DESIGN will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: app/Console/Commands/Live/CreateVotes.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Console/Commands/Live/CreateVotes.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Events/BattleFinished.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: app/Events/BattleFinished.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locale\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Events/OrderSuccess.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getChannelName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Events/OrderSuccess.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Events/OrderSuccess.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getChannelName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Events/ReportClosed.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Events/ReportClosed.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getChannelName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Events/SalesCreated.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Events/SalesCreated.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\|string\)\: mixed, Closure\(App\\Models\\Product\)\: void given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Events/SalesCreated.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),mixed\>\:\:filter\(\) expects \(callable\(mixed, int\|string\)\: bool\)\|null, Closure\(App\\Models\\Sale\)\: \(int\<0, max\>\|null\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Events/SalesCreated.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Exceptions/Handler.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Exceptions\\Handler\:\:\$dontFlash is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Exceptions\\Handler\:\:\$dontFlash\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Exceptions/Handler.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Exceptions\\Handler\:\:\$dontReport is not covariant with PHPDoc type array\<int, class\-string\<Throwable\>\> of overridden property Illuminate\\Foundation\\Exceptions\\Handler\:\:\$dontReport\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Exceptions/Handler.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:byTags\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filters/AlbumFilter.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:byParticipants\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Filters/BattleFilter.php
+
+		-
+			message: '#^Parameter \#2 \$operator of method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:has\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Filters/BattleFilter.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:byTags\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filters/DesignFilter.php
+
+		-
+			message: '#^Method App\\Filters\\DesignFilter\:\:exclusive\(\) should return App\\Filters\\DesignFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/DesignFilter.php
+
+		-
+			message: '#^Method App\\Filters\\DesignFilter\:\:inSale\(\) should return App\\Filters\\DesignFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/DesignFilter.php
+
+		-
+			message: '#^Method App\\Filters\\DesignFilter\:\:promoted\(\) should return App\\Filters\\TrackFilter but returns \$this\(App\\Filters\\DesignFilter\)\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/DesignFilter.php
+
+		-
+			message: '#^Method App\\Filters\\DesignFilter\:\:promoted\(\) should return App\\Filters\\TrackFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/DesignFilter.php
+
+		-
+			message: '#^Method App\\Filters\\DesignFilter\:\:sold\(\) should return App\\Filters\\DesignFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/DesignFilter.php
+
+		-
+			message: '#^Method App\\Filters\\DesignFilter\:\:withoutOpenBattles\(\) should return App\\Filters\\Filter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/DesignFilter.php
+
+		-
+			message: '#^Parameter \#4 \$not of method App\\Filters\\Filter\:\:whereIn\(\) expects false, true given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Filters/Filter.php
+
+		-
+			message: '#^Property App\\Filters\\Filter\:\:\$errors is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: app/Filters/Filter.php
+
+		-
+			message: '#^Method App\\Filters\\ProductFilter\:\:promoted\(\) should return App\\Filters\\TrackFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 2
+			path: app/Filters/ProductFilter.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:byTags\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filters/TrackFilter.php
+
+		-
+			message: '#^Method App\\Filters\\TrackFilter\:\:exclusive\(\) should return App\\Filters\\TrackFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/TrackFilter.php
+
+		-
+			message: '#^Method App\\Filters\\TrackFilter\:\:inSale\(\) should return App\\Filters\\TrackFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/TrackFilter.php
+
+		-
+			message: '#^Method App\\Filters\\TrackFilter\:\:promoted\(\) should return App\\Filters\\TrackFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/TrackFilter.php
+
+		-
+			message: '#^Method App\\Filters\\TrackFilter\:\:sold\(\) should return App\\Filters\\TrackFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/TrackFilter.php
+
+		-
+			message: '#^Method App\\Filters\\TrackFilter\:\:withoutOpenBattles\(\) should return App\\Filters\\Filter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filters/TrackFilter.php
+
+		-
+			message: '#^PHPDoc tag @return with type Illuminate\\Database\\Eloquent\\Builder is incompatible with native type App\\Filters\\TrackFilter\.$#'
+			identifier: return.phpDocType
+			count: 3
+			path: app/Filters/TrackFilter.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Helpers/NotificationHelper.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Helpers/globals.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\|Illuminate\\Support\\Collection\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Helpers/globals.php
+
+		-
+			message: '#^Call to static method factory\(\) on an unknown class Illuminate\\Database\\Eloquent\\Factories\\HasFactory\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Helpers/globals.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Helpers/globals.php
+
+		-
+			message: '#^Function tConstValue\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Helpers/globals.php
+
+		-
+			message: '#^Offset ''function'' on array\{function\: string, line\?\: int, file\?\: string, class\?\: class\-string, type\?\: string, args\?\: list\<mixed\>, object\?\: object\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: app/Helpers/globals.php
+
+		-
+			message: '#^PHPDoc tag @return with type mixed is not subtype of native type Illuminate\\Database\\Eloquent\\Model\|Illuminate\\Support\\Collection\.$#'
+			identifier: return.phpDocType
+			count: 2
+			path: app/Helpers/globals.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Helpers/globals.php
+
+		-
+			message: '#^Access to property \$created_by on an unknown class App\\Traits\\HasCreatedBy\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Http/Controllers/DownloadController.php
+
+		-
+			message: '#^Call to method downloads\(\) on an unknown class App\\Traits\\HasCreatedBy\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Http/Controllers/DownloadController.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 2
+			path: app/Http/Controllers/DownloadController.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: app/Http/Controllers/DownloadController.php
+
+		-
+			message: '#^Variable \$created on left side of \?\? is never defined\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: app/Http/Controllers/DownloadController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/EmailController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/InvitationClaimController.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 2
+			path: app/Http/Controllers/OrderController.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: app/Http/Controllers/OrderController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/OrderController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getTotal\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/PayNowController.php
+
+		-
+			message: '#^Parameter \#1 \$cart of method App\\Services\\OrderService\:\:createFromCart\(\) expects App\\Models\\Cart, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/PayNowController.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type Carbon\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/Stats/ActivityReceivedController.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type Carbon\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/Stats/CreationSalesController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>value" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/Stats/DesignSummaryCardController.php
+
+		-
+			message: '#^Access to an undefined property Laravel\\Cashier\\PaymentMethod\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Stripe/PaymentMethodController.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Http\\Kernel\:\:\$middleware is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$middleware\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Http/Kernel.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Http\\Kernel\:\:\$middlewareAliases is not covariant with PHPDoc type array\<string, string\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$middlewareAliases\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Http/Kernel.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Http\\Kernel\:\:\$middlewareGroups is not covariant with PHPDoc type array\<string, array\<int, string\>\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$middlewareGroups\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Http/Kernel.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Http\\Middleware\\EncryptCookies\:\:\$except is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Cookie\\Middleware\\EncryptCookies\:\:\$except\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Http/Middleware/EncryptCookies.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Http\\Middleware\\PreventRequestsDuringMaintenance\:\:\$except is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance\:\:\$except\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Http/Middleware/PreventRequestsDuringMaintenance.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$guards with type string\|null is not subtype of native type string\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: app/Http/Middleware/RedirectIfAuthenticated.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Http\\Middleware\\TrimStrings\:\:\$except is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Http\\Middleware\\TrimStrings\:\:\$except\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Http/Middleware/TrimStrings.php
+
+		-
+			message: '#^PHPDoc type array\|string\|null of property App\\Http\\Middleware\\TrustProxies\:\:\$proxies is not covariant with PHPDoc type array\<int, string\>\|string\|null of overridden property Illuminate\\Http\\Middleware\\TrustProxies\:\:\$proxies\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Http/Middleware/TrustProxies.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Http\\Middleware\\VerifyCsrfToken\:\:\$except is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Http\\Middleware\\PreventRequestForgery\:\:\$except\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Http/Middleware/VerifyCsrfToken.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\:\:areInProgress\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Requests/BattleRequest.php
+
+		-
+			message: '#^Property App\\Http\\Requests\\BattleRequest\:\:\$model \(App\\Models\\Design\|App\\Models\\Track\|null\) does not accept Illuminate\\Database\\Eloquent\\Model\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Http/Requests/BattleRequest.php
+
+		-
+			message: '#^Property App\\Http\\Requests\\BattleRequest\:\:\$opponent \(App\\Models\\Design\|App\\Models\\Track\|null\) does not accept Illuminate\\Database\\Eloquent\\Model\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Http/Requests/BattleRequest.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\Design\|App\\Models\\Track\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Requests/BattleRequest.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Http/Requests/BattleRequest.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Design\|App\\Models\\Track\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Http/Requests/BattleRequest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Support\\Collection\:\:modelKeys\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Requests/BattleVoteRequest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\:\:areInProgress\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Requests/DesignBattleRequest.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$items\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Requests/PayNowRequest.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Requests/PayNowRequest.php
+
+		-
+			message: '#^Property App\\Http\\Requests\\ProductRequest\:\:\$orderable \(App\\Interfaces\\HasProductInterface\|null\) does not accept Illuminate\\Database\\Eloquent\\Model\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Http/Requests/ProductRequest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\:\:areInProgress\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Requests/TrackBattleRequest.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\DesignResource\:\:\$duration\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/DesignResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\FileResource\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/FileResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$account\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/InvitationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TagResource\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TagResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$notification_settings\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(User createdBy\)\: Unexpected token "createdBy", expected variable at offset 119 on line 6$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/Interfaces/HasCreatedByInterface.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(int created_by\)\: Unexpected token "created_by", expected variable at offset 59 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/Interfaces/HasCreatedByInterface.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(int payment_state\)\: Unexpected token "payment_state", expected variable at offset 87 on line 5$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/Interfaces/HasCreatedByInterface.php
+
+		-
+			message: '#^Method App\\Jobs\\HandlePaymentIntent\:\:handle\(\) with return type void returns null but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: app/Jobs/HandlePaymentIntent.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: app/Jobs/HandlePaymentIntent.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locale\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Jobs/SendEmail.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Listeners/CreateActivity.php
+
+		-
+			message: '#^Parameter \#2 \$target of method App\\Services\\ActivityService\:\:create\(\) expects App\\Interfaces\\HasCreatedByInterface\|App\\Models\\User, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 4
+			path: app/Listeners/CreateActivity.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: \(App\\Models\\Sale\|null\), Closure\(App\\Models\\OrderLine\)\: \(App\\Models\\Sale\|null\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Listeners/CreateSales.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:filter\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: bool\)\|null, Closure\(App\\Models\\OrderLine\)\: bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Listeners/CreateSales.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: mixed, Closure\(App\\Models\\OrderLine\)\: void given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Listeners/ProcessCreationLines.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: mixed, Closure\(App\\Models\\OrderLine\)\: void given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Listeners/ProcessDonationLines.php
+
+		-
+			message: '#^Parameter \#2 \$user of method App\\Services\\OrderLineService\:\:processPoints\(\) expects App\\Models\\User\|null, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Listeners/ProcessPointLines.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: mixed, Closure\(App\\Models\\OrderLine\)\: void given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Listeners/ProcessPromoLines.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: app/Listeners/SendCreationSoldEmail.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: app/Listeners/SyncGuestCart.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Activity.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Album.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasTagsInterface\:\:\$tags\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Album.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Album.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$createdBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Battle.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Battle.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Support\\HigherOrderCollectionProxy\<string, Illuminate\\Database\\Eloquent\\Model, Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\>\:\:\$createdBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Battle.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Cart.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Design.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasTagsInterface\:\:\$tags\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Design.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$promoted\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Design.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isBlocked\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Design.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Design.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Donation.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Download.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Download.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Email.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Favorite.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Favorite.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/FavoriteList.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/File.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\File\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Models/File.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Http.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Invitation.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Like.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Like.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Order.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$payment_state\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Order.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:cleanItems\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Order.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Order.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/OrderLine.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/OrderLine.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Product.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Product.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Report.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Report.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Report.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Sale.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Track.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasTagsInterface\:\:\$tags\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Track.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$promoted\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Track.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isBlocked\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Track.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Track.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Models\\User\:\:\$casts is not covariant with PHPDoc type array\<string, string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$casts\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Models\\User\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Models\\User\:\:\$hidden is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$hidden\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Vote.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/BattleStarted.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/CommentReceived.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Notifications/CommentReceived.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/DownloadReceived.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Notifications/DownloadReceived.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/FavoriteReceived.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Notifications/FavoriteReceived.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/LikeReceived.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Notifications/LikeReceived.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/ReportReceived.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/ReportSolved.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Objects/CartItem.php
+
+		-
+			message: '#^Call to an undefined method ProtoneMedia\\LaravelFFMpeg\\Exporters\\MediaExporter\:\:setAdditionalParameters\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Objects/FFMpegManager.php
+
+		-
+			message: '#^Call to static method exception\(\) on an unknown class App\\Objects\\Logger\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Objects/FFMpegManager.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Policies/ProductPolicy.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: app/Providers/AppServiceProvider.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Providers/AuthServiceProvider.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Providers\\AuthServiceProvider\:\:\$policies is not covariant with PHPDoc type array\<class\-string, class\-string\> of overridden property Illuminate\\Foundation\\Support\\Providers\\AuthServiceProvider\:\:\$policies\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Providers/AuthServiceProvider.php
+
+		-
+			message: '#^PHPDoc type array of property App\\Providers\\EventServiceProvider\:\:\$listen is not covariant with PHPDoc type array\<string, array\<int, string\>\> of overridden property Illuminate\\Foundation\\Support\\Providers\\EventServiceProvider\:\:\$listen\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Providers/EventServiceProvider.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Reporters/Logger.php
+
+		-
+			message: '#^Property App\\Rules\\DecimalRule\:\:\$message is unused\.$#'
+			identifier: property.unused
+			count: 1
+			path: app/Rules/DecimalRule.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Rules/EnoughPoints.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\Product\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Rules/ItemDataRule.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Rules/ItemDataRule.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Product\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Rules/ItemDataRule.php
+
+		-
+			message: '#^Variable \$product in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: app/Rules/ItemDataRule.php
+
+		-
+			message: '#^Property App\\Rules\\NameRule\:\:\$value \(string\|null\) is never assigned null so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: app/Rules/NameRule.php
+
+		-
+			message: '#^Property App\\Scopes\\MineOrGuestScope\:\:\$column is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: app/Scopes/MineOrGuestScope.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: app/Scopes/ReportScope.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\|App\\Models\\User\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/ActivityService.php
+
+		-
+			message: '#^Property App\\Models\\Activity\:\:\$activity_type \(App\\Enums\\ActivityTypes\) does not accept BackedEnum\|string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Services/ActivityService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/ActivityService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/BattleService.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 2
+			path: app/Services/BattleService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/ConstantsService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$label\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/ConstantsService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/ConstantsService.php
+
+		-
+			message: '#^PHPDoc tag @return with type App\\Interfaces\\HasFilesInterface\|App\\Interfaces\\HasProductInterface\|null is not subtype of native type App\\Models\\Design\|App\\Models\\Track\|null\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: app/Services/CreationService.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Services/EmailService.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$creatorName$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Services/EmailService.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$email$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Services/EmailService.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$userName$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Services/EmailService.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{description\: string, url\: string\|null\}, Closure\(App\\Models\\OrderLine\)\: array\{description\: string, url\: string\|null\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/EmailService.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasFilesInterface\:\:\$file\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/FileService.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasFilesInterface\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Services/FileService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$file\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/OrderLineService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$sales\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/OrderLineService.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: app/Services/OrderLineService.php
+
+		-
+			message: '#^Parameter \#2 \$quantity of method App\\Helpers\\Calculator\:\:getProductTotals\(\) expects int, float\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/OrderLineService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/OrderService.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Api\\StripeApi\:\:transferMoney\(\) expects App\\Models\\User, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/PaymentService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/PointsService.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: mixed, Closure\(App\\Models\\Vote\)\: App\\Models\\User given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/PointsService.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:filter\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: bool\)\|null, Closure\(App\\Models\\Vote\)\: bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/PointsService.php
+
+		-
+			message: '#^Parameter \#2 \$user of method App\\Services\\PointsService\:\:earnPoints\(\) expects App\\Models\\User\|null, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/PointsService.php
+
+		-
+			message: '#^Parameter \#2 \$user of method App\\Services\\PointsService\:\:earnPoints\(\) expects App\\Models\\User\|null, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/PointsService.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Design\|App\\Models\\Track\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/PointsService.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasProductInterface\:\:\$description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/ProductService.php
+
+		-
+			message: '#^Access to an undefined property App\\Interfaces\\HasProductInterface\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Services/ProductService.php
+
+		-
+			message: '#^Called ''Model\:\:make\(\)'' which performs unnecessary work, use ''new Model\(\)''\.$#'
+			identifier: larastan.noModelMake
+			count: 1
+			path: app/Services/ProductService.php
+
+		-
+			message: '#^Parameter \#1 \$model of method Illuminate\\Database\\Eloquent\\Relations\\MorphTo\<Illuminate\\Database\\Eloquent\\Model,Illuminate\\Database\\Eloquent\\Model\>\:\:associate\(\) expects Illuminate\\Database\\Eloquent\\Model\|null, App\\Interfaces\\HasProductInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/ProductService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/SaleService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/VoteService.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: app/Services/VoteService.php
+
+		-
+			message: '#^Call to function is_array\(\) with non\-empty\-array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Traits/HasAddress.php
+
+		-
+			message: '#^Trait App\\Traits\\HasAudio is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: app/Traits/HasAudio.php
+
+		-
+			message: '#^Trait App\\Traits\\HasImage is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: app/Traits/HasImage.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>promoted" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Traits/HasProduct.php

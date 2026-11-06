@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "Belmont";
+    font-style: normal;
+    src: url("@/../fonts/belmont_regular.woff2") format("woff2"),
+    url("@/../fonts/belmont_regular.otf") format("opentype");
+    font-display: swap;
+    unicode-range: U+0025-00FF;
+}
+
+.brand-font {
+    font-family: Belmont, serif !important;
+}

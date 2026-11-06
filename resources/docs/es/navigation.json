@@ -1,0 +1,82 @@
+{
+    "$schema": "https://larecipe.saleem.dev/schemas/3.x/navigation.json",
+    "groups": [
+        {
+            "group": "Visión General",
+            "pages": [
+                "introduction",
+                {
+                    "page": "upload",
+                    "label": "Subir Creaciones"
+                },
+                "battles",
+                "points",
+                "promote",
+                "buy_sell",
+                "cart",
+                "experience"
+            ]
+        },
+        {
+            "group": "Privado",
+            "pages": [
+                {
+                    "page": "statistics",
+                    "label": "Estadísticas"
+                },
+                {
+                    "page": "commerce",
+                    "label": "Comercio"
+                }
+            ]
+        },
+        {
+            "group": "Administración",
+            "pages": [
+                "your_battles",
+                {
+                    "page": "creations",
+                    "label": "Creaciones"
+                },
+                "albums",
+                "favorites"
+            ]
+        },
+        {
+            "group": "Tu Usuario",
+            "pages": [
+                "profile",
+                "account"
+            ]
+        },
+        {
+            "group": "Comunidad",
+            "pages": [
+                "artists",
+                "contributors",
+                "reports"
+            ]
+        },
+        {
+            "group": "Más Información",
+            "pages": [
+                {
+                    "page": "technology",
+                    "label": "Tecnología"
+                },
+                {
+                    "page": "conditions",
+                    "label": "Condiciones"
+                },
+                {
+                    "page": "privacy",
+                    "label": "Privacidad"
+                },
+                {
+                    "page": "cookies",
+                    "label": "Cookies"
+                }
+            ]
+        }
+    ]
+}

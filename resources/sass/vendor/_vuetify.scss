@@ -1,0 +1,85 @@
+// here you can overwrite variables of \node_modules\vuetify\lib\styles\main.sass
+@use 'vuetify/settings' with (
+  //$color-pack: false,
+  //$utilities: false,
+  $utilities: (
+  "text-align": false,
+  "margin": false,
+  "margin-x": false,
+  "margin-y": false,
+  "margin-top": false,
+  "margin-right": false,
+  "margin-bottom": false,
+  "margin-left": false,
+  "margin-start": false,
+  "margin-end": false,
+  "negative-margin": false,
+  "negative-margin-x": false,
+  "negative-margin-y": false,
+  "negative-margin-top": false,
+  "negative-margin-right": false,
+  "negative-margin-bottom": false,
+  "negative-margin-left": false,
+  "negative-margin-start": false,
+  "negative-margin-end": false,
+  "padding": false,
+  "padding-x": false,
+  "padding-y": false,
+  "padding-top": false,
+  "padding-right": false,
+  "padding-bottom": false,
+  "padding-left": false,
+  "padding-start": false,
+  "padding-end": false,
+  ),
+);
+
+.v-input .v-color-picker__track {
+  margin-bottom: 0;
+}
+
+.v-color-picker__input > span {
+  display: none;
+}
+
+.v-color-picker__input > input {
+  margin-bottom: 0 !important;
+}
+
+.v-color-picker__edit {
+  margin-top: 12px !important;
+}
+
+.v-card__text {
+  padding-top: 8px !important;
+}
+
+.v-application p {
+  margin-bottom: 0 !important;
+}
+
+.caption-mini {
+  font-size: .65rem;
+}
+
+.v-color-picker-preview__alpha {
+  display: none !important;
+}
+
+.v-btn--stacked.v-btn--size-small {
+  min-width: 35px !important;
+}
+
+.v-btn--icon.v-btn--density-compact {
+  width: 35px !important;
+  height: 30px !important;
+}
+
+.v-input__details {
+  padding: 0;
+  margin: -5px 0 10px 0;
+}
+
+.v-parallax .v-responsive__content {
+  z-index: 1;
+}

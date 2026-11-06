@@ -1,0 +1,162 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Code Style and Static Analysis
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@4424c9aab975b57bd706ee5a39c6b4334d6e4f60 # 2.40.0
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, redis, memcache
+          coverage: none
+
+      - name: Prepare env file
+        run: cp .env.ci .env
+
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+
+      - name: Check code style
+        run: vendor/bin/pint --test
+
+      - name: Run static analysis
+        run: vendor/bin/phpstan analyse --no-progress
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: testing
+          MYSQL_USER: talentbattles
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Verify MySQL connection
+        run: |
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -utalentbattles -ppassword -e "SHOW DATABASES"
+
+      - name: Install Server Software
+        run: |
+          sudo rm -f /var/lib/man-db/auto-update
+          sudo add-apt-repository -y ppa:chris-needham/ppa
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends audiowaveform ffmpeg bpm-tools libsox-fmt-all soundstretch id3v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@4424c9aab975b57bd706ee5a39c6b4334d6e4f60 # 2.40.0
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, redis, memcache
+          coverage: none
+
+      - name: Prepare env file
+        run: cp .env.ci .env
+
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+
+      - name: Prepare Laravel Application
+        run: php artisan key:generate
+
+      - name: Run tests
+        env:
+          MYSQL_DATABASE: testing
+          DB_USERNAME: talentbattles
+          DB_PASSWORD: password
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: php vendor/bin/phpunit
+
+  package:
+    name: Package Release
+    needs: [quality, tests]
+    if: github.event_name == 'push' && vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    # There is no .env file here: the VITE_ values compiled into the assets come from the repository variables
+    env:
+      VITE_APP_ENV: production
+      VITE_APP_DEBUG: 'false'
+      VITE_STRIPE_KEY: ${{ vars.VITE_STRIPE_KEY }}
+      VITE_BROADCAST_DRIVER: ${{ vars.VITE_BROADCAST_DRIVER }}
+      VITE_REVERB_APP_KEY: ${{ vars.VITE_REVERB_APP_KEY }}
+      VITE_REVERB_HOST: ${{ vars.VITE_REVERB_HOST }}
+      VITE_REVERB_PORT: ${{ vars.VITE_REVERB_PORT }}
+      VITE_REVERB_SCHEME: ${{ vars.VITE_REVERB_SCHEME }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@4424c9aab975b57bd706ee5a39c6b4334d6e4f60 # 2.40.0
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, redis, memcache
+          tools: composer:v2
+          coverage: none
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Build release package
+        run: deploy/package.sh release.tar.gz
+
+      # Artifacts of public repositories can be downloaded by anyone: this one must never contain secrets
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release
+          path: release.tar.gz
+          retention-days: 3
+
+  deploy:
+    name: Deploy to Production
+    needs: package
+    runs-on: ubuntu-24.04
+    environment: production
+    concurrency: production
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: release
+
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          install -m 600 /dev/null ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      - name: Deploy
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+        run: deploy/deploy.sh release.tar.gz "$(date -u +%Y%m%d%H%M%S)-${GITHUB_SHA::7}"

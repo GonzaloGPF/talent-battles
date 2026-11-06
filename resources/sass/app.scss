@@ -1,0 +1,38 @@
+// Vendor
+@use "vendor/tailwind";
+@use "vendor/flag-icons";
+@use "vendor/larecipe";
+// App
+@use "shared/base";
+@use "shared/fonts";
+@use "shared/animations";
+
+@use "app/loaders";
+@use "app/data-tables";
+@use "app/text-overflow";
+@use "app/badges";
+@use "app/titles";
+// Partials
+@use "partials/login-form";
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

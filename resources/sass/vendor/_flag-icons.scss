@@ -1,0 +1,25 @@
+//@use "/node_modules/flag-icons/sass/variables" as *;
+//@use "/node_modules/flag-icons/sass/flag-icons-base" as flagIconBase;
+
+$flag-icons-path: "/node_modules/flag-icons/flags";
+$flag-icons-rect-path: "/4x3";
+$flag-icons-square-path: "/1x1";
+$flag-icons-use-square: true;
+
+@mixin flag-icon($country) {
+  .fi-#{$country} {
+    background-image: url(#{$flag-icons-path}#{$flag-icons-rect-path}/#{$country}.svg);
+
+    @if $flag-icons-use-square {
+      &.fis {
+        background-image: url(#{$flag-icons-path}#{$flag-icons-square-path}/#{$country}.svg);
+      }
+    }
+  }
+}
+
+@include flag-icon(es);
+@include flag-icon(gb);
+@include flag-icon(us);
+//@include flag-icon(fr);
+//@include flag-icon(de);
