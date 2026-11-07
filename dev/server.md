@@ -10,10 +10,14 @@ Every push to `main` runs [ci.yml](../.github/workflows/ci.yml):
 2. **Package**: [package.sh](../deploy/package.sh) builds an archive with the code, production dependencies and compiled assets.
 3. **Deploy**: [deploy.sh](../deploy/deploy.sh) uploads it and runs [release.sh](../deploy/release.sh) in the server.
 
+To deploy `main` again without a push, use **Run workflow** in the Actions tab. It runs the tests too.
+
 The server only needs PHP: it does not need Composer, Node.js or access to the repository.
 
 Releases are atomic. They are prepared in their own folder and `current` is switched at the very end, so a failing step
 leaves the live release untouched. If the site does not answer after the switch, it goes back to the previous release.
+Horizon is only restarted when `QUEUE_CONNECTION=redis`, and Reverb when `BROADCAST_DRIVER=reverb`, so the server does
+not need Redis until they are in use.
 
 ```
 /home/<site-user>/htdocs/talentbattles.com

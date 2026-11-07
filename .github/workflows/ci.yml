@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   pull_request:
+  # "Run workflow" in the Actions tab: tests the chosen branch, and deploys it only if it is main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -92,7 +94,9 @@ jobs:
   package:
     name: Package Release
     needs: [quality, tests]
-    if: github.event_name == 'push' && vars.DEPLOY_ENABLED == 'true'
+    if: >-
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+      && github.ref == 'refs/heads/main' && vars.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-24.04
     # There is no .env file here: the VITE_ values compiled into the assets come from the repository variables
     env:

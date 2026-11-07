@@ -6,9 +6,11 @@
 #   $DEPLOY_PATH/shared          .env and storage, they survive between releases
 #   $DEPLOY_PATH/current         symlink to the live release, the web server points here
 #
-# Anything that fails before the symlink changes leaves the live release untouched. If the site does
-# not answer after the switch, it goes back to the previous release. PHP-FPM is not reloaded: Nginx
-# gives it the real path of the release, and reloading would drop the requests in progress.
+# Anything that fails before the symlink changes leaves the live release untouched. After the switch,
+# a failing command is reported but does not stop the deployment, so the site is always checked: if
+# it does not answer, it goes back to the previous release. The live release is never removed.
+# PHP-FPM is not reloaded: Nginx gives it the real path of the release, and reloading would drop the
+# requests in progress.
 set -euo pipefail
 
 : "${DEPLOY_PATH:?}" "${RELEASE:?}"
@@ -22,7 +24,8 @@ current="$DEPLOY_PATH/current"
 release_dir="$releases/$RELEASE"
 archive="$release_dir.tar.gz"
 previous=""
-active=0
+live=""
+failures=0
 
 if [ -L "$current" ]; then
     previous="$(readlink -f "$current")"
@@ -30,28 +33,46 @@ fi
 
 log() { printf '\n==> %s\n' "$*"; }
 
+env_value() {
+    sed -n "s/^$1=//p" "$shared/.env" | tail -n 1 | tr -d "\"'\r"
+}
+
+# For the commands that run once the release is live: stopping there would skip the health check
+try_artisan() {
+    if ! "$php" "$current/artisan" "$@"; then
+        echo "Failed: artisan $*" >&2
+        failures=$((failures + 1))
+    fi
+}
+
 cleanup() {
     rm -f "$archive"
 
-    if [ "$active" -eq 0 ]; then
+    if [ "$live" != "$release_dir" ]; then
         rm -rf "$release_dir"
     fi
 }
 trap cleanup EXIT
 
+# Horizon and Reverb keep the old code in memory, so they are restarted, but only when they are in
+# use: Horizon needs Redis, and the server does not have to run it.
 activate() {
     ln -sfn "$1" "$current.tmp"
     mv -T "$current.tmp" "$current"
-    "$php" "$current/artisan" horizon:terminate
+    live="$1"
 
-    if grep -q '^BROADCAST_DRIVER=reverb' "$shared/.env"; then
-        "$php" "$current/artisan" reverb:restart
+    if [ "$(env_value QUEUE_CONNECTION)" = redis ]; then
+        try_artisan horizon:terminate
+    fi
+
+    if [ "$(env_value BROADCAST_DRIVER)" = reverb ]; then
+        try_artisan reverb:restart
     fi
 }
 
 is_healthy() {
     local url
-    url="$(sed -n 's/^APP_URL=//p' "$shared/.env" | tr -d "\"'")"
+    url="$(env_value APP_URL)"
 
     for path in / /api/company /docs/es/conditions; do
         curl --fail --silent --show-error --output /dev/null --max-time 15 \
@@ -82,25 +103,28 @@ log "Preparing the release"
 
 log "Activating the release"
 activate "$release_dir"
-active=1
 
 log "Checking the site"
 if ! is_healthy; then
     if [ -n "$previous" ]; then
         echo "The site is not answering: going back to $(basename "$previous")" >&2
         activate "$previous"
-        active=0
     fi
 
     exit 1
 fi
 
-"$php" artisan notify:new_deploy
+try_artisan notify:new_deploy
 
 log "Removing old releases"
 find "$releases" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -r | tail -n "+$((keep + 1))" |
     while read -r old; do
         [ "$releases/$old" = "$release_dir" ] || [ "$releases/$old" = "$previous" ] || rm -rf "${releases:?}/$old"
     done
+
+if [ "$failures" -gt 0 ]; then
+    log "Release $RELEASE is live, but $failures command(s) failed: check the output above"
+    exit 1
+fi
 
 log "Release $RELEASE is live"
