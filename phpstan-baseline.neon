@@ -73,48 +73,6 @@ parameters:
 			path: app/Events/BattleFinished.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locale\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Events/OrderSuccess.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getChannelName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Events/OrderSuccess.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Events/OrderSuccess.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getChannelName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Events/ReportClosed.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Events/ReportClosed.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getChannelName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Events/SalesCreated.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: app/Events/SalesCreated.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\|string\)\: mixed, Closure\(App\\Models\\Product\)\: void given\.$#'
 			identifier: argument.type
 			count: 1
@@ -353,12 +311,6 @@ parameters:
 			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Http/Controllers/EmailController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Controllers/InvitationClaimController.php
 
 		-
 			message: '#^Negated boolean expression is always false\.$#'
@@ -607,12 +559,6 @@ parameters:
 			path: app/Jobs/HandlePaymentIntent.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locale\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Jobs/SendEmail.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
 			identifier: property.notFound
 			count: 1
@@ -647,12 +593,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: app/Listeners/ProcessDonationLines.php
-
-		-
-			message: '#^Parameter \#2 \$user of method App\\Services\\OrderLineService\:\:processPoints\(\) expects App\\Models\\User\|null, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Listeners/ProcessPointLines.php
 
 		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: mixed, Closure\(App\\Models\\OrderLine\)\: void given\.$#'
@@ -991,20 +931,8 @@ parameters:
 			path: app/Notifications/CommentReceived.php
 
 		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Notifications/CommentReceived.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
 			identifier: property.notFound
-			count: 1
-			path: app/Notifications/DownloadReceived.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
-			identifier: method.notFound
 			count: 1
 			path: app/Notifications/DownloadReceived.php
 
@@ -1015,20 +943,8 @@ parameters:
 			path: app/Notifications/FavoriteReceived.php
 
 		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Notifications/FavoriteReceived.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
 			identifier: property.notFound
-			count: 1
-			path: app/Notifications/LikeReceived.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
-			identifier: method.notFound
 			count: 1
 			path: app/Notifications/LikeReceived.php
 
@@ -1207,12 +1123,6 @@ parameters:
 			path: app/Services/CreationService.php
 
 		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getNickName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Services/EmailService.php
-
-		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$creatorName$#'
 			identifier: parameter.notFound
 			count: 1
@@ -1279,12 +1189,6 @@ parameters:
 			path: app/Services/OrderService.php
 
 		-
-			message: '#^Parameter \#1 \$user of method App\\Api\\StripeApi\:\:transferMoney\(\) expects App\\Models\\User, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Services/PaymentService.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
 			identifier: property.notFound
 			count: 1
@@ -1298,18 +1202,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:filter\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: bool\)\|null, Closure\(App\\Models\\Vote\)\: bool given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Services/PointsService.php
-
-		-
-			message: '#^Parameter \#2 \$user of method App\\Services\\PointsService\:\:earnPoints\(\) expects App\\Models\\User\|null, Illuminate\\Database\\Eloquent\\Model given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Services/PointsService.php
-
-		-
-			message: '#^Parameter \#2 \$user of method App\\Services\\PointsService\:\:earnPoints\(\) expects App\\Models\\User\|null, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Services/PointsService.php

@@ -56,8 +56,10 @@ class DocsPagesTest extends TestCase
     }
 
     #[Test]
-    public function the_spa_still_answers_any_other_url()
+    public function the_spa_still_answers_any_other_url_with_a_404()
     {
-        $this->get('/some/frontend/route')->assertOk();
+        $this->get('/some/frontend/route')
+            ->assertNotFound()
+            ->assertSee('id="app"', false);
     }
 }
