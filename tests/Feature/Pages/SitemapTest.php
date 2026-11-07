@@ -18,9 +18,10 @@ class SitemapTest extends TestCase
     #[Test]
     public function sitemap_is_served_as_xml()
     {
-        $this->get('/sitemap.xml')
-            ->assertOk()
-            ->assertHeader('Content-Type', 'application/xml; charset=UTF-8');
+        $response = $this->get('/sitemap.xml');
+
+        $response->assertOk()->assertHeader('Content-Type', 'application/xml; charset=UTF-8');
+        $this->assertStringStartsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset", $response->getContent());
     }
 
     #[Test]
