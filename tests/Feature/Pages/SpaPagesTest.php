@@ -10,6 +10,7 @@ use App\Models\Track;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -252,7 +253,8 @@ class SpaPagesTest extends TestCase
         $this->get($url)
             ->assertOk()
             ->assertSee('id="app"', false)
-            ->assertSee('<meta name="robots" content="noindex">', false);
+            ->assertSee('<meta name="robots" content="noindex">', false)
+            ->assertDontSee('application/ld+json', false);
     }
 
     #[Test]
@@ -283,6 +285,139 @@ class SpaPagesTest extends TestCase
             ->assertSee('<meta property="og:title" content="&quot;&gt;&lt;Script&gt;Alert(1)&lt;/Script&gt;, beat de Zalo Beats | Talent Battles">', false);
     }
 
+    #[Test]
+    public function home_describes_the_website_and_its_organization()
+    {
+        $graph = $this->structuredData($this->get('/'));
+
+        $this->assertSame([
+            [
+                '@type' => 'WebSite',
+                '@id' => 'http://talentbattles.test#website',
+                'url' => 'http://talentbattles.test',
+                'name' => 'Talent Battles',
+                'publisher' => ['@id' => 'http://talentbattles.test#organization'],
+            ],
+            [
+                '@type' => 'Organization',
+                '@id' => 'http://talentbattles.test#organization',
+                'url' => 'http://talentbattles.test',
+                'name' => 'Talent Battles',
+                'logo' => 'http://talentbattles.test/images/logo_black_on_white.webp',
+            ],
+        ], $graph);
+    }
+
+    #[Test]
+    public function section_breadcrumbs_start_at_the_home()
+    {
+        $graph = $this->structuredData($this->get('/beats'));
+
+        $this->assertSame([
+            [1, 'Talent Battles', 'http://talentbattles.test'],
+            [2, 'Beats', 'http://talentbattles.test/beats'],
+        ], $this->trail($graph[0]));
+    }
+
+    #[Test]
+    public function track_breadcrumbs_go_through_its_section()
+    {
+        $song = $this->createTrack(['track_type' => TrackTypes::SONG]);
+
+        $graph = $this->structuredData($this->get("/songs/$song->id"));
+
+        $this->assertSame('BreadcrumbList', $graph[0]['@type']);
+        $this->assertSame([
+            [1, 'Talent Battles', 'http://talentbattles.test'],
+            [2, 'Canciones', 'http://talentbattles.test/songs'],
+            [3, 'Intro Rap', "http://talentbattles.test/songs/$song->id"],
+        ], $this->trail($graph[0]));
+    }
+
+    #[Test]
+    public function creation_named_like_its_section_keeps_every_breadcrumb()
+    {
+        $track = $this->createTrack(['name' => 'Beats']);
+
+        $graph = $this->structuredData($this->get("/beats/$track->id"));
+
+        $this->assertSame([
+            [1, 'Talent Battles', 'http://talentbattles.test'],
+            [2, 'Beats', 'http://talentbattles.test/beats'],
+            [3, 'Beats', "http://talentbattles.test/beats/$track->id"],
+        ], $this->trail($graph[0]));
+    }
+
+    #[Test]
+    public function design_breadcrumbs_go_through_the_designs()
+    {
+        $design = create(Design::class, ['name' => 'Logo Azul', 'album_id' => null]);
+
+        $graph = $this->structuredData($this->get("/designs/$design->id"));
+
+        $this->assertSame([
+            [1, 'Talent Battles', 'http://talentbattles.test'],
+            [2, 'Diseños', 'http://talentbattles.test/designs'],
+            [3, 'Logo Azul', "http://talentbattles.test/designs/$design->id"],
+        ], $this->trail($graph[0]));
+    }
+
+    #[Test]
+    public function album_breadcrumbs_go_through_its_author()
+    {
+        $author = create(User::class, ['nick' => 'Zalo Beats']);
+        $album = create(Album::class, ['name' => 'Noches', 'created_by' => $author->id]);
+
+        $graph = $this->structuredData($this->get("/albums/$album->id"));
+
+        $this->assertSame([
+            [1, 'Talent Battles', 'http://talentbattles.test'],
+            [2, 'Artistas', 'http://talentbattles.test/users'],
+            [3, 'Zalo Beats', "http://talentbattles.test/users/$author->id"],
+            [4, 'Noches', "http://talentbattles.test/albums/$album->id"],
+        ], $this->trail($graph[0]));
+    }
+
+    #[Test]
+    public function user_page_is_the_profile_page_of_a_person()
+    {
+        $this->travelTo('2026-01-02 03:04:05');
+        $user = create(User::class, ['nick' => 'Zalo Beats', 'bio' => 'Productor de beats']);
+
+        $graph = $this->structuredData($this->get("/users/$user->id"));
+
+        $this->assertSame([
+            '@type' => 'ProfilePage',
+            'url' => "http://talentbattles.test/users/$user->id",
+            'dateCreated' => '2026-01-02T03:04:05+00:00',
+            'dateModified' => '2026-01-02T03:04:05+00:00',
+            'mainEntity' => [
+                '@type' => 'Person',
+                'identifier' => (string) $user->id,
+                'name' => 'Zalo Beats',
+                'description' => 'Productor de beats',
+                'image' => 'http://talentbattles.test/images/logo_big_bg.webp',
+            ],
+        ], $graph[0]);
+        $this->assertSame([
+            [1, 'Talent Battles', 'http://talentbattles.test'],
+            [2, 'Artistas', 'http://talentbattles.test/users'],
+            [3, 'Zalo Beats', "http://talentbattles.test/users/$user->id"],
+        ], $this->trail($graph[1]));
+    }
+
+    #[Test]
+    public function names_written_by_users_cannot_close_the_structured_data_script()
+    {
+        $track = $this->createTrack(['name' => '</script><script>alert(1)</script>']);
+
+        $response = $this->get("/beats/$track->id");
+
+        // NameFormatter capitalizes each word of the name
+        $response->assertDontSee('</Script><Script>Alert(1)', false);
+        $this->assertSame('</Script><Script>Alert(1)</Script>', $this->trail($this->structuredData($response)[0])[2][1]);
+    }
+
     /**
      * A beat called "Intro Rap" by "Zalo Beats", without album or images
      */
@@ -301,5 +436,33 @@ class SpaPagesTest extends TestCase
     private function createImage(Model $owner): File
     {
         return File::factory()->image()->for($owner, 'fileable')->create();
+    }
+
+    /**
+     * @return array<int, array<string, mixed>> the schema.org objects in the JSON-LD of the page
+     */
+    private function structuredData(TestResponse $response): array
+    {
+        $response->assertOk();
+
+        preg_match('#<script type="application/ld\+json">(.+?)</script>#s', $response->getContent(), $match);
+        $this->assertNotEmpty($match, 'The page has no JSON-LD');
+
+        $jsonLd = json_decode($match[1], true, flags: JSON_THROW_ON_ERROR);
+        $this->assertSame('https://schema.org', $jsonLd['@context']);
+
+        return $jsonLd['@graph'];
+    }
+
+    /**
+     * @param  array<string, mixed>  $breadcrumbList
+     * @return array<int, array{int, string, string}> position, name and URL of each breadcrumb
+     */
+    private function trail(array $breadcrumbList): array
+    {
+        return array_map(
+            fn (array $item) => [$item['position'], $item['name'], $item['item']],
+            $breadcrumbList['itemListElement']
+        );
     }
 }

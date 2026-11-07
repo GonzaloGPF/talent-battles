@@ -20,21 +20,45 @@ class PageMetaService
 
     private const DEFAULT_IMAGE_HEIGHT = 1422;
 
+    private const LOGO = 'images/logo_black_on_white.webp';
+
     public function home(): PageMeta
     {
+        $home = route('welcome');
+
         return $this->page(
             title: trans('seo.home_title', ['app' => config('app.name')]),
             description: trans('seo.description'),
-            url: route('welcome'),
+            url: $home,
+            structuredData: [
+                [
+                    '@type' => 'WebSite',
+                    '@id' => "$home#website",
+                    'url' => $home,
+                    'name' => config('app.name'),
+                    'publisher' => ['@id' => "$home#organization"],
+                ],
+                [
+                    '@type' => 'Organization',
+                    '@id' => "$home#organization",
+                    'url' => $home,
+                    'name' => config('company.name'),
+                    'logo' => asset(self::LOGO),
+                ],
+            ],
         );
     }
 
     public function section(string $section): PageMeta
     {
+        $name = trans("seo.pages.$section.title");
+        $url = route('pages.index', ['section' => $section]);
+
         return $this->page(
-            title: $this->title(trans("seo.pages.$section.title")),
+            title: $this->title($name),
             description: trans("seo.pages.$section.description"),
-            url: route('pages.index', ['section' => $section]),
+            url: $url,
+            structuredData: [$this->breadcrumbs([[$name, $url]])],
         );
     }
 
@@ -45,12 +69,18 @@ class PageMetaService
         $replace = $this->creationReplacements($track->name, $track->createdBy) + [
             'type' => trans("seo.track_types.{$track->track_type->value}"),
         ];
+        $section = $track->track_type->getUrlSegment();
+        $url = $this->trackUrl($track);
 
         return $this->page(
             title: $this->title(trans('seo.track_title', $replace)),
             description: $this->description($track->description, trans('seo.track_description', $replace)),
-            url: $this->trackUrl($track),
+            url: $url,
             image: $track->image ?? $track->album->image ?? $track->createdBy?->image,
+            structuredData: [$this->breadcrumbs([
+                [trans("seo.pages.$section.title"), route('pages.index', ['section' => $section])],
+                [$track->name, $url],
+            ])],
         );
     }
 
@@ -59,26 +89,41 @@ class PageMetaService
         $design->loadMissing(['image', 'album.image', 'createdBy.image']);
 
         $replace = $this->creationReplacements($design->name, $design->createdBy);
+        $url = route('pages.designs.show', $design);
 
         return $this->page(
             title: $this->title(trans('seo.design_title', $replace)),
             description: $this->description($design->description, trans('seo.design_description', $replace)),
-            url: route('pages.designs.show', $design),
+            url: $url,
             image: $design->image ?? $design->album->image ?? $design->createdBy?->image,
+            structuredData: [$this->breadcrumbs([
+                [trans('seo.pages.designs.title'), route('pages.index', ['section' => 'designs'])],
+                [$design->name, $url],
+            ])],
         );
     }
 
+    /**
+     * There is no list of albums, so the breadcrumbs of an album go through its author.
+     */
     public function album(Album $album): PageMeta
     {
         $album->loadMissing(['image', 'createdBy.image']);
 
         $replace = $this->creationReplacements($album->name, $album->createdBy);
+        $url = route('pages.albums.show', $album);
+        $author = $album->createdBy ? [[$album->createdBy->getNickName(), route('pages.users.show', $album->createdBy)]] : [];
 
         return $this->page(
             title: $this->title(trans('seo.album_title', $replace)),
             description: $this->description($album->description, trans('seo.album_description', $replace)),
-            url: route('pages.albums.show', $album),
+            url: $url,
             image: $album->image ?? $album->createdBy?->image,
+            structuredData: [$this->breadcrumbs([
+                [trans('seo.pages.users.title'), route('pages.index', ['section' => 'users'])],
+                ...$author,
+                [$album->name, $url],
+            ])],
         );
     }
 
@@ -90,17 +135,39 @@ class PageMetaService
         $user->loadMissing('image');
 
         $name = $user->getNickName();
+        $url = route('pages.users.show', $user);
+        $description = $this->description(
+            $user->bio ?: $user->quote,
+            trans('seo.user_description', ['name' => $name, 'app' => config('app.name')])
+        );
+        $image = $this->imageUrl($user->image);
 
         return $this->page(
             title: $this->title($name),
-            description: $this->description(
-                $user->bio ?: $user->quote,
-                trans('seo.user_description', ['name' => $name, 'app' => config('app.name')])
-            ),
-            url: route('pages.users.show', $user),
+            description: $description,
+            url: $url,
             image: $user->image,
             type: 'profile',
             indexable: $user->tracks()->exists() || $user->designs()->exists(),
+            structuredData: [
+                [
+                    '@type' => 'ProfilePage',
+                    'url' => $url,
+                    'dateCreated' => $user->created_at?->toAtomString(),
+                    'dateModified' => $user->updated_at?->toAtomString(),
+                    'mainEntity' => [
+                        '@type' => 'Person',
+                        'identifier' => (string) $user->id,
+                        'name' => $name,
+                        'description' => $description,
+                        'image' => $image,
+                    ],
+                ],
+                $this->breadcrumbs([
+                    [trans('seo.pages.users.title'), route('pages.index', ['section' => 'users'])],
+                    [$name, $url],
+                ]),
+            ],
         );
     }
 
@@ -112,6 +179,9 @@ class PageMetaService
         ]);
     }
 
+    /**
+     * @param  array<int, array<string, mixed>>  $structuredData
+     */
     private function page(
         string $title,
         string $description,
@@ -119,24 +189,53 @@ class PageMetaService
         ?File $image = null,
         string $type = 'website',
         bool $indexable = true,
+        array $structuredData = [],
     ): PageMeta {
         return new PageMeta(
             title: $title,
             description: $description,
             url: $url,
-            image: $image ? route('web.files.show', $image) : asset(self::DEFAULT_IMAGE),
+            image: $this->imageUrl($image),
             imageType: $image ? $image->mime : 'image/webp',
             locale: app()->getLocale() === 'es' ? 'es_ES' : 'en_US',
             type: $type,
             indexable: $indexable,
             imageWidth: $image ? null : self::DEFAULT_IMAGE_WIDTH,
             imageHeight: $image ? null : self::DEFAULT_IMAGE_HEIGHT,
+            structuredData: $structuredData,
         );
+    }
+
+    private function imageUrl(?File $image): string
+    {
+        return $image ? route('web.files.show', $image) : asset(self::DEFAULT_IMAGE);
     }
 
     private function title(string $page): string
     {
         return trans('seo.title', ['page' => $page, 'app' => config('app.name')]);
+    }
+
+    /**
+     * Every trail starts at the home page. Pages are pairs and not name => URL, because two pages
+     * can have the same name, and a name like "2025" would become an integer key.
+     *
+     * @param  array<int, array{string, string}>  $pages  name and URL of each page after the home page
+     * @return array<string, mixed>
+     */
+    private function breadcrumbs(array $pages): array
+    {
+        $trail = [[config('app.name'), route('welcome')], ...$pages];
+
+        return [
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => array_map(fn (array $page, int $index) => [
+                '@type' => 'ListItem',
+                'position' => $index + 1,
+                'name' => $page[0],
+                'item' => $page[1],
+            ], $trail, array_keys($trail)),
+        ];
     }
 
     /**

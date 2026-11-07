@@ -18,6 +18,9 @@
         <meta property="og:image:height" content="{{ $meta->imageHeight }}">
     @endif
     <meta name="twitter:card" content="summary_large_image">
+    @if($meta->structuredData)
+        <script type="application/ld+json">{!! $meta->structuredDataJson() !!}</script>
+    @endif
 @else
     <title>{{ config('app.name') }}</title>
     <meta name="robots" content="noindex">
