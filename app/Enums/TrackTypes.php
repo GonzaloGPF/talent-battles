@@ -13,6 +13,18 @@ enum TrackTypes: string implements HasColorsInterface
     case SAMPLE = 'sample';
     case SONG = 'song';
 
+    /**
+     * First segment of the URL of the page of a track, like /beats/1
+     */
+    public function getUrlSegment(): string
+    {
+        return match ($this) {
+            self::BEAT => 'beats',
+            self::SAMPLE => 'samples',
+            self::SONG => 'songs',
+        };
+    }
+
     public function getColor(): string
     {
         return match ($this) {

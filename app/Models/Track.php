@@ -106,6 +106,9 @@ class Track extends Model implements HasBattlesInterface, HasCommentsInterface, 
         'can_challenge' => 'bool',
     ];
 
+    /**
+     * @return BelongsTo<Album, $this>
+     */
     public function album(): BelongsTo
     {
         return $this->belongsTo(Album::class);
