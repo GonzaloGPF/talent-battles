@@ -15,7 +15,9 @@ To deploy `main` again without a push, use **Run workflow** in the Actions tab. 
 The server only needs PHP: it does not need Composer, Node.js or access to the repository.
 
 Releases are atomic. They are prepared in their own folder and `current` is switched at the very end, so a failing step
-leaves the live release untouched. If the site does not answer after the switch, it goes back to the previous release.
+leaves the live release untouched. After the switch, the home page, the API and the documentation are checked, and if one
+of them fails, it goes back to the previous release. Any path answers 200 because of the fallback route, so each check
+also looks for something only that page has. A redirect is a failure: `APP_URL` has to be the final URL, with `https`.
 Horizon is only restarted when `QUEUE_CONNECTION=redis`, and Reverb when `BROADCAST_DRIVER=reverb`, so the server does
 not need Redis until they are in use.
 
@@ -29,7 +31,7 @@ not need Redis until they are in use.
 ```
 
 ### Manual deployment
-From any machine with SSH access to the server:
+Only if GitHub Actions cannot be used, from a machine that can connect by SSH as the site user:
 
 ```bash
 VITE_STRIPE_KEY=pk_live_... deploy/package.sh
@@ -41,25 +43,22 @@ DEPLOY_HOST=talentbattles.com DEPLOY_USER=<site-user> DEPLOY_PATH=/home/<site-us
 
 ### Rollback
 Go back to the previous release. Migrations are not reverted, so it must work with the current database schema.
+In the server, as the site user:
 
 ```bash
-ssh <site-user>@talentbattles.com bash htdocs/talentbattles.com/current/deploy/rollback.sh
+bash ~/htdocs/talentbattles.com/current/deploy/rollback.sh
 ```
 
-### Updating by hand
-Deployment from GitHub Actions is off, so this is how the site is updated now. It runs with the `talentbattles` user,
-in `~/htdocs/talentbattles.com`. It needs Node.js 24, installed with nvm for this user only.
+The next deployment goes forward again, so revert or fix the commit in `main` first.
+
+### Changing the configuration
+The production `.env` is `shared/.env`, and every release links to it. The configuration is cached, so after changing it:
 
 ```bash
-git pull origin main
-php8.4 "$(which composer)" install --no-dev --optimize-autoloader
-php8.4 artisan migrate --force
-yarn install --frozen-lockfile --ignore-scripts && yarn build
-php8.4 artisan vendor:publish --tag=larecipe-assets --force
-php8.4 artisan optimize
+php8.4 ~/htdocs/talentbattles.com/current/artisan optimize
 ```
 
-Redis is not used: cache and sessions use files and the queue is `sync`, so there is no Horizon to restart.
+Redis is not used: cache and sessions use files and the queue is `sync`.
 
 ## Server setup
 
@@ -75,11 +74,13 @@ In the site page of CloudPanel:
    ```
 
 ### Software
-As `root`. The audio tools are used by the application, and they do not affect other sites.
+As `root`. Deployments need `rsync`, and the audio tools are used by the application. None of them affect other sites.
 
 ```bash
-apt-get install -y rsync supervisor redis-server ffmpeg bpm-tools libsox-fmt-all soundstretch id3v2
+apt-get install -y rsync ffmpeg bpm-tools libsox-fmt-all soundstretch id3v2
 ```
+
+`supervisor` and `redis-server` are only needed for [Horizon](#horizon).
 
 `audiowaveform` comes from a PPA on Ubuntu. On Debian, install the package from its [releases](https://github.com/bbc/audiowaveform/releases).
 
@@ -88,14 +89,21 @@ add-apt-repository -y ppa:chris-needham/ppa && apt-get update && apt-get install
 ```
 
 ### SSH key
-Create a key only for deployments, and add its public part to `~/.ssh/authorized_keys` of the site user:
+Create a key only for deployments:
 
 ```bash
 ssh-keygen -t ed25519 -f talentbattles-deploy -N '' -C 'github-actions-deploy'
 ```
 
+Add its public part to `~/.ssh/authorized_keys` of the site user, as a new line that starts with `restrict `. It disables
+port forwarding and interactive sessions, which deployments do not need. If you connect as `root`, run this from your machine:
+
+```bash
+{ printf 'restrict '; cat talentbattles-deploy.pub; } | ssh root@<server> 'su - <site-user> -c "umask 077; mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"'
+```
+
 ### Horizon
-This needs a first release in `current`, so it goes after the first deployment.
+Only needed when the queue uses Redis (`QUEUE_CONNECTION=redis`). It needs a first release in `current`.
 
 `/etc/supervisor/conf.d/talentbattles-horizon.conf`:
 
@@ -115,7 +123,9 @@ supervisorctl reread && supervisorctl update
 ```
 
 ### Scheduler
-In the **Cron Jobs** section of the site, every minute:
+Not set up in production: the tasks in [Kernel.php](../app/Console/Kernel.php) do nothing useful there, `horizon:snapshot`
+needs Redis, and `CheckBattlesToFinish` is commented out. When a task is needed, add this in the **Cron Jobs** section
+of the site, every minute:
 
 ```
 /usr/bin/php8.4 /home/<site-user>/htdocs/talentbattles.com/current/artisan schedule:run
@@ -128,7 +138,8 @@ Create an environment named `production` in the repository settings, limited to 
 
 - `DEPLOY_SSH_KEY`: private key created above
 - `DEPLOY_KNOWN_HOSTS`: output of `ssh-keyscan <server>`, checked against the server fingerprint
-- `DEPLOY_HOST`, `DEPLOY_USER` (the site user) and `DEPLOY_PATH` (absolute, without `~`)
+- `DEPLOY_HOST` (the server IP, so deployments do not depend on DNS), `DEPLOY_USER` (the site user) and `DEPLOY_PATH`
+  (output of `pwd -P` in the site folder)
 - `DEPLOY_PORT`: only if SSH does not use port 22
 
 These are repository variables. `.env` does not exist while packaging, so `VITE_` values come from here:
@@ -140,13 +151,15 @@ These are repository variables. `.env` does not exist while packaging, so `VITE_
 ## Moving a running site to this layout
 The old site keeps working until its root changes, and going back only takes restoring that field.
 
-1. Back up the database.
+1. Update the old site to `main` and back up the database, so the first deployment has no migrations to run.
 2. As the site user, inside `~/htdocs/talentbattles.com`, create `releases` and `shared`, copy the old `.env` to `shared/.env`
-   and the old `storage` folder to `shared/storage`.
+   and the old `storage` folder to `shared/storage`. Check that `APP_URL` in `shared/.env` uses `https`.
 3. Change the [Vhost](#site-settings) to `$realpath_root`, and check that `php8.4 -v` works. Deployments use that command, so the old site can keep its PHP version for now.
-4. Set `DEPLOY_ENABLED` to `true` and run the first deployment. It runs migrations, but the old site stays live.
-5. In the site settings, choose PHP 8.4 and change **Root Directory** to `current/public`.
-6. Stop the old Horizon daemon and the old cron, and set up [Horizon](#horizon) and the [scheduler](#scheduler) as shown above.
+4. Set `DEPLOY_ENABLED` to `true` and run the first deployment. The old site stays live, so this health check tests the old site.
+5. Copy `storage` again with `rsync -a --update storage/ shared/storage/`, to keep open sessions. In the site settings,
+   choose PHP 8.4 and change **Root Directory** to `current/public`.
+6. Stop the old Horizon daemon and the old cron if there are any, and set up [Horizon](#horizon) and the
+   [scheduler](#scheduler) only if they are needed.
 
 ## Realtime
 It is disabled in production. To enable it, set `BROADCAST_DRIVER=reverb` and the `REVERB_*` variables, add
