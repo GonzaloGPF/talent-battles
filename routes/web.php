@@ -7,6 +7,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\InvitationClaimController;
 use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Stripe\OrderSuccessController;
 use App\Http\Controllers\UserVerifyController;
 use App\Http\Controllers\WelcomeController;
@@ -55,6 +56,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('billing-portal', BillingPortalController::class)
         ->name('billing-portal.show');
 });
+
+Route::get('sitemap.xml', SitemapController::class)
+    ->name('sitemap');
 
 /**
  * Pages of the SPA with their own meta tags. A missing model still gets the SPA, with a 404.
