@@ -8,7 +8,8 @@
 #
 # Anything that fails before the symlink changes leaves the live release untouched. After the switch,
 # a failing command is reported but does not stop the deployment, so the site is always checked: if
-# it does not answer, it goes back to the previous release. The live release is never removed.
+# it does not answer as expected, it goes back to the previous release. The live release is never
+# removed.
 # PHP-FPM is not reloaded: Nginx gives it the real path of the release, and reloading would drop the
 # requests in progress.
 set -euo pipefail
@@ -70,14 +71,30 @@ activate() {
     fi
 }
 
+# Asks for a page without following redirects: it has to answer 200, and its headers or body have to
+# match the pattern. The status alone proves little, the fallback route answers any path with a 200.
+responds() {
+    local response ok='^HTTP/[0-9.]+ 200'
+
+    response="$(curl --silent --show-error --include --max-time 15 \
+        --retry 4 --retry-delay 3 --retry-connrefused "$1")" || return 1
+
+    if [[ ! $response =~ $ok ]] || ! grep -qiE -- "$2" <<< "$response"; then
+        echo "Unexpected answer from $1: $(head -n 1 <<< "$response" | tr -d '\r'), expected 200 and '$2'" >&2
+        return 1
+    fi
+}
+
+# The Vue application, the API and the documentation. A redirect is a failure: APP_URL has to be the
+# final URL of the site, with https.
 is_healthy() {
     local url
     url="$(env_value APP_URL)"
+    url="${url%/}"
 
-    for path in / /api/company /docs/es/conditions; do
-        curl --fail --silent --show-error --output /dev/null --max-time 15 \
-            --retry 4 --retry-delay 3 --retry-connrefused "$url$path" || return 1
-    done
+    responds "$url/" 'id="app"' &&
+        responds "$url/api/company" '^content-type: application/json' &&
+        responds "$url/docs/es/conditions" 'larecipe'
 }
 
 log "Checking the server"
@@ -107,7 +124,7 @@ activate "$release_dir"
 log "Checking the site"
 if ! is_healthy; then
     if [ -n "$previous" ]; then
-        echo "The site is not answering: going back to $(basename "$previous")" >&2
+        echo "The site failed the health check: going back to $(basename "$previous")" >&2
         activate "$previous"
     fi
 
