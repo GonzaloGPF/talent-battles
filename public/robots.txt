@@ -1,2 +1,5 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://talentbattles.com/sitemap.xml
+Sitemap: https://talentbattles.com/docs/sitemap.xml
