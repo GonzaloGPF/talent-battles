@@ -52,22 +52,29 @@ class DeleteBattlesTest extends TestCase
         $oldBattle = $this->createBattle(self::OLD);
         $newBattle = $this->createBattle(self::NEW);
         $user = create(User::class);
+        $traces = [];
 
         foreach ([$oldBattle, $newBattle] as $battle) {
-            create(Comment::class, ['commentable_type' => Battle::class, 'commentable_id' => $battle->id]);
-            create(Like::class, ['likeable_type' => Battle::class, 'likeable_id' => $battle->id]);
-            create(Favorite::class, ['favoritable_type' => Battle::class, 'favoritable_id' => $battle->id]);
-            create(Activity::class, ['target_type' => Battle::class, 'target_id' => $battle->id]);
+            $traces[$battle->id] = [
+                create(Comment::class, ['commentable_type' => Battle::class, 'commentable_id' => $battle->id]),
+                create(Like::class, ['likeable_type' => Battle::class, 'likeable_id' => $battle->id]),
+                create(Favorite::class, ['favoritable_type' => Battle::class, 'favoritable_id' => $battle->id]),
+                create(Activity::class, ['target_type' => Battle::class, 'target_id' => $battle->id]),
+            ];
             $user->notify(new BattleWon($battle, $user));
         }
 
         $this->artisan('app:delete-battles', ['before' => '2026-11-08'])
             ->assertSuccessful();
 
-        $this->assertEquals([$newBattle->id], Comment::pluck('commentable_id')->all());
-        $this->assertEquals([$newBattle->id], Like::pluck('likeable_id')->all());
-        $this->assertEquals([$newBattle->id], Favorite::pluck('favoritable_id')->all());
-        $this->assertEquals([$newBattle->id], Activity::pluck('target_id')->all());
+        foreach ($traces[$oldBattle->id] as $trace) {
+            $this->assertModelMissing($trace);
+        }
+
+        foreach ($traces[$newBattle->id] as $trace) {
+            $this->assertModelExists($trace);
+        }
+
         $this->assertEquals(
             [NotificationHelper::notyId($newBattle->id, BattleWon::class)],
             $user->notifications()->get()->pluck('data.noty_id')->all(),
