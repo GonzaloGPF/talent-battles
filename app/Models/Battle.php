@@ -108,6 +108,9 @@ class Battle extends Model implements HasCommentsInterface, HasCreatedByInterfac
         return $this->belongsToMany(Design::class);
     }
 
+    /**
+     * @return HasMany<Vote, $this>
+     */
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
