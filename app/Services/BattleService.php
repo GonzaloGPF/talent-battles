@@ -5,14 +5,34 @@ namespace App\Services;
 use App\Enums\BattleStates;
 use App\Enums\BattleTypes;
 use App\Facades\Logger;
+use App\Jobs\CheckBattlesToFinish;
+use App\Jobs\MatchBattles;
 use App\Models\Battle;
 use App\Models\Design;
 use App\Models\Track;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 
 class BattleService
 {
+    /**
+     * Minutes between two refreshes of the battles.
+     */
+    private const REFRESH_MINUTES = 10;
+
+    /**
+     * Production runs no scheduler, so battles are refreshed when someone looks at them: expired ones are finished and
+     * new matchups take their places. It happens after the response is sent, and at most once every few minutes.
+     */
+    public function refreshBattlesAfterResponse(): void
+    {
+        if (Cache::add('battles.refresh', true, now()->addMinutes(self::REFRESH_MINUTES))) {
+            CheckBattlesToFinish::dispatchAfterResponse();
+            MatchBattles::dispatchAfterResponse();
+        }
+    }
+
     public function createForTracks(Track $trackA, Track $trackB): Battle
     {
         /** @var ?Battle $battle */

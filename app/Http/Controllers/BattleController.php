@@ -33,6 +33,8 @@ class BattleController extends Controller
      */
     public function show(Battle $battle): JsonResponse
     {
+        $this->battleService->refreshBattlesAfterResponse();
+
         return $this->showResponse(new BattleResource($battle));
     }
 
@@ -41,6 +43,8 @@ class BattleController extends Controller
      */
     public function index(): JsonResponse
     {
+        $this->battleService->refreshBattlesAfterResponse();
+
         $battles = Battle::filter(request()->all())
             ->getOrPaginate();
 

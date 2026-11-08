@@ -10,6 +10,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class OAuthController extends Controller
 {
+    /**
+     * Providers users can sign in with. Any other one would reach Socialite and fail with an error 500.
+     */
+    public const DRIVERS = ['google', 'facebook'];
+
     public function __construct(
         private readonly UserService $userService,
         private readonly EmailService $emailService
