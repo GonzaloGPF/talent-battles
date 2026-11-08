@@ -28,6 +28,15 @@ class RegisterUserTest extends TestCase
     }
 
     #[Test]
+    public function the_verification_token_has_64_random_characters()
+    {
+        $this->makeRequest()
+            ->assertSuccessful();
+
+        $this->assertSame(64, strlen(User::firstWhere('email', 'test@mail.com')->token));
+    }
+
+    #[Test]
     public function when_registering_an_user_it_will_send_a_verification_email()
     {
         Queue::fake();

@@ -14,6 +14,7 @@ return [
     'enter' => 'Creates new account to join us!',
     'login' => 'Init session to your account',
     'forgot_password' => 'Reset your password',
+    'password_reset_sent' => 'If the email is registered, we have sent you a link to reset your password',
     'more_data_from' => 'More :data from :user',
     'upload_tagged_file' => 'Upload your tagged file',
     'upload_file_to_sell' => 'Upload untagged file to sell',

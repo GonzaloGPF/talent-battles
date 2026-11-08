@@ -12,6 +12,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -142,6 +143,14 @@ class Handler extends ExceptionHandler
 
             if ($e instanceof InvalidSignatureException) {
                 return $this->simpleResponse->exception($e, Response::HTTP_UNAUTHORIZED);
+            }
+
+            if ($e instanceof ThrottleRequestsException) {
+                $message = trans('exceptions.too_many_attempts', ['seconds' => $e->getHeaders()['Retry-After'] ?? 60]);
+
+                return $this->simpleResponse
+                    ->exception(new Exception($message), Response::HTTP_TOO_MANY_REQUESTS)
+                    ->withHeaders($e->getHeaders());
             }
 
             return $this->simpleResponse->exception('server_error', Response::HTTP_INTERNAL_SERVER_ERROR);

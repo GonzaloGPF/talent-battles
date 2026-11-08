@@ -17,7 +17,7 @@ class UserResource extends ApiResource
 
         return [
             'id' => $this->id,
-            'role' => $this->role,
+            'role' => $this->when($itsMe || hasRole(Roles::ADMIN), $this->role),
             'level' => $this->level,
             'model' => $this->addModel(),
             'name' => $this->name,

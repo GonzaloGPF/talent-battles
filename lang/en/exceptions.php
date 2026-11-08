@@ -10,6 +10,7 @@ return [
     'no_relation' => 'Relation not Found [:data]',
     'already_authenticated' => 'Already Authenticated',
     'authentication' => 'Unauthenticated',
+    'too_many_attempts' => 'Too many attempts. Try again in :seconds seconds',
     'unauthorized' => 'Unauthorized',
     'could_not_delete' => 'Could not Delete',
     'filter' => 'Filters Errors',
