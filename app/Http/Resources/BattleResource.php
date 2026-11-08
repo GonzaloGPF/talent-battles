@@ -17,6 +17,7 @@ class BattleResource extends ApiResource
     {
         return [
             'id' => $this->id,
+            'model' => $this->addModel(),
             'created_by' => $this->created_by,
             'won_by' => $this->won_by,
             'winner_id' => $this->winner_id,

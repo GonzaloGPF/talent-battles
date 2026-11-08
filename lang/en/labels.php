@@ -227,4 +227,11 @@ return [
     'contact' => 'Contact',
     'invite_a_friend' => 'Invite a Friend',
     'go_to_my_orders' => 'Go to my Orders',
+    'battle_open' => 'Open Battle',
+    'battle_in_progress' => 'Battle in Progress',
+    'battle_finished' => 'Finished Battle',
+    'already_voted_until' => 'You have already voted. The Battle ends on :date',
+    'your_battle_until' => 'Your creation is in this Battle. It ends on :date',
+    'more_battles' => 'More Battles',
+    'see_battle' => 'See Battle',
 ];

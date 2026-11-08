@@ -112,6 +112,8 @@ const routeData = computed(() => {
         name = 'users.show';
     } else if (model.value?.model === 'album') {
         name = 'albums.show';
+    } else if (model.value?.model === 'battle') {
+        name = 'battles.show';
     } else {
         name = getCreationRouteName();
     }
@@ -126,9 +128,13 @@ const tags = computed(() => {
     return tags.map(tag => tag.name);
 });
 const url = computed(() => Utils.getFullUrl(routeData.value?.href));
+const battleName = computed(() => (model.value?.tracks || model.value?.designs || [])
+    .map(creation => creation?.name)
+    .filter(Boolean)
+    .join(' vs '));
 const sharing = computed(() => ({
     url: url.value,
-    title: model.value?.nick_name || model.value?.name,
+    title: model.value?.nick_name || model.value?.name || battleName.value,
     description: model.value?.description || model.value?.bio,
     quote: model.value?.quote,
     hashtags: tags.value.join(','),

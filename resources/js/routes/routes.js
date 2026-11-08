@@ -6,6 +6,7 @@ import fetchDesign from '@/guards/fetchDesign';
 import fetchUser from '@/guards/fetchUser';
 import internal from '@/guards/internal';
 import fetchAlbum from '@/guards/fetchAlbum';
+import fetchBattle from '@/guards/fetchBattle';
 
 export default [
     {
@@ -89,6 +90,12 @@ export default [
         path: '/battles',
         name: 'battles.index',
         component: () => import('@/pages/battles/BattleIndex.vue'),
+    },
+    {
+        path: '/battles/:id',
+        name: 'battles.show',
+        component: () => import('@/pages/battles/BattleShow.vue'),
+        beforeEnter: [fetchBattle]
     },
     {
         path: '/albums/:id',

@@ -69,7 +69,7 @@
       v-text="bottomText"
     />
     <AppAlert
-      v-if="!isLogged"
+      v-if="showVote && !isLogged"
       :message="Translator.t('help.must_be_logged_to_vote')"
       class="max-w-sm mx-auto"
       variant="tonal"

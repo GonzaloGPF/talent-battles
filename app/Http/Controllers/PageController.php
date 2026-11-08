@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\Battle;
 use App\Models\Design;
 use App\Models\Track;
 use App\Models\User;
@@ -45,6 +46,11 @@ class PageController extends Controller
     public function design(Design $design): Response
     {
         return $this->pageResponse->render($this->pageMetaService->design($design));
+    }
+
+    public function battle(Battle $battle): Response
+    {
+        return $this->pageResponse->render($this->pageMetaService->battle($battle));
     }
 
     public function album(Album $album): Response

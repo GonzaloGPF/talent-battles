@@ -82,6 +82,10 @@ Route::controller(PageController::class)
             ->whereNumber('design')
             ->name('designs.show');
 
+        Route::get('battles/{battle}', 'battle')
+            ->whereNumber('battle')
+            ->name('battles.show');
+
         Route::get('albums/{album}', 'album')
             ->whereNumber('album')
             ->name('albums.show');
