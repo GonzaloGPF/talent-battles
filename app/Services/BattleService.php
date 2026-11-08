@@ -5,14 +5,27 @@ namespace App\Services;
 use App\Enums\BattleStates;
 use App\Enums\BattleTypes;
 use App\Facades\Logger;
+use App\Helpers\NotificationHelper;
 use App\Jobs\CheckBattlesToFinish;
 use App\Jobs\MatchBattles;
+use App\Models\Activity;
 use App\Models\Battle;
+use App\Models\Comment;
 use App\Models\Design;
+use App\Models\Favorite;
+use App\Models\Like;
+use App\Models\Notification;
 use App\Models\Track;
+use App\Models\User;
+use App\Notifications\BattleDraw;
+use App\Notifications\BattleLost;
+use App\Notifications\BattleStarted;
+use App\Notifications\BattleWon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class BattleService
 {
@@ -20,6 +33,11 @@ class BattleService
      * Minutes between two refreshes of the battles.
      */
     private const REFRESH_MINUTES = 10;
+
+    public function __construct(
+        private readonly PointsService $pointsService,
+        private readonly UserService $userService,
+    ) {}
 
     /**
      * Production runs no scheduler, so battles are refreshed when someone looks at them: expired ones are finished and
@@ -138,6 +156,49 @@ class BattleService
             ->save();
 
         return $battle;
+    }
+
+    /**
+     * Deletes the battles with everything that points at them, and takes back what finishing them gave. Their votes
+     * and their places in the creations go with them, by cascade.
+     *
+     * @param  EloquentCollection<int, Battle>  $battles
+     */
+    public function deleteBattles(EloquentCollection $battles): void
+    {
+        $battles->load(['winner.createdBy', 'votes.createdBy', 'tracks.createdBy', 'designs.createdBy']);
+
+        $ids = $battles->modelKeys();
+        $morphClass = (new Battle)->getMorphClass();
+        $participants = $battles->flatMap(fn (Battle $battle) => $battle->getParticipants())->unique('id');
+
+        DB::transaction(function () use ($battles, $ids, $morphClass, $participants) {
+            $battles->where('battle_state', BattleStates::FINISHED->value)
+                ->each(fn (Battle $battle) => $this->pointsService->takeBackBattlePoints($battle));
+
+            Comment::where('commentable_type', $morphClass)->whereIn('commentable_id', $ids)->delete();
+            Like::where('likeable_type', $morphClass)->whereIn('likeable_id', $ids)->delete();
+            Favorite::where('favoritable_type', $morphClass)->whereIn('favoritable_id', $ids)->delete();
+            Activity::where('target_type', $morphClass)->whereIn('target_id', $ids)->delete();
+            Notification::withoutGlobalScopes()->whereIn('data->noty_id', $this->notificationIds($ids))->delete();
+            Battle::whereKey($ids)->delete();
+
+            $participants->each(fn (User $user) => $this->userService->updateRating($user));
+        });
+    }
+
+    /**
+     * Ids that the notifications about these battles carry in their data.
+     *
+     * @param  array<int, int>  $battleIds
+     * @return array<int, string>
+     */
+    private function notificationIds(array $battleIds): array
+    {
+        return collect($battleIds)
+            ->crossJoin([BattleStarted::class, BattleWon::class, BattleLost::class, BattleDraw::class])
+            ->map(fn (array $pair) => NotificationHelper::notyId(...$pair))
+            ->all();
     }
 
     private function changeStateToInProgress(Battle $battle): void
