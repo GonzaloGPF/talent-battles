@@ -227,4 +227,11 @@ return [
     'contact' => 'Contacto',
     'invite_a_friend' => 'Invita a un Amigo',
     'go_to_my_orders' => 'Ir a mis Pedidos',
+    'battle_open' => 'Batalla Abierta',
+    'battle_in_progress' => 'Batalla en Curso',
+    'battle_finished' => 'Batalla Finalizada',
+    'already_voted_until' => 'Ya has votado. La Batalla termina el :date',
+    'your_battle_until' => 'Tu creación está en esta Batalla. Termina el :date',
+    'more_battles' => 'Más Batallas',
+    'see_battle' => 'Ver Batalla',
 ];

@@ -2,12 +2,15 @@
 
 namespace App\Services;
 
+use App\Enums\BattleStates;
 use App\Models\Album;
+use App\Models\Battle;
 use App\Models\Design;
 use App\Models\File;
 use App\Models\Track;
 use App\Models\User;
 use App\Objects\PageMeta;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class PageMetaService
@@ -104,6 +107,29 @@ class PageMetaService
             structuredData: [$this->breadcrumbs([
                 [trans('seo.pages.designs.title'), route('pages.index', ['section' => 'designs'])],
                 [$design->name, $url],
+            ])],
+        );
+    }
+
+    /**
+     * A battle is named after its two creations. Its description invites to vote while it is open, and gives the
+     * result once it has finished.
+     */
+    public function battle(Battle $battle): PageMeta
+    {
+        $battle->loadMissing(['tracks.createdBy', 'designs.createdBy', 'winner']);
+
+        $creations = $battle->getCreations()->values();
+        $name = $this->battleName($creations);
+        $url = route('pages.battles.show', $battle);
+
+        return $this->page(
+            title: $this->title($name),
+            description: $this->battleDescription($battle, $creations),
+            url: $url,
+            structuredData: [$this->breadcrumbs([
+                [trans('seo.pages.battles.title'), route('pages.index', ['section' => 'battles'])],
+                [$name, $url],
             ])],
         );
     }
@@ -246,6 +272,64 @@ class PageMetaService
     /**
      * @return array{name: string, author: string, app: string}
      */
+    /**
+     * @param  Collection<int, Track|Design>  $creations
+     */
+    private function battleName(Collection $creations): string
+    {
+        if ($creations->count() >= 2) {
+            return trans('seo.battle_title', $this->versusReplacements($creations[0], $creations[1]));
+        }
+
+        $first = $creations->first();
+
+        return $first
+            ? trans('seo.open_battle_title', $this->creationReplacements($first->name, $first->createdBy))
+            : trans('seo.pages.battles.title');
+    }
+
+    /**
+     * @param  Collection<int, Track|Design>  $creations
+     */
+    private function battleDescription(Battle $battle, Collection $creations): string
+    {
+        if ($creations->count() < 2) {
+            $first = $creations->first();
+
+            return $first
+                ? trans('seo.open_battle_description', $this->creationReplacements($first->name, $first->createdBy))
+                : trans('seo.pages.battles.description');
+        }
+
+        if ($battle->battle_state !== BattleStates::FINISHED->value) {
+            return trans('seo.battle_description', $this->versusReplacements($creations[0], $creations[1]));
+        }
+
+        $winner = $creations->first(fn (Track|Design $creation) => $creation->is($battle->winner));
+
+        if (! $winner) {
+            return trans('seo.battle_draw_description', $this->versusReplacements($creations[0], $creations[1]));
+        }
+
+        $loser = $creations->first(fn (Track|Design $creation) => $creation->isNot($winner));
+
+        return trans('seo.battle_won_description', $this->versusReplacements($winner, $loser));
+    }
+
+    /**
+     * @return array{first: string, first_author: string, second: string, second_author: string, app: string}
+     */
+    private function versusReplacements(Track|Design $first, Track|Design $second): array
+    {
+        return [
+            'first' => $first->name,
+            'first_author' => $first->createdBy?->getNickName() ?? trans('seo.unknown_author'),
+            'second' => $second->name,
+            'second_author' => $second->createdBy?->getNickName() ?? trans('seo.unknown_author'),
+            'app' => config('app.name'),
+        ];
+    }
+
     private function creationReplacements(string $name, ?User $author): array
     {
         return [

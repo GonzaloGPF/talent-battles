@@ -47,6 +47,13 @@ class ViewBattleTest extends TestCase
     }
 
     #[Test]
+    public function a_battle_says_which_model_it_is_so_it_can_be_commented_and_shared()
+    {
+        $this->getJson(route('battles.show', $this->battles->first()))
+            ->assertJsonPath('data.model', 'battle');
+    }
+
+    #[Test]
     public function fetching_battles_refreshes_them_after_the_response()
     {
         Bus::fake([CheckBattlesToFinish::class, MatchBattles::class]);

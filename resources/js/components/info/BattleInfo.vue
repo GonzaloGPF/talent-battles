@@ -42,6 +42,15 @@
       :class="{'text-green': winner, 'text-blue': !winner}"
       v-text="resultText"
     />
+    <div class="text-center mt-2">
+      <v-btn
+        :to="{ name: 'battles.show', params: { id: battle.id } }"
+        :text="Translator.tl('see_battle')"
+        append-icon="mdi-arrow-right"
+        variant="text"
+        size="small"
+      />
+    </div>
   </v-sheet>
 </template>
 <script setup>

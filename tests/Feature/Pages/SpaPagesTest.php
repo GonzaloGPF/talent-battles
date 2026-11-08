@@ -2,8 +2,11 @@
 
 namespace Tests\Feature\Pages;
 
+use App\Enums\BattleStates;
+use App\Enums\BattleTypes;
 use App\Enums\TrackTypes;
 use App\Models\Album;
+use App\Models\Battle;
 use App\Models\Design;
 use App\Models\File;
 use App\Models\Track;
@@ -48,6 +51,7 @@ class SpaPagesTest extends TestCase
             'design' => ['/designs/999999'],
             'album' => ['/albums/999999'],
             'user' => ['/users/999999'],
+            'battle' => ['/battles/999999'],
         ];
     }
 
@@ -193,6 +197,51 @@ class SpaPagesTest extends TestCase
         $this->get("/designs/$design->id")
             ->assertOk()
             ->assertSee('<title>Logo Azul, diseño de Zalo Beats | Talent Battles</title>', false);
+    }
+
+    #[Test]
+    public function battle_page_names_its_two_creations_and_invites_to_vote()
+    {
+        $battle = $this->createBattle(BattleStates::IN_PROGRESS);
+
+        $this->get("/battles/$battle->id")
+            ->assertOk()
+            ->assertSee('<title>Intro Rap vs Noche | Talent Battles</title>', false)
+            ->assertSee('<meta name="description" content="«Intro Rap», de Zalo Beats, contra «Noche», de Luna. Escucha las dos y vota la mejor en Talent Battles.">', false)
+            ->assertSee("<link rel=\"canonical\" href=\"http://talentbattles.test/battles/$battle->id\">", false);
+    }
+
+    #[Test]
+    public function finished_battle_page_tells_who_won()
+    {
+        $battle = $this->createBattle(BattleStates::FINISHED);
+        $battle->winner()->associate($battle->tracks->firstWhere('name', 'Noche'))->save();
+
+        $this->get("/battles/$battle->id")
+            ->assertOk()
+            ->assertSee('<meta name="description" content="«Noche», de Luna, ganó a «Intro Rap», de Zalo Beats, en Talent Battles.">', false);
+    }
+
+    #[Test]
+    public function finished_battle_page_without_winner_tells_it_was_a_draw()
+    {
+        $battle = $this->createBattle(BattleStates::FINISHED);
+
+        $this->get("/battles/$battle->id")
+            ->assertOk()
+            ->assertSee('<meta name="description" content="«Intro Rap», de Zalo Beats, y «Noche», de Luna, empataron en Talent Battles.">', false);
+    }
+
+    #[Test]
+    public function battle_waiting_for_an_opponent_says_it_is_looking_for_a_rival()
+    {
+        $battle = create(Battle::class, ['battle_state' => BattleStates::OPEN->value, 'battle_type' => BattleTypes::TRACK]);
+        $battle->tracks()->attach($this->createTrack()->id);
+
+        $this->get("/battles/$battle->id")
+            ->assertOk()
+            ->assertSee('<title>Intro Rap busca rival | Talent Battles</title>', false)
+            ->assertSee('<meta name="description" content="«Intro Rap», de Zalo Beats, busca rival en Talent Battles.">', false);
     }
 
     #[Test]
@@ -365,6 +414,20 @@ class SpaPagesTest extends TestCase
     }
 
     #[Test]
+    public function battle_breadcrumbs_go_through_the_battles()
+    {
+        $battle = $this->createBattle(BattleStates::IN_PROGRESS);
+
+        $graph = $this->structuredData($this->get("/battles/$battle->id"));
+
+        $this->assertSame([
+            [1, 'Talent Battles', 'http://talentbattles.test'],
+            [2, 'Batallas', 'http://talentbattles.test/battles'],
+            [3, 'Intro Rap vs Noche', "http://talentbattles.test/battles/$battle->id"],
+        ], $this->trail($graph[0]));
+    }
+
+    #[Test]
     public function album_breadcrumbs_go_through_its_author()
     {
         $author = create(User::class, ['nick' => 'Zalo Beats']);
@@ -433,6 +496,25 @@ class SpaPagesTest extends TestCase
             'created_by' => $author->id,
             'album_id' => null,
         ]);
+    }
+
+    /**
+     * Intro Rap, by Zalo Beats, against Noche, by Luna.
+     */
+    private function createBattle(BattleStates $state): Battle
+    {
+        $battle = create(Battle::class, ['battle_state' => $state->value, 'battle_type' => BattleTypes::TRACK]);
+        $track = $this->createTrack();
+        $opponent = create(Track::class, [
+            'name' => 'Noche',
+            'track_type' => TrackTypes::BEAT,
+            'created_by' => create(User::class, ['nick' => 'Luna'])->id,
+            'album_id' => null,
+        ]);
+
+        $battle->tracks()->attach([$track->id, $opponent->id]);
+
+        return $battle->load('tracks');
     }
 
     private function createImage(Model $owner): File
