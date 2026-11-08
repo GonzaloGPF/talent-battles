@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Users;
 
+use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
@@ -36,5 +37,44 @@ class ViewUserTest extends TestCase
             ->json('data');
 
         $this->assertCount(3, $data);
+    }
+
+    #[Test]
+    public function the_address_of_a_user_is_not_public()
+    {
+        $user = create(User::class);
+
+        $this->getJson(route('users.show', $user))
+            ->assertSuccessful()
+            ->assertJsonMissingPath('data.address');
+
+        $this->signIn(create(User::class, ['role' => Roles::USER]));
+
+        $this->getJson(route('users.show', $user))
+            ->assertSuccessful()
+            ->assertJsonMissingPath('data.address');
+    }
+
+    #[Test]
+    public function users_can_see_their_own_address()
+    {
+        $user = $this->signIn(create(User::class, ['role' => Roles::USER]));
+
+        $address = $this->getJson(route('users.show', $user))
+            ->json('data.address');
+
+        $this->assertEquals($user->address, $address);
+    }
+
+    #[Test]
+    public function admins_can_see_the_address_of_any_user()
+    {
+        $this->signIn();
+        $user = create(User::class);
+
+        $address = $this->getJson(route('users.show', $user))
+            ->json('data.address');
+
+        $this->assertEquals($user->address, $address);
     }
 }
