@@ -88,6 +88,30 @@ class PointsService
         $this->earnPoints($this->winPoints, $winnerUser);
     }
 
+    /**
+     * Takes back what finishing the battle gave: the points of the draw or of the winner, and those of its voters.
+     */
+    public function takeBackBattlePoints(Battle $battle): void
+    {
+        /** @var Track|Design|null $winnerCreation */
+        $winnerCreation = $battle->winner;
+
+        if (! $winnerCreation) {
+            $battle->getParticipants()
+                ->each(fn (User $user) => $this->earnPoints(-$this->drawPoints, $user));
+
+            return;
+        }
+
+        if ($winnerCreation->createdBy) {
+            $this->earnPoints(-$this->winPoints, $winnerCreation->createdBy);
+        }
+
+        $battle->votes
+            ->filter(fn (Vote $vote) => $vote->votable_id === $winnerCreation->id)
+            ->each(fn (Vote $vote) => $this->earnPoints(-$this->winnerVotePoints, $vote->createdBy));
+    }
+
     public function givePointsToVoters(Battle $battle): void
     {
         $winner = $battle->winner;

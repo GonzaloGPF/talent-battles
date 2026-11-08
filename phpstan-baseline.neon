@@ -31,24 +31,6 @@ parameters:
 			path: app/Api/StripeApi.php
 
 		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
-			count: 2
-			path: app/Console/Commands/Live/CreateVotes.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between App\\Enums\\BattleTypes\:\:DESIGN and App\\Enums\\BattleTypes\:\:DESIGN will always evaluate to true\.$#'
-			identifier: identical.alwaysTrue
-			count: 1
-			path: app/Console/Commands/Live/CreateVotes.php
-
-		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
-			count: 1
-			path: app/Console/Commands/Live/CreateVotes.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
 			identifier: property.notFound
 			count: 1
@@ -637,12 +619,6 @@ parameters:
 			path: app/Models/Battle.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Support\\HigherOrderCollectionProxy\<string, Illuminate\\Database\\Eloquent\\Model, Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\>\:\:\$createdBy\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Battle.php
-
-		-
 			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
 			identifier: property.notFound
 			count: 1
@@ -1179,18 +1155,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
 			identifier: property.notFound
-			count: 1
-			path: app/Services/PointsService.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: mixed, Closure\(App\\Models\\Vote\)\: App\\Models\\User given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Services/PointsService.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:filter\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: bool\)\|null, Closure\(App\\Models\\Vote\)\: bool given\.$#'
-			identifier: argument.type
 			count: 1
 			path: app/Services/PointsService.php
 
