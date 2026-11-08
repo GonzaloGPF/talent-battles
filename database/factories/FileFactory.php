@@ -69,43 +69,17 @@ class FileFactory extends Factory
      * @var array|string[]
      */
     public static array $BEAT_PATHS = [
-        'beats/Alright.mp3',
-        'beats/AZ-Style.mp3',
-        'beats/Boom.mp3',
-        'beats/Coldness.mp3',
-        'beats/DrubZent.mp3',
-        'beats/Hard Beat.mp3',
-        'beats/Horrorcore.mp3',
-        'beats/Muy tranquilo.mp3',
-        'beats/Nitruz 1.mp3',
-        'beats/Shine.mp3',
-        'beats/Snow Gun.mp3',
-        'beats/Strings Beat.mp3',
-        'beats/Track Banger.mp3',
-        'beats/Violin.mp3',
-        'beats/Welcome to Hate.mp3',
-        'beats/13 asesinos.mp3',
-        'beats/Frenzy.mp3',
-        'beats/Omnipresente.mp3',
-        'beats/Victoria.mp3',
-        'beats/Unsolved Mysteries.mp3',
-        'beats/Gunitdown 2.mp3',
-        'beats/Alliance.mp3',
+        'beats/beat-090-bpm.mp3',
+        'beats/beat-095-bpm.mp3',
+        'beats/beat-100-bpm.mp3',
+        'beats/beat-120-bpm.mp3',
+        'beats/beat-140-bpm.mp3',
     ];
 
     public static array $SAMPLE_PATHS = [
-        'samples/bass-hipless-2.wav',
-        'samples/bass-hipless-3.wav',
-        'samples/decessus-smokey-bass.wav',
-        'samples/ethnic-vibes.wav',
-        'samples/flute-jam.wav',
-        'samples/groove.wav',
-        'samples/guitar-clip.wav',
-        'samples/lil-peep-guitar.wav',
-        'samples/my-way.wav',
-        'samples/scratches_1.wav',
-        'samples/scratches_2.wav',
-        'samples/x-russ-guitar.wav',
+        'samples/sample-090-bpm.wav',
+        'samples/sample-095-bpm.wav',
+        'samples/sample-120-bpm.wav',
     ];
 
     /**
