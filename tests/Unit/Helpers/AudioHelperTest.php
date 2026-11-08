@@ -11,6 +11,11 @@ use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
+/**
+ * The mocks come from tests/mocks/generate-audio.sh: the beat lasts 20 seconds at 120 BPM and the sample 8 seconds at
+ * 95 BPM. With 8192 samples per pixel at 44.1 kHz, a waveform is ceil(seconds × 44100 / 8192) pixels long, and holds a
+ * minimum and a maximum for each one.
+ */
 class AudioHelperTest extends TestCase
 {
     use RefreshDatabase;
@@ -30,7 +35,7 @@ class AudioHelperTest extends TestCase
         $this->file = create(File::class, [
             'fileable_id' => $this->track->id,
             'fileable_type' => Track::class,
-            'path' => generateTestFile(Str::random(20), 'mp3', Storage::disk('mocks')->get('beats/Shine.mp3')),
+            'path' => generateTestFile(Str::random(20), 'mp3', Storage::disk('mocks')->get('beats/beat-120-bpm.mp3')),
         ]);
     }
 
@@ -44,14 +49,14 @@ class AudioHelperTest extends TestCase
         $this->assertEquals(44100, $waveformData['sample_rate']);
         $this->assertEquals(8192, $waveformData['samples_per_pixel']);
         $this->assertEquals(8, $waveformData['bits']);
-        $this->assertEquals(1050, $waveformData['length']);
-        $this->assertCount(2100, $waveformData['data']);
+        $this->assertEquals(108, $waveformData['length']);
+        $this->assertCount(216, $waveformData['data']);
     }
 
     #[Test]
     public function it_can_process_an_audio_file_with_wav_format()
     {
-        $this->file->path = generateTestFile(Str::random(20), 'wav', Storage::disk('mocks')->get('samples/my-way.wav'));
+        $this->file->path = generateTestFile(Str::random(20), 'wav', Storage::disk('mocks')->get('samples/sample-095-bpm.wav'));
         $this->file->save();
 
         $waveformData = $this->helper->getWaveformData($this->file->fresh());
@@ -60,8 +65,8 @@ class AudioHelperTest extends TestCase
         $this->assertEquals(44100, $waveformData['sample_rate']);
         $this->assertEquals(8192, $waveformData['samples_per_pixel']);
         $this->assertEquals(8, $waveformData['bits']);
-        $this->assertEquals(142, $waveformData['length']);
-        $this->assertCount(284, $waveformData['data']);
+        $this->assertEquals(44, $waveformData['length']);
+        $this->assertCount(88, $waveformData['data']);
     }
 
     #[Test]
@@ -87,7 +92,7 @@ class AudioHelperTest extends TestCase
     {
         $duration = $this->helper->getSeconds($this->file);
 
-        $this->assertEquals(195, $duration);
+        $this->assertEquals(20, $duration);
     }
 
     #[Test]
@@ -101,12 +106,12 @@ class AudioHelperTest extends TestCase
     #[Test]
     public function it_can_extract_bpm_of_a_file_of_wav_format()
     {
-        $this->file->path = generateTestFile(Str::random(20), 'wav', Storage::disk('mocks')->get('samples/guitar-clip.wav'));
+        $this->file->path = generateTestFile(Str::random(20), 'wav', Storage::disk('mocks')->get('samples/sample-095-bpm.wav'));
         $this->file->save();
 
         $bpm = $this->helper->getBpm($this->file);
 
-        $this->assertEquals(141, $bpm);
+        $this->assertEquals(95, $bpm);
     }
 
     #[Test]
