@@ -37,7 +37,7 @@ class UserResource extends ApiResource
             'points' => $this->when($itsMe || hasRole(Roles::ADMIN), $this->points),
             'experience' => $this->experience,
             'rating' => $this->rating,
-            'address' => $this->address,
+            'address' => $this->when($itsMe || hasRole(Roles::ADMIN), $this->address),
             'account' => $this->when($itsMe, $this->account),
             'social_settings' => $this->social_settings,
             'notification_settings' => $this->when($itsMe, $this->notification_settings),

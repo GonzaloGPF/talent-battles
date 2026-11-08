@@ -35,8 +35,10 @@ Route::get('users/{user:token}/verify', [UserVerifyController::class, 'update'])
 /**
  * OAuth integrations
  */
-Route::get('/{driver}/redirect', [OAuthController::class, 'redirect']);
-Route::get('/{driver}/callback', [OAuthController::class, 'callback']);
+Route::get('/{driver}/redirect', [OAuthController::class, 'redirect'])
+    ->whereIn('driver', OAuthController::DRIVERS);
+Route::get('/{driver}/callback', [OAuthController::class, 'callback'])
+    ->whereIn('driver', OAuthController::DRIVERS);
 
 Route::get('orders/{order}/success', OrderSuccessController::class)
     ->name('orders.success')
