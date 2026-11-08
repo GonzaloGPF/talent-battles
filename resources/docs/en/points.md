@@ -10,6 +10,8 @@ Points are the currency with which the **Talent Battles** economy works.
 These Points are necessary to perform many of the actions of this application.
 You can see how many Points you have at all times in the top menu.
 
+When you sign up you get **50 Points** as a welcome, enough to create your first two [Battles](battles.md).
+
 Earning Points is very simple. It will contribute to gaining experience to level up and unlock achievements.
 
 - [Earn Points](#points-earn)

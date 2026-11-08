@@ -14,11 +14,16 @@ class PageMetaService
 {
     private const DESCRIPTION_LENGTH = 155;
 
-    private const DEFAULT_IMAGE = 'images/logo_big_bg.webp';
+    /**
+     * A JPEG of 1200×630: the format and size every social network shows when a link is shared.
+     */
+    private const DEFAULT_IMAGE = 'images/share.jpg';
 
-    private const DEFAULT_IMAGE_WIDTH = 2400;
+    private const DEFAULT_IMAGE_TYPE = 'image/jpeg';
 
-    private const DEFAULT_IMAGE_HEIGHT = 1422;
+    private const DEFAULT_IMAGE_WIDTH = 1200;
+
+    private const DEFAULT_IMAGE_HEIGHT = 630;
 
     private const LOGO = 'images/logo_black_on_white.webp';
 
@@ -196,7 +201,7 @@ class PageMetaService
             description: $description,
             url: $url,
             image: $this->imageUrl($image),
-            imageType: $image ? $image->mime : 'image/webp',
+            imageType: $image ? $image->mime : self::DEFAULT_IMAGE_TYPE,
             locale: app()->getLocale() === 'es' ? 'es_ES' : 'en_US',
             type: $type,
             indexable: $indexable,

@@ -177,9 +177,11 @@ class SpaPagesTest extends TestCase
 
         $this->get("/beats/$track->id")
             ->assertOk()
-            ->assertSee('<meta property="og:image" content="http://talentbattles.test/images/logo_big_bg.webp">', false)
-            ->assertSee('<meta property="og:image:width" content="2400">', false)
-            ->assertSee('<meta property="og:image:height" content="1422">', false);
+            ->assertSee('<meta property="og:image" content="http://talentbattles.test/images/share.jpg">', false)
+            ->assertSee('<meta property="og:image:type" content="image/jpeg">', false)
+            ->assertSee('<meta property="og:image:width" content="1200">', false)
+            ->assertSee('<meta property="og:image:height" content="630">', false);
+        $this->assertSame([1200, 630], array_slice(getimagesize(public_path('images/share.jpg')), 0, 2));
     }
 
     #[Test]
@@ -396,7 +398,7 @@ class SpaPagesTest extends TestCase
                 'identifier' => (string) $user->id,
                 'name' => 'Zalo Beats',
                 'description' => 'Productor de beats',
-                'image' => 'http://talentbattles.test/images/logo_big_bg.webp',
+                'image' => 'http://talentbattles.test/images/share.jpg',
             ],
         ], $graph[0]);
         $this->assertSame([

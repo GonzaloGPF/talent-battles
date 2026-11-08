@@ -28,6 +28,18 @@ class RegisterUserTest extends TestCase
     }
 
     #[Test]
+    public function new_users_start_with_enough_points_for_their_first_battle()
+    {
+        $this->makeRequest()
+            ->assertSuccessful();
+
+        $points = User::firstWhere('email', 'test@mail.com')->points;
+
+        $this->assertEquals(config('defaults.initial_points'), $points);
+        $this->assertGreaterThanOrEqual(config('company.points.prices.create_battle'), $points);
+    }
+
+    #[Test]
     public function the_verification_token_has_64_random_characters()
     {
         $this->makeRequest()
