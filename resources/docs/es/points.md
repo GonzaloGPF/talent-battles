@@ -10,6 +10,8 @@ Los Puntos son la moneda con la que funciona la economía de **Talent Battles**.
 Estos Puntos son necesarios para realizar muchas de las acciones de esta aplicación.
 Puedes ver cuántos Puntos tienes en todo momento en el menú superior.
 
+Al registrarte recibes **50 Puntos** de bienvenida, suficientes para crear tus dos primeras [Batallas](battles.md).
+
 Ganar Puntos es muy sencillo y contribuirán a obtener experiencia para subir de nivel y desbloquear logros.
 
 - [Ganar Puntos](#points-earn)
