@@ -36,10 +36,18 @@ class NotificationHelper
         return $via;
     }
 
+    /**
+     * The id that a notification of a given class about a model carries in its data.
+     */
+    public static function notyId(int $targetId, string $notificationClass): string
+    {
+        return 'noty_'.md5($targetId.$notificationClass);
+    }
+
     public function toArray(NotyInterface $noty): array
     {
         return [
-            'noty_id' => 'noty_'.md5($noty->getTarget()->id.get_class($noty)),
+            'noty_id' => self::notyId($noty->getTarget()->id, get_class($noty)),
             'message_keys' => $noty->getMessageKeys(),
             'level' => $noty->getLevel(),
             'icon' => $noty->getIcon(),
