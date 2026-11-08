@@ -22,47 +22,35 @@ class FileFactory extends Factory
     protected $model = File::class;
 
     public static array $AVATAR_PATHS = [
-        'avatars/avatar_1.webp',
-        'avatars/avatar_2.webp',
-        'avatars/avatar_3.webp',
-        'avatars/avatar_4.webp',
-        'avatars/avatar_5.webp',
-        'avatars/avatar_6.webp',
+        'avatars/avatar-01.webp',
+        'avatars/avatar-02.webp',
+        'avatars/avatar-03.webp',
+        'avatars/avatar-04.webp',
+        'avatars/avatar-05.webp',
+        'avatars/avatar-06.webp',
     ];
 
     /**
      * @var array|string[]
      */
     public static array $IMAGE_PATHS = [
-        'images/adventure.webp',
-        'images/artist.webp',
-        'images/artistic.webp',
-        'images/dj.webp',
-        'images/electronic.webp',
-        'images/forest.webp',
-        'images/graffiti.webp',
-        'images/hiphop.webp',
-        'images/music.webp',
-        'images/waterfall.webp',
-        'images/chubby.webp',
-        'images/complements.webp',
-        'images/fashion.webp',
-        'images/niggas.webp',
-        'images/niggas_2.webp',
-        'images/radio.webp',
-        'images/radio_2.webp',
-        'images/urban.webp',
+        'images/cover-01.webp',
+        'images/cover-02.webp',
+        'images/cover-03.webp',
+        'images/cover-04.webp',
+        'images/cover-05.webp',
+        'images/cover-06.webp',
+        'images/cover-07.webp',
+        'images/cover-08.webp',
     ];
 
     public static array $DESIGN_PATHS = [
-        'designs/dog_draw.webp',
-        'designs/full_design.webp',
-        'designs/jack_sparrow.webp',
-        'designs/lion.webp',
-        'designs/portrait.webp',
-        'designs/realistic_dog.webp',
-        'designs/robot_wolf.webp',
-        'designs/street_draw.webp',
+        'designs/carpet.webp',
+        'designs/mandelbrot.webp',
+        'designs/mandelbrot-zoom.webp',
+        'designs/rule-30.webp',
+        'designs/rule-90.webp',
+        'designs/triangle.webp',
     ];
 
     /**
@@ -109,6 +97,18 @@ class FileFactory extends Factory
     public function image(): FileFactory
     {
         $fileData = $this->getFileData($this->faker->randomElement(self::$IMAGE_PATHS));
+
+        return $this->state([
+            'file_type' => FileTypes::IMAGE,
+            'path' => $fileData['path'],
+            'name' => $fileData['name'],
+            'mime' => $fileData['mime'],
+        ]);
+    }
+
+    public function design(): FileFactory
+    {
+        $fileData = $this->getFileData($this->faker->randomElement(self::$DESIGN_PATHS));
 
         return $this->state([
             'file_type' => FileTypes::IMAGE,
