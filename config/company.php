@@ -25,6 +25,11 @@ return [
 
     'battle_ttl' => 5, // days
 
+    /*
+     * Battles that Talent Battles keeps in progress, pairing creations whose owners accept challenges
+     */
+    'battles_in_progress' => 10,
+
     'currency' => 'eur',
 
     'progress' => [

@@ -30,12 +30,13 @@ con puntos y experiencia
 Puedes crear Batallas en cualquier momento, siempre que tengas los Puntos necesarios
 (**20** Puntos), mediante el botón de Batalla.
 
-Existen dos formas de participar en una Batalla:
+Existen tres formas de participar en una Batalla:
 - Crear una Batalla por ti mismo
 - Que un Usuario te desafíe
+- Que **Talent Battles** empareje tu Creación con otra del mismo tipo, de otro Usuario. Así siempre hay Batallas para votar, y no te cuesta Puntos
 
 > [!NOTE]
-> Un Usuario solo podrá desafiar Creaciones que tengan activo el atributo **'se puede retar'** 
+> Solo se pueden desafiar o emparejar Creaciones que tengan activo el atributo **'se puede retar'** 
 
 ## Tipos de Batalla {#battle-types}
 Actualmente, en **Talent Battles** existen dos tipos de Batallas:

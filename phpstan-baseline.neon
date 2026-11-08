@@ -33,18 +33,6 @@ parameters:
 		-
 			message: '#^Negated boolean expression is always false\.$#'
 			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: app/Console/Commands/Live/CreateBattles.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: \(App\\Models\\Battle\|null\), Closure\(App\\Models\\Track\)\: \(App\\Models\\Battle\|null\) given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Console/Commands/Live/CreateBattles.php
-
-		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
 			count: 2
 			path: app/Console/Commands/Live/CreateVotes.php
 

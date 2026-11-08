@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Jobs\CheckBattlesToFinish;
+use App\Jobs\MatchBattles;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,7 +26,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('inspire')->hourly();
         $schedule->command('cache:prune-stale-tags')->hourly();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
-        //        $schedule->job(new CheckBattlesToFinish)->daily();
+        $schedule->job(new CheckBattlesToFinish)->hourly();
+        $schedule->job(new MatchBattles)->hourly();
     }
 
     /**

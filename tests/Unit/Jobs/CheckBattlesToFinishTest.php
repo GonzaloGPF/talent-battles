@@ -8,6 +8,7 @@ use App\Jobs\CheckBattlesToFinish;
 use App\Models\Battle;
 use App\Models\Track;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -56,6 +57,56 @@ class CheckBattlesToFinishTest extends TestCase
         $this->assertEquals(BattleStates::FINISHED->value, $this->finishedBattle->fresh()->battle_state);
         $this->assertEquals(BattleStates::FINISHED->value, $this->inProgressBattleOld->fresh()->battle_state);
         $this->assertEquals(BattleStates::IN_PROGRESS->value, $this->inProgressBattleRecent->fresh()->battle_state);
+    }
+
+    #[Test]
+    public function a_battle_that_cannot_finish_does_not_stop_the_others()
+    {
+        $battleWithoutOpponent = $this->createExpiredBattle(daysAgo: $this->battleTTL + 2);
+        $battleWithOpponent = $this->createExpiredBattle(daysAgo: $this->battleTTL + 1);
+        $this->addTracks($battleWithOpponent);
+
+        $this->job->handle();
+
+        $this->assertEquals(BattleStates::IN_PROGRESS->value, $battleWithoutOpponent->fresh()->battle_state);
+        $this->assertEquals(BattleStates::FINISHED->value, $battleWithOpponent->fresh()->battle_state);
+    }
+
+    #[Test]
+    public function it_finishes_one_batch_of_battles_per_run()
+    {
+        $tracks = create(Track::class, [], 2);
+        $battles = collect(range(0, CheckBattlesToFinish::BATCH_SIZE))
+            ->map(fn () => $this->createExpiredBattle(daysAgo: $this->battleTTL + 1))
+            ->each(fn (Battle $battle) => $battle->tracks()->saveMany($tracks));
+
+        $this->job->handle();
+
+        $finished = Battle::whereKey($battles->pluck('id'))
+            ->where('battle_state', BattleStates::FINISHED->value)
+            ->count();
+
+        $this->assertEquals(CheckBattlesToFinish::BATCH_SIZE, $finished);
+    }
+
+    #[Test]
+    public function it_does_nothing_while_another_run_is_finishing_battles()
+    {
+        $this->addTracks($this->inProgressBattleOld);
+        Cache::lock(CheckBattlesToFinish::class, 300)->get();
+
+        $this->job->handle();
+
+        $this->assertEquals(BattleStates::IN_PROGRESS->value, $this->inProgressBattleOld->fresh()->battle_state);
+    }
+
+    private function createExpiredBattle(int $daysAgo): Battle
+    {
+        return create(Battle::class, [
+            'battle_state' => BattleStates::IN_PROGRESS->value,
+            'battle_type' => BattleTypes::TRACK,
+            'created_at' => today()->subDays($daysAgo),
+        ]);
     }
 
     private function addTracks(Battle $battle): void

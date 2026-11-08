@@ -2,9 +2,12 @@
 
 namespace Tests\Feature\Battles;
 
+use App\Jobs\CheckBattlesToFinish;
+use App\Jobs\MatchBattles;
 use App\Models\Battle;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Bus;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -41,6 +44,49 @@ class ViewBattleTest extends TestCase
             ->json('data');
 
         $this->assertEquals($battle->id, $data['id']);
+    }
+
+    #[Test]
+    public function fetching_battles_refreshes_them_after_the_response()
+    {
+        Bus::fake([CheckBattlesToFinish::class, MatchBattles::class]);
+
+        $this->getJson(route('battles.index'))
+            ->assertSuccessful();
+
+        Bus::assertDispatchedAfterResponse(CheckBattlesToFinish::class);
+        Bus::assertDispatchedAfterResponse(MatchBattles::class);
+    }
+
+    #[Test]
+    public function fetching_a_battle_refreshes_them_after_the_response()
+    {
+        Bus::fake([CheckBattlesToFinish::class, MatchBattles::class]);
+
+        $this->getJson(route('battles.show', $this->battles->first()))
+            ->assertSuccessful();
+
+        Bus::assertDispatchedAfterResponse(CheckBattlesToFinish::class);
+        Bus::assertDispatchedAfterResponse(MatchBattles::class);
+    }
+
+    #[Test]
+    public function battles_are_refreshed_at_most_once_every_ten_minutes()
+    {
+        Bus::fake([CheckBattlesToFinish::class, MatchBattles::class]);
+
+        $this->getJson(route('battles.index'));
+        $this->travel(9)->minutes();
+        $this->getJson(route('battles.index'));
+
+        Bus::assertDispatchedAfterResponseTimes(CheckBattlesToFinish::class, 1);
+        Bus::assertDispatchedAfterResponseTimes(MatchBattles::class, 1);
+
+        $this->travel(2)->minutes();
+        $this->getJson(route('battles.index'));
+
+        Bus::assertDispatchedAfterResponseTimes(CheckBattlesToFinish::class, 2);
+        Bus::assertDispatchedAfterResponseTimes(MatchBattles::class, 2);
     }
 
     //    /** @test */

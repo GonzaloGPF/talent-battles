@@ -26,7 +26,7 @@ return [
     'product_file' => 'If an User buy it, we will send him this file',
     'successful_order' => 'Great! Here you have a new Order!',
     'purchasing_a_creation' => 'Your are going to make a new Order',
-    'can_challenge' => 'Allowed to create Battles',
+    'can_challenge' => 'Lets other Users challenge you and lets Talent Battles pair your creation in Battles',
     'challenging_to' => 'You are challenging :name',
     'going_to_challenge' => 'You are going to challenge <b>:name</b> of <b>:author</b>',
     'select_your_best' => 'Select your best :model [:type]',
