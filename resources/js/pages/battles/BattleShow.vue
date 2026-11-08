@@ -15,9 +15,9 @@
     />
     <div class="d-flex flex-wrap justify-center align-center ga-3 mt-6">
       <share-button :model="battle" />
-      <v-btn
-        :to="{ name: 'battles.index' }"
-        :text="Translator.tl('more_battles')"
+      <app-button
+        :route="{ name: 'battles.index' }"
+        :label="Translator.tl('more_battles')"
         prepend-icon="mdi-sword-cross"
         variant="tonal"
       />
@@ -34,6 +34,7 @@
   </v-container>
 </template>
 <script setup>
+import AppButton from '@/components/core/AppButton.vue';
 import BattleCard from '@/components/cards/BattleCard.vue';
 import BattleVoteCard from '@/components/cards/BattleVoteCard.vue';
 import ShareButton from '@/components/buttons/ShareButton.vue';

@@ -43,9 +43,9 @@
       v-text="resultText"
     />
     <div class="text-center mt-2">
-      <v-btn
-        :to="{ name: 'battles.show', params: { id: battle.id } }"
-        :text="Translator.tl('see_battle')"
+      <app-button
+        :route="{ name: 'battles.show', params: { id: battle.id } }"
+        :label="Translator.tl('see_battle')"
         append-icon="mdi-arrow-right"
         variant="text"
         size="small"
@@ -54,6 +54,7 @@
   </v-sheet>
 </template>
 <script setup>
+import AppButton from '@/components/core/AppButton.vue';
 import BattleSubject from '@/components/cards/BattleSubject.vue';
 import {computed} from 'vue';
 import Translator from '@/objects/Translator';
