@@ -17,7 +17,7 @@ class AudioWatermarkTest extends TestCase
     #[Test]
     public function it_can_add_a_watermark_to_an_audio_file()
     {
-        $audio = file_get_contents(base_path('tests/mocks/beats/Alliance.mp3'));
+        $audio = file_get_contents(base_path('tests/mocks/beats/beat-120-bpm.mp3'));
 
         Storage::fake('public');
         Storage::disk('public')->put(FileService::WATERMARK_AUDIO, $audio);
