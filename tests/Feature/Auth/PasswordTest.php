@@ -41,10 +41,31 @@ class PasswordTest extends TestCase
     }
 
     #[Test]
-    public function it_wont_let_forgot_password_with_non_existing_email()
+    public function an_unknown_email_gets_the_same_answer_and_no_email_is_sent()
     {
-        $this->postJson(route('auth.password.forgot'), ['email' => 'some@email.com'])
-            ->assertNotFound();
+        Queue::fake();
+
+        $unknownEmail = $this->postJson(route('auth.password.forgot'), ['email' => 'some@email.com'])
+            ->assertSuccessful();
+        $knownEmail = $this->postJson(route('auth.password.forgot'), ['email' => $this->user->email])
+            ->assertSuccessful();
+
+        $this->assertSame($knownEmail->json(), $unknownEmail->json());
+        Queue::assertPushedTimes(SendEmail::class, 1);
+    }
+
+    #[Test]
+    public function reset_tokens_are_64_random_characters()
+    {
+        Queue::fake();
+
+        $this->postJson(route('auth.password.forgot'), ['email' => $this->user->email]);
+        $firstToken = $this->user->fresh()->token;
+        $this->postJson(route('auth.password.forgot'), ['email' => $this->user->email]);
+        $secondToken = $this->user->fresh()->token;
+
+        $this->assertSame(64, strlen($firstToken));
+        $this->assertNotSame($firstToken, $secondToken);
     }
 
     #[Test]

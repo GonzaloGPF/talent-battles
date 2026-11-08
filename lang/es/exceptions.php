@@ -10,6 +10,7 @@ return [
     'no_relation' => 'Relación no Encontrada [:data]',
     'already_authenticated' => 'Ya Autenticado',
     'authentication' => 'No Autenticado',
+    'too_many_attempts' => 'Demasiados intentos. Vuelve a probar en :seconds segundos',
     'unauthorized' => 'No Autorizado',
     'could_not_delete' => 'No se pudo Eliminar',
     'filter' => 'Error en Filtros',

@@ -67,6 +67,33 @@ class LoginTest extends TestCase
         $this->assertEquals($this->user->id, $cart->fresh()->created_by);
     }
 
+    #[Test]
+    public function an_unknown_email_gets_the_same_answer_as_a_wrong_password()
+    {
+        $unknownEmail = $this->postJson(route('auth.login'), ['email' => 'unknown@email.com', 'password' => 'Secret123**']);
+        $wrongPassword = $this->postJson(route('auth.login'), ['email' => $this->user->email, 'password' => 'Wrong123**']);
+
+        $unknownEmail->assertUnprocessable();
+        $this->assertEquals([trans('auth.failed')], $unknownEmail->json('data.email'));
+        $this->assertSame($wrongPassword->status(), $unknownEmail->status());
+        $this->assertSame($wrongPassword->json(), $unknownEmail->json());
+    }
+
+    #[Test]
+    public function login_attempts_are_limited_to_five_a_minute_for_each_email()
+    {
+        foreach (range(1, 5) as $ignored) {
+            $this->postJson(route('auth.login'), ['email' => $this->user->email, 'password' => 'Wrong123**'])
+                ->assertUnprocessable();
+        }
+
+        $this->loginRequest()
+            ->assertTooManyRequests();
+
+        $this->postJson(route('auth.login'), ['email' => 'other@email.com', 'password' => 'Wrong123**'])
+            ->assertUnprocessable();
+    }
+
     /**
      * @param  null  $headers
      */

@@ -51,13 +51,13 @@ class PasswordController extends LoginController
     {
         request()->validate(['email' => 'required|email']);
 
-        /** @var User $user */
-        $user = User::where('email', request('email'))->firstOrFail();
-        $user = $this->userService->setToken($user);
+        $user = User::firstWhere('email', request('email'));
 
-        $this->emailService->createPasswordReset($user);
+        if ($user) {
+            $this->emailService->createPasswordReset($this->userService->setToken($user));
+        }
 
-        return $this->updateResponse(new UserResource($user));
+        return $this->dataResponse(trans('help.password_reset_sent'));
     }
 
     /**

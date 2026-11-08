@@ -8,6 +8,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -48,6 +49,21 @@ class RouteServiceProvider extends ServiceProvider
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+
+        /*
+         * By email and IP: one user cannot lock out another by guessing their email, nor try many passwords for one.
+         */
+        RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(5)->by(Str::lower($request->string('email')).'|'.$request->ip());
+        });
+
+        /*
+         * Endpoints that send emails or take a password or a token: registering, resetting or changing a password,
+         * and the contact form.
+         */
+        RateLimiter::for('sensitive', function (Request $request) {
+            return Limit::perMinute(5)->by($request->user()?->id ?: $request->ip());
         });
     }
 }

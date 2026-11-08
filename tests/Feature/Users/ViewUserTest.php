@@ -6,6 +6,7 @@ use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestWith;
 use Tests\TestCase;
 
 class ViewUserTest extends TestCase
@@ -40,41 +41,47 @@ class ViewUserTest extends TestCase
     }
 
     #[Test]
-    public function the_address_of_a_user_is_not_public()
+    #[TestWith(['address'])]
+    #[TestWith(['role'])]
+    public function a_private_field_of_a_user_is_not_public(string $field)
     {
         $user = create(User::class);
 
         $this->getJson(route('users.show', $user))
             ->assertSuccessful()
-            ->assertJsonMissingPath('data.address');
+            ->assertJsonMissingPath("data.$field");
 
         $this->signIn(create(User::class, ['role' => Roles::USER]));
 
         $this->getJson(route('users.show', $user))
             ->assertSuccessful()
-            ->assertJsonMissingPath('data.address');
+            ->assertJsonMissingPath("data.$field");
     }
 
     #[Test]
-    public function users_can_see_their_own_address()
+    #[TestWith(['address'])]
+    #[TestWith(['role'])]
+    public function users_can_see_their_own_private_fields(string $field)
     {
         $user = $this->signIn(create(User::class, ['role' => Roles::USER]));
 
-        $address = $this->getJson(route('users.show', $user))
-            ->json('data.address');
+        $value = $this->getJson(route('users.show', $user))
+            ->json("data.$field");
 
-        $this->assertEquals($user->address, $address);
+        $this->assertEquals($user->fresh()->toArray()[$field], $value);
     }
 
     #[Test]
-    public function admins_can_see_the_address_of_any_user()
+    #[TestWith(['address'])]
+    #[TestWith(['role'])]
+    public function admins_can_see_the_private_fields_of_any_user(string $field)
     {
         $this->signIn();
         $user = create(User::class);
 
-        $address = $this->getJson(route('users.show', $user))
-            ->json('data.address');
+        $value = $this->getJson(route('users.show', $user))
+            ->json("data.$field");
 
-        $this->assertEquals($user->address, $address);
+        $this->assertEquals($user->fresh()->toArray()[$field], $value);
     }
 }

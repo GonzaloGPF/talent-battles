@@ -36,7 +36,7 @@ class UserService
             'role' => $data['role'] ?? Roles::USER,
             'level' => Levels::NOVICE,
             'password' => $data['password'] ?? Str::random(),
-            'token' => uniqid(),
+            'token' => $this->newToken(),
             'experience' => 0,
         ])->save();
 
@@ -59,8 +59,8 @@ class UserService
                 'nick' => $oAuthUser->getNickname(),
                 'oauth_id' => $oAuthUser->getId(),
                 'oauth_driver' => $driver,
-                'password' => uniqid(),
-                'token' => uniqid(),
+                'password' => $this->newToken(),
+                'token' => $this->newToken(),
                 'verified_at' => now(),
             ]);
         }
@@ -134,7 +134,7 @@ class UserService
 
     public function setToken(User $user): User
     {
-        $user->token = uniqid();
+        $user->token = $this->newToken();
         $user->save();
 
         return $user;
@@ -170,5 +170,13 @@ class UserService
     public function syncStripeDetails(User $user): void
     {
         $user->syncStripeCustomerDetails();
+    }
+
+    /**
+     * Tokens go in the links to verify an email and to reset a password, so nobody may guess them.
+     */
+    private function newToken(): string
+    {
+        return Str::random(64);
     }
 }

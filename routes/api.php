@@ -63,7 +63,7 @@ Route::apiResource('donations', DonationController::class)->only('index');
 Route::apiResource('reports', ReportController::class)->only(['show', 'index', 'store', 'update']);
 Route::put('reports/{report}/solve', [ReportController::class, 'solve'])->name('reports.solve');
 Route::apiResource('emails', EmailController::class)->only(['show', 'index']);
-Route::post('emails/contact', [EmailController::class, 'contact'])->name('emails.contact');
+Route::post('emails/contact', [EmailController::class, 'contact'])->name('emails.contact')->middleware('throttle:sensitive');
 Route::put('emails/{email}/resend', [EmailController::class, 'resend'])->name('emails.resend');
 Route::put('notifications/read/{notification?}', [NotificationController::class, 'read'])->name('notifications.read');
 Route::apiResource('notifications', NotificationController::class)->only('index');

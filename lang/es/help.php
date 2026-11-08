@@ -14,6 +14,7 @@ return [
     'enter' => '¡Crea una nueva cuenta para unirte a nosotros!',
     'login' => 'Inicia sesión con tu cuenta',
     'forgot_password' => 'Reinicia tu contraseña',
+    'password_reset_sent' => 'Si el email está registrado, te hemos enviado un enlace para restablecer tu contraseña',
     'more_data_from' => 'Más :data de :user',
     'upload_tagged_file' => 'Sube tu archivo marcado',
     'upload_file_to_sell' => 'Sube el archivo sin marcas para vender',
