@@ -25,7 +25,7 @@ A continuación, te detallamos brevemente cada uno de ellos:
 - Etiquetas: Son una serie de palabras que pueden ayudar a buscar la creación
 - Color: Definirá el color de la forma de audio de tu Pista. También es el color que se utilizará en el caso de hacerle [Promoción](promote.md)
 - Album: Si has creado algún Album, aquí puedes enlazarlo
-- Puede Retarse: Marca esta opción si quieres permitir que otros Usuarios creen Batallas contra tu creación
+- Puede Retarse: Marca esta opción si quieres permitir que otros Usuarios creen Batallas contra tu creación, y que Talent Battles la empareje con otra del mismo tipo
 - Género: Puedes especificar a qué Género o Géneros pertenece
 - Clave: Indica la escala principal en la que está compuesta
 - Instrumento: Si lo ves oportuno, también puedes indicar cuál es el instrumento principal de la composición

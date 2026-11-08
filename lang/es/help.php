@@ -26,7 +26,7 @@ return [
     'product_file' => 'Si un Usuario compra, le enviaremos este archivo',
     'successful_order' => '¡Genial! ¡Aquí tienes tu nuevo Pedido!',
     'purchasing_a_creation' => 'Estas a punto de realizar un Pedido',
-    'can_challenge' => 'Permite crear Batallas',
+    'can_challenge' => 'Permite que otros Usuarios te reten y que Talent Battles empareje tu creación en Batallas',
     'challenging_to' => 'Estas retando a :name',
     'going_to_challenge' => 'Estas retando a <b>:name</b> de <b>:author</b>',
     'select_your_best' => 'Selecciona tu mejor :model [:type]',

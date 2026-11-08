@@ -25,7 +25,7 @@ Next, we briefly detail each of them:
 - Tags: They are a series of words that can help to search for the creation
 - Color: It will define the color of the audio shape of your Track. It is also the color that will be used if you do a [Promote](promote.md)
 - Album: If you have created an Album, here you can link it
-- Can Challenge: Check this option if you want to allow other Users to create Battles against your creation
+- Can Challenge: Check this option if you want to allow other Users to create Battles against your creation, and Talent Battles to pair it with another one of the same type
 - Genre: You can specify to which Genre or Genres it belongs
 - Key: Indicates the main scale in which it is composed
 - Instrument: If you see fit, you can also indicate which is the main instrument of the composition

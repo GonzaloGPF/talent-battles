@@ -30,12 +30,13 @@ with points and experience
 You can create Battles at any time, as long as you have the necessary Points
 (**20** Points), via the Battle button.
 
-There are two ways to participate in a Battle:
+There are three ways to participate in a Battle:
 - Create a Battle by yourself
 - A User challenges you
+- **Talent Battles** pairs your Creation with another one of the same type, from another User. This way there are always Battles to vote on, and it costs you no Points
 
 > [!NOTE]
-> A User can only challenge Creations that have the attribute **'can be challenged'** active
+> Only Creations that have the attribute **'can be challenged'** active can be challenged or paired
 
 ## Battle Types {#battle-types}
 Currently, in **Talent Battles** there are two types of Battles:
