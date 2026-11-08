@@ -87,7 +87,7 @@ class FileSeeder extends Seeder
          */
         Design::whereDoesntHave('files')
             ->get()
-            ->each(fn (Design $design) => $design->image()->save(File::factory()->image()->make()));
+            ->each(fn (Design $design) => $design->image()->save(File::factory()->design()->make()));
 
         /*
          * Products
