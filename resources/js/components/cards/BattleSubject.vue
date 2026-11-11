@@ -11,12 +11,14 @@
     <TrackCard
       v-if="subject?.model === 'track'"
       :track="subject"
+      :highlight-promotion="false"
       class="flex-grow-1"
       @play="$emit('play')"
     />
     <DesignCard
       v-if="subject?.model === 'design'"
       :design="subject"
+      :highlight-promotion="false"
       class="flex-grow-1"
     />
     <AppButton
