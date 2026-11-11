@@ -60,12 +60,19 @@ jobs:
           sudo apt-get install -y mysql-client
           mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -utalentbattles -ppassword -e "SHOW DATABASES"
 
+      # audiowaveform has no Ubuntu package. Its Debian 13 build runs on Ubuntu 24.04, and GitHub hosts it, so CI
+      # does not depend on Launchpad being up. The checksum pins the exact file.
       - name: Install Server Software
+        env:
+          AUDIOWAVEFORM_DEB: https://github.com/bbc/audiowaveform/releases/download/1.10.2/audiowaveform_1.10.2-1-13_amd64.deb
+          AUDIOWAVEFORM_SHA256: 4208706c6ae5ffb5761dddf8294eaf648c7ba9fb4d6fc6ec9f021d1bb109ea6e
         run: |
           sudo rm -f /var/lib/man-db/auto-update
-          sudo add-apt-repository -y ppa:chris-needham/ppa
+          curl -fsSL --retry 3 -o /tmp/audiowaveform.deb "$AUDIOWAVEFORM_DEB"
+          echo "$AUDIOWAVEFORM_SHA256  /tmp/audiowaveform.deb" | sha256sum -c -
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends audiowaveform ffmpeg bpm-tools libsox-fmt-all soundstretch id3v2
+          sudo apt-get install -y --no-install-recommends /tmp/audiowaveform.deb ffmpeg bpm-tools libsox-fmt-all soundstretch id3v2
+          audiowaveform --version
 
       - name: Setup PHP
         uses: shivammathur/setup-php@4424c9aab975b57bd706ee5a39c6b4334d6e4f60 # 2.40.0
