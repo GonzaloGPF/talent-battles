@@ -7,19 +7,20 @@
       :buttons="['google', 'facebook']"
       class="mt-3"
       size="small"
-      @click="doOpenTab(`${$event}/redirect`)"
+      @click="doLogin"
     />
   </field-block>
 </template>
 <script setup>
 import Translator from '@/objects/Translator';
-import Utils from '@/objects/Utils';
 import FieldBlock from '@/components/core/FieldBlock.vue';
 import AppButtons from '@/components/core/AppButtons.vue';
+import useOAuthLogin from '@/composables/useOAuthLogin';
 
 const emit = defineEmits(['redirected']);
-const doOpenTab = (path) =>{
-    Utils.openTab(path);
+const { loginWith } = useOAuthLogin();
+const doLogin = (driver) => {
     emit('redirected');
+    loginWith(driver);
 }
 </script>

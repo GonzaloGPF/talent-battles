@@ -11,8 +11,8 @@ class SessionMessageTest extends TestCase
     #[Test]
     public function it_can_flash_message_in_session()
     {
-        SessionMessage::flashMessage('test');
+        SessionMessage::flashMessage('test', 'error');
 
-        $this->assertEquals('test', session('message'));
+        $this->assertEquals(['message' => 'test', 'type' => 'error'], session('message'));
     }
 }

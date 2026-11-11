@@ -57,6 +57,8 @@ durante un plazo determinado de tiempo (**5 días**)
 Cada Usuario votará por la Creación que considere mejor, otorgando **Puntos de Voto**. La cantidad de **Puntos de Voto**
 que un Usuario aportará a una Creación vendrá determinado por su [Experiencia](experience.md).
 
+Si no has iniciado sesión, puedes votar con tu cuenta de Google: al volver de Google, tu voto ya cuenta.
+
 > [!NOTE]
 > No podrás Votar a Creaciones que sean tuyas. Tampoco podrás votar hasta que no verifiques tu email.
 

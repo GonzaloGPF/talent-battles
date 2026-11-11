@@ -42,6 +42,7 @@ import CommentsManager from '@/components/modules/comments/CommentsManager.vue';
 import Formatter from '@/objects/Formatter';
 import Translator from '@/objects/Translator';
 import useHttp from '@/composables/useHttp';
+import useOAuthLogin from '@/composables/useOAuthLogin';
 import { useAuth } from '@/stores/auth';
 import { useBattle } from '@/stores/battles';
 import { storeToRefs } from 'pinia';
@@ -50,7 +51,9 @@ import { computed } from 'vue';
 const { postJson, loading } = useHttp();
 const battleStore = useBattle();
 const { battle } = storeToRefs(battleStore);
-const { user } = storeToRefs(useAuth());
+const { loadIdentity } = useAuth();
+const { user, isLogged } = storeToRefs(useAuth());
+const { takePendingVote } = useOAuthLogin();
 
 const state = computed(() => battle.value?.battle_state);
 const creations = computed(() => battle.value?.tracks || battle.value?.designs || []);
@@ -84,4 +87,14 @@ const onVote = (creation) => {
     model_type: battle.value.battle_type,
   }).finally(() => battleStore.read(battle.value.id));
 }
+
+// The vote a guest chose before signing in with Google
+loadIdentity().then(() => {
+  const pendingVote = takePendingVote(battle.value?.id);
+  const creation = creations.value.find(({ id }) => id === pendingVote?.modelId);
+
+  if (creation && isLogged.value && canVote.value) {
+    onVote(creation);
+  }
+});
 </script>
