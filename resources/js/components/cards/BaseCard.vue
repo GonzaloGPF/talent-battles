@@ -2,7 +2,7 @@
   <v-card
     v-click-outside="reveal = false"
     class="base-card d-flex flex-column"
-    :class="{'promoted': model?.is_promoted}"
+    :class="{'promoted': highlightPromotion && model?.is_promoted}"
     :style="style"
   >
     <transition
@@ -102,6 +102,13 @@ const props = defineProps({
   actions: {
     type: Array,
     default: () => []
+  },
+  /**
+   * Promoted creations glow. A battle turns it off, so that neither side stands out to voters.
+   */
+  highlightPromotion: {
+    type: Boolean,
+    default: true
   }
 });
 const AppChip = defineAsyncComponent(() => import('@/components/core/AppChip.vue'));
