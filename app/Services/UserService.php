@@ -43,7 +43,10 @@ class UserService
         return $user;
     }
 
-    public function createFromOAuth(string $driver, OAuthUser $oAuthUser): ?User // TODO: test it
+    /**
+     * Links the account with that email to the provider, or creates it. The provider has checked the email.
+     */
+    public function createFromOAuth(string $driver, OAuthUser $oAuthUser): User
     {
         $user = User::firstWhere('email', $oAuthUser->getEmail());
 
@@ -51,6 +54,7 @@ class UserService
             $user->forceFill([
                 'oauth_id' => $oAuthUser->getId(),
                 'oauth_driver' => $driver,
+                'verified_at' => $user->verified_at ?? now(),
             ])->saveQuietly();
         } else {
             $user = User::forceCreate([

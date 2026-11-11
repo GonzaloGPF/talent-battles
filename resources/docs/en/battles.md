@@ -57,6 +57,8 @@ for a certain period of time (**5 days**)
 Each User will vote for the Creation they consider best, granting **Voting Points**. The amount of **Vote Points**
 that a User will contribute to a Creation will be determined by their [Experience](experience.md).
 
+If you are not signed in, you can vote with your Google account: your vote counts as soon as you come back from Google.
+
 > [!NOTE]
 > You will not be able to Vote for yours Creations. You will not be able to vote until you verify your email.
 

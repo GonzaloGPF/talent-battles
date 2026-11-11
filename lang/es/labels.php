@@ -234,4 +234,5 @@ return [
     'your_battle_until' => 'Tu creación está en esta Batalla. Termina el :date',
     'more_battles' => 'Más Batallas',
     'see_battle' => 'Ver Batalla',
+    'vote_with_google' => 'Votar con Google',
 ];

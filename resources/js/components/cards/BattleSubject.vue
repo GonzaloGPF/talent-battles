@@ -25,6 +25,7 @@
       v-if="! isFinished && showVote"
       v-flash-message="Translator.t('help.points_earned', {points: pointsAwardVote})"
       :label="label"
+      :prepend-icon="isLogged ? null : 'mdi-google'"
       :disabled="disabled"
       :loading="loading"
       :class="{'shine-me': ready}"
@@ -52,6 +53,7 @@
 import Translator from '@/objects/Translator';
 import { default as vFlashMessage } from '@/directives/flashMessage';
 import { useCompany } from '@/stores/company';
+import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import {computed, defineAsyncComponent} from 'vue';
 
@@ -100,8 +102,9 @@ const AppButton = defineAsyncComponent(() => import('@/components/core/AppButton
 const AppIcon = defineAsyncComponent(() => import('@/components/core/AppIcon.vue'));
 const AppEmpty = defineAsyncComponent(() => import('@/components/core/AppEmpty.vue'));
 const { pointsAwardVote } = storeToRefs(useCompany());
+const { isLogged } = storeToRefs(useAuth());
 const label = computed(() => {
-  let text = Translator.actionTitle('vote');
+  let text = isLogged.value ? Translator.actionTitle('vote') : Translator.tl('vote_with_google');
 
   if (! props.ready) {
     text += ` (${ props.timer })`;

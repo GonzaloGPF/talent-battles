@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Reporters\SessionMessage;
 use App\Services\EmailService;
 use App\Services\UserService;
-use Illuminate\Contracts\View\View;
+use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Laravel\Socialite\Two\InvalidStateException;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 class OAuthController extends Controller
 {
@@ -22,23 +27,66 @@ class OAuthController extends Controller
         parent::__construct();
     }
 
-    public function redirect(string $driver): RedirectResponse
+    /**
+     * Sends the visitor to the provider. The optional "redirect" query is the page of this site to come back to.
+     */
+    public function redirect(Request $request, string $driver): SymfonyRedirectResponse
     {
+        $path = $request->query('redirect');
+
+        if (is_string($path) && $this->isLocalPath($path)) {
+            redirect()->setIntendedUrl(url($path));
+        } else {
+            $request->session()->forget('url.intended');
+        }
+
         return Socialite::driver($driver)->redirect();
     }
 
-    public function callback(string $driver): View // TODO: test it
+    /**
+     * Signs the visitor in and takes them back to the page they came from.
+     * Only new accounts get the email to set a password.
+     */
+    public function callback(Request $request, string $driver): RedirectResponse
     {
-        $oAuthUser = Socialite::driver($driver)->user();
+        if ($request->filled('error')) {
+            return $this->failedLogin();
+        }
+
+        try {
+            $oAuthUser = Socialite::driver($driver)->user();
+        } catch (InvalidStateException|RequestException) {
+            return $this->failedLogin();
+        }
+
+        if (! $oAuthUser->getEmail()) {
+            return $this->failedLogin();
+        }
 
         $user = $this->userService->createFromOAuth($driver, $oAuthUser);
 
-        auth('web')->loginUsingId($user->id);
+        auth('web')->login($user);
+        $request->session()->regenerate();
 
-        $this->emailService->createPasswordReset($user, true);
+        if ($user->wasRecentlyCreated) {
+            $this->emailService->createPasswordReset($user, true);
+        }
 
-        // TODO: send Notification to front
+        return redirect()->intended('/');
+    }
 
-        return view('app')->with(['user' => $this->userService->getUserData()]);
+    private function failedLogin(): RedirectResponse
+    {
+        SessionMessage::flashMessage(trans('help.oauth_failed'), 'error');
+
+        return redirect()->intended('/');
+    }
+
+    /**
+     * A path of this site. "//host" or "https://host" would send the visitor to another site.
+     */
+    private function isLocalPath(string $path): bool
+    {
+        return Str::startsWith($path, '/') && ! Str::startsWith($path, ['//', '/\\']);
     }
 }

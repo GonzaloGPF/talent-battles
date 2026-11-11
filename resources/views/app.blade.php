@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @push('scripts')
     <script>
-        window.flash_message = {!! json_encode(session('message')) ?? null !!};
+        window.flash_message = {!! json_encode(session()->pull('message')) !!};
         window.invitation = JSON.parse('{!! json_encode($invitation ?? null) !!}');
     </script>
 @endpush
