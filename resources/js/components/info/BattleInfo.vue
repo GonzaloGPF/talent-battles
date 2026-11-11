@@ -7,7 +7,7 @@
     class="p-5 max-w-5xl mx-auto"
     style="min-height: 490px"
   >
-    <div class="d-flex flex-column flex-md-row justify-center align-center items-center w-full">
+    <div class="d-flex flex-column flex-md-row justify-center align-center align-md-stretch w-full">
       <battle-subject
         :subject="subjectA"
         :points="subjectAPoints"
@@ -16,7 +16,7 @@
         class="w-60 md:w-96 animate__animated animate__fadeIn"
       />
 
-      <div>
+      <div class="align-self-center">
         <v-sheet
           class="d-flex justify-center align-center my-3 mx-5 brand-font text-center text-4xl w-18 h-18 !border-white !border-1 select-none shine-me"
           rounded="circle"

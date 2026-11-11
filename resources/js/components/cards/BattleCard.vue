@@ -12,7 +12,7 @@
       class="text-h5 font-weight-bold mb-5 text-center animate__animated animate__rubberBand"
       v-text="title"
     />
-    <div class="d-flex flex-col flex-md-row justify-center align-center items-center w-full">
+    <div class="d-flex flex-col flex-md-row justify-center align-center align-md-stretch w-full">
       <BattleSubject
         v-if="subjectA"
         :subject="subjectA"
@@ -28,7 +28,7 @@
         @vote="$emit('vote', subjectA)"
       />
 
-      <div class="my-3">
+      <div class="my-3 align-self-center">
         <v-sheet
           class="d-flex justify-center align-center my-3 mx-5 brand-font text-center text-4xl w-18 h-18 !border-white !border-1 select-none shine-me"
           rounded="circle"
