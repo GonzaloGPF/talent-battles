@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="subject"
-    class="d-flex flex-column justify-center"
+    class="d-flex flex-column"
   >
     <span
       v-if="isFinished"
@@ -11,11 +11,13 @@
     <TrackCard
       v-if="subject?.model === 'track'"
       :track="subject"
+      class="flex-grow-1"
       @play="$emit('play')"
     />
     <DesignCard
       v-if="subject?.model === 'design'"
       :design="subject"
+      class="flex-grow-1"
     />
     <AppButton
       v-if="! isFinished && showVote"
@@ -29,8 +31,9 @@
       @click="$emit('vote', subject)"
     />
     <AppIcon
-      v-if="isWinner"
+      v-if="isFinished"
       :title="Translator.tl('winner')"
+      :class="{ invisible: ! isWinner }"
       color="green"
       icon="$medal"
       size="large"
