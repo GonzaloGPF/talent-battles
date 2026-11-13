@@ -28,6 +28,15 @@ class OAuthTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['google', 'http://localhost'])]
+    #[TestWith(['facebook', 'https://talentbattles.com'])]
+    public function the_provider_sends_the_visitor_back_to_the_host_they_came_from(string $driver, string $host)
+    {
+        $this->get("$host/$driver/redirect")
+            ->assertRedirectContains('redirect_uri='.urlencode("$host/$driver/callback"));
+    }
+
+    #[Test]
     #[TestWith(['/unknown/redirect'])]
     #[TestWith(['/unknown/callback'])]
     public function unknown_providers_are_not_found(string $url)
