@@ -41,28 +41,29 @@ return [
         //        ],
     ],
 
+    // Socialite resolves relative redirects with the host the visitor is on, so locally they come back to http://localhost
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('GOOGLE_REDIRECT_URL') ?: env('APP_URL').'/google/callback',
+        'redirect' => '/google/callback',
     ],
 
     'facebook' => [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-        'redirect' => env('APP_URL').'/facebook/callback',
+        'redirect' => '/facebook/callback',
     ],
 
     'twitter' => [
         'client_id' => env('TWITTER_CLIENT_ID'),
         'client_secret' => env('TWITTER_CLIENT_SECRET'),
-        'redirect' => env('APP_URL').'/twitter/callback',
+        'redirect' => '/twitter/callback',
     ],
 
     'linkedin' => [
         'client_id' => env('LINKEDIN_CLIENT_ID'),
         'client_secret' => env('LINKEDIN_CLIENT_SECRET'),
-        'redirect' => env('APP_URL').'/linkedin/callback',
+        'redirect' => '/linkedin/callback',
     ],
 
     'gtm' => [
