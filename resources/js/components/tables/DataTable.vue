@@ -113,7 +113,8 @@ const emits = defineEmits([
   'delete',
   'restore',
   'download',
-  'solve'
+  'solve',
+  'claim-link'
 ]);
 const props = defineProps({
   headers: {

@@ -43,4 +43,12 @@ class UserPolicy
     {
         return hasRole(Roles::ADMIN) || $user->is($userToDelete);
     }
+
+    /**
+     * Admins hand profiles to their owners; staff accounts are never handed over.
+     */
+    public function claim(User $user, User $profile): bool
+    {
+        return hasRole(Roles::ADMIN) && $profile->role === Roles::USER;
+    }
 }

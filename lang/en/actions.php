@@ -96,4 +96,5 @@ return [
     'update' => 'Update',
     'filter' => 'Filter',
     'answer' => 'Answer',
+    'claim_link' => 'Claim link',
 ];

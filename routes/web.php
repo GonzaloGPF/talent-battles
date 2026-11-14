@@ -7,6 +7,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\InvitationClaimController;
 use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProfileClaimController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Stripe\OrderSuccessController;
 use App\Http\Controllers\UserVerifyController;
@@ -46,6 +47,10 @@ Route::get('orders/{order}/success', OrderSuccessController::class)
 
 Route::get('invitations/{invitation}/claim', InvitationClaimController::class)
     ->name('invitations.claim')
+    ->middleware('signed');
+
+Route::get('users/{user}/claim', [ProfileClaimController::class, 'show'])
+    ->name('users.claim.show')
     ->middleware('signed');
 
 Route::get('files/{file}', [FileController::class, 'show'])

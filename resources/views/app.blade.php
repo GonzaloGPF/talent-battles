@@ -3,6 +3,7 @@
     <script>
         window.flash_message = {!! json_encode(session()->pull('message')) !!};
         window.invitation = JSON.parse('{!! json_encode($invitation ?? null) !!}');
+        window.profile_claim = {!! json_encode($profileClaim ?? null, JSON_HEX_TAG) !!};
     </script>
 @endpush
 

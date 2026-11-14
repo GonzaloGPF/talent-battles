@@ -97,4 +97,5 @@ return [
     'update' => 'Actualizar',
     'filter' => 'Filtrar',
     'answer' => 'Responder',
+    'claim_link' => 'Enlace para reclamar',
 ];
