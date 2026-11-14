@@ -26,6 +26,7 @@ export default [
         name: 'gender',
         input: 'select',
         src: 'genders',
+        visible: () => hasRole('admin'),
     },
     {
         name: 'skills',

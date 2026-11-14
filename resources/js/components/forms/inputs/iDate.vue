@@ -5,6 +5,8 @@
       :model-value="Formatter.date(iValue)"
       :name="iName"
       :label="iLabel"
+      :hint="hint"
+      :persistent-hint="persistentHint"
       prepend-icon="mdi-calendar"
       readonly
       clearable

@@ -53,6 +53,7 @@ return [
     'welcome_designers_subheader' => 'Busca los artistas que más destaquen',
     'welcome_latest_designs' => 'Echa un vistazo a lo que hacen los demás',
     'oauth_failed' => 'No se ha podido iniciar sesión. Inténtalo de nuevo o entra con tu email.',
+    'not_on_public_profile' => 'No se muestra en tu perfil público.',
     'external_login' => 'Utiliza una cuenta externa',
     'home_title' => 'Hola :name, ¿Qué tal va el día?',
     'share_talent_with_the_world' => '¡Comparte el Talento con el Mundo!',

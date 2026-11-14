@@ -5,7 +5,7 @@
         <user-card :user="user" />
 
         <text-sheet
-          v-if="user?.nick || user.gender || user.birthdate || user.bio || user?.skills"
+          v-if="user?.nick || user.bio || user?.skills"
           :title="Translator.tl('about_me')"
           class="mt-5"
         >
@@ -15,22 +15,6 @@
             :model-value="user?.name"
             inline
           />
-          <div class="d-flex align-center space-x-3 mb-2">
-            <app-icon
-              v-if="user.gender"
-              :title="Translator.tConstName('gender', user.gender === 'male' ? 'male' : 'female')"
-              :icon="user.gender === 'male' ? 'mdi-gender-male' : 'mdi-gender-female'"
-              :color="user.gender === 'male' ? 'blue' : 'pink'"
-            />
-            <app-field
-              v-if="user.birthdate"
-              :title="Translator.ta('birthdate')"
-              :model-value="user.birthdate"
-              format="long"
-              class="text-caption"
-              type="date"
-            />
-          </div>
 
           <app-text
             :model-value="user.bio"
@@ -112,7 +96,6 @@ import Utils from '@/objects/Utils';
 import { storeToRefs } from 'pinia';
 import ReactionButtons from '@/components/buttons/ReactionButtons.vue';
 import { useUser } from '@/stores/users';
-import AppIcon from '@/components/core/AppIcon.vue';
 import AppText from '@/components/core/AppText.vue';
 import AppField from '@/components/core/AppField.vue';
 import { onBeforeRouteUpdate } from 'vue-router';

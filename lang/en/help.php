@@ -53,6 +53,7 @@ return [
     'welcome_designers_subheader' => 'Look for most distinguish artists',
     'welcome_latest_designs' => 'Take a look to what other people do',
     'oauth_failed' => 'We could not sign you in. Try again or sign in with your email.',
+    'not_on_public_profile' => 'It is not shown on your public profile.',
     'external_login' => 'Use an external Account',
     'home_title' => 'Hi :name, how is the day going?',
     'share_talent_with_the_world' => 'Share Talent with the World!',
