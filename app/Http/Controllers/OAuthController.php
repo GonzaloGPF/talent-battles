@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Reporters\SessionMessage;
+use App\Services\AuthService;
 use App\Services\EmailService;
 use App\Services\UserService;
 use GuzzleHttp\Exception\RequestException;
@@ -22,7 +23,8 @@ class OAuthController extends Controller
 
     public function __construct(
         private readonly UserService $userService,
-        private readonly EmailService $emailService
+        private readonly EmailService $emailService,
+        private readonly AuthService $authService,
     ) {
         parent::__construct();
     }
@@ -65,8 +67,7 @@ class OAuthController extends Controller
 
         $user = $this->userService->createFromOAuth($driver, $oAuthUser);
 
-        auth('web')->login($user);
-        $request->session()->regenerate();
+        $this->authService->login($user);
 
         if ($user->wasRecentlyCreated) {
             $this->emailService->createPasswordReset($user, true);

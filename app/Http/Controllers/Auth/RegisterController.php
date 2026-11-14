@@ -6,6 +6,7 @@ use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
+use App\Services\AuthService;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 
@@ -25,13 +26,13 @@ class RegisterController extends Controller
      *
      * @apiResourceModel App\Models\User
      */
-    public function register(UserService $userService, RegisterRequest $request): JsonResponse
+    public function register(UserService $userService, AuthService $authService, RegisterRequest $request): JsonResponse
     {
         $user = $userService->create($request->validated());
 
         UserRegistered::dispatch($user);
 
-        auth()->attempt(request()->only('email', 'password'));
+        $authService->login($user);
 
         return $this->storeResponse(new UserResource($user));
     }

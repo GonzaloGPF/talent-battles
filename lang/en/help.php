@@ -58,8 +58,6 @@ return [
     'keep_profile' => 'Choose the email and password you will sign in with. You keep your creations and their battles, and you can change anything from your profile.',
     'delete_profile' => 'We will delete the profile, your music, your designs and the battles they are in. It cannot be undone.',
     'confirm_delete_profile' => 'Are you sure you want to delete the profile of :name with all its content?',
-    'profile_claimed' => 'The profile is yours now. We have sent you an email to confirm your address.',
-    'profile_deleted' => 'We have deleted the profile and all its content.',
     'claim_link_created' => 'Link to claim the profile created.',
     'claim_link_copied' => 'Link copied. It expires on :date and stops working once it is used.',
     'external_login' => 'Use an external Account',

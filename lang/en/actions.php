@@ -97,4 +97,6 @@ return [
     'filter' => 'Filter',
     'answer' => 'Answer',
     'claim_link' => 'Claim link',
+    'profile_claimed' => 'The profile is yours now. We have sent you an email to confirm your address.',
+    'profile_deleted' => 'We have deleted the profile and all its content.',
 ];

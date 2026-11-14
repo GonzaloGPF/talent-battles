@@ -58,8 +58,6 @@ return [
     'keep_profile' => 'Elige el email y la contraseña con los que entrarás. Conservas tus creaciones y sus batallas, y puedes cambiar lo que quieras desde tu perfil.',
     'delete_profile' => 'Borraremos el perfil, tu música, tus diseños y las batallas en las que participan. No se puede deshacer.',
     'confirm_delete_profile' => '¿Seguro que quieres borrar el perfil de :name con todo su contenido?',
-    'profile_claimed' => 'El perfil ya es tuyo. Te hemos enviado un email para confirmar tu dirección.',
-    'profile_deleted' => 'Hemos borrado el perfil y todo su contenido.',
     'claim_link_created' => 'Enlace para reclamar el perfil creado.',
     'claim_link_copied' => 'Enlace copiado. Caduca el :date y deja de funcionar en cuanto se use.',
     'external_login' => 'Utiliza una cuenta externa',

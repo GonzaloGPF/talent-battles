@@ -6,6 +6,7 @@ use App\Enums\Roles;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\AuthService;
 use App\Services\UserService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -36,8 +37,10 @@ class LoginController extends Controller
     /**
      * Create a new controller instance.
      */
-    public function __construct(private readonly UserService $userService)
-    {
+    public function __construct(
+        private readonly UserService $userService,
+        private readonly AuthService $authService,
+    ) {
         parent::__construct();
     }
 
@@ -72,7 +75,7 @@ class LoginController extends Controller
             'password' => 'string|required',
         ]);
 
-        if (! auth()->attempt($request->only('email', 'password'))) {
+        if (! $this->authService->attempt($request->only('email', 'password'))) {
             throw ValidationException::withMessages([
                 'email' => [trans('auth.failed')],
             ]);
@@ -92,7 +95,7 @@ class LoginController extends Controller
             throw new AuthorizationException(trans('exceptions.unauthorized'));
         }
 
-        auth('web')->loginUsingId($user->id); // Sanctum will use 'web' guard if can
+        $this->authService->login($user);
 
         return $this->sendResponse('impersonated', $this->userService->getUserData($user), Response::HTTP_ACCEPTED);
     }

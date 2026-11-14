@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileClaimRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Responses\SimpleResponse;
+use App\Services\AuthService;
 use App\Services\ProfileClaimService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Symfony\Component\HttpFoundation\Response;
 
 class ProfileClaimController extends Controller
 {
-    public function __construct(private readonly ProfileClaimService $profileClaimService)
-    {
+    protected bool $onlyAction = true;
+
+    public function __construct(
+        private readonly ProfileClaimService $profileClaimService,
+        private readonly AuthService $authService,
+    ) {
         parent::__construct();
         $this->middleware('auth')->only('link');
     }
@@ -26,7 +29,7 @@ class ProfileClaimController extends Controller
      */
     public function link(User $user): JsonResponse
     {
-        $this->authorize('claim', $user);
+        $this->authorize('createClaimLink', $user);
 
         return $this->dataResponse(trans('help.claim_link_created'), $this->profileClaimService->createLink($user));
     }
@@ -36,7 +39,7 @@ class ProfileClaimController extends Controller
      */
     public function show(Request $request, User $user): View
     {
-        abort_unless($this->profileClaimService->isValidKey($user, $request->query('key')), Response::HTTP_FORBIDDEN);
+        $this->authorize('claim', [$user, $request->query('key')]);
 
         $user->loadCount(['tracks', 'designs']);
         $expiresAt = Carbon::createFromTimestamp((int) $request->query('expires'));
@@ -54,18 +57,21 @@ class ProfileClaimController extends Controller
 
     public function store(ProfileClaimRequest $request, User $user): JsonResponse
     {
+        $this->authorize('claim', [$user, $request->query('key')]);
+
         $user = $this->profileClaimService->claim($user, $request->safe()->only(['email', 'password']));
 
-        auth('web')->login($user);
-        $request->session()->regenerate();
+        $this->authService->login($user);
 
-        return resolve(SimpleResponse::class)->resource(trans('help.profile_claimed'), new UserResource($user), Response::HTTP_ACCEPTED);
+        return $this->updateResponse(new UserResource($user), 'profile_claimed');
     }
 
-    public function destroy(ProfileClaimRequest $request, User $user): JsonResponse
+    public function destroy(Request $request, User $user): JsonResponse
     {
+        $this->authorize('claim', [$user, $request->query('key')]);
+
         $this->profileClaimService->decline($user);
 
-        return $this->dataResponse(trans('help.profile_deleted'), null, Response::HTTP_ACCEPTED);
+        return $this->destroyResponse(null, 'profile_deleted');
     }
 }

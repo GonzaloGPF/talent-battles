@@ -92,6 +92,7 @@ class ProfileClaimTest extends TestCase
 
         $this->postJson($this->actionLinks()['claim_url'], $this->claimData())
             ->assertSuccessful()
+            ->assertJsonPath('message', trans('actions.profile_claimed'))
             ->assertJsonPath('data.email', 'owner@mail.com');
 
         $producer = $this->producer->fresh();
@@ -133,7 +134,8 @@ class ProfileClaimTest extends TestCase
         $battle->tracks()->attach([$track->id, $rival->id]);
 
         $this->deleteJson($this->actionLinks()['decline_url'])
-            ->assertAccepted();
+            ->assertAccepted()
+            ->assertJsonPath('message', trans('actions.profile_deleted'));
 
         foreach ([$track, $audio, $design, $album, $like, $battle] as $model) {
             $this->assertModelMissing($model);
