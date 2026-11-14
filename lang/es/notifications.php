@@ -56,4 +56,12 @@ return [
     'report_closed' => 'Denuncia Cerrada',
     'report_closed_title' => 'Denuncia Cerrada',
     'report_closed_message' => 'La Denuncia de :reported ha sido cerrada',
+
+    'profile_claimed' => 'Perfil Reclamado',
+    'profile_claimed_title' => '¡Perfil Reclamado!',
+    'profile_claimed_message' => 'Alguien con el enlace se ha quedado el perfil de :name, con el email :email',
+
+    'profile_deleted' => 'Perfil Borrado',
+    'profile_deleted_title' => 'Perfil Borrado',
+    'profile_deleted_message' => 'Alguien con el enlace ha borrado el perfil de :name y todo su contenido',
 ];

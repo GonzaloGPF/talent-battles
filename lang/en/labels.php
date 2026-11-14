@@ -235,4 +235,8 @@ return [
     'more_battles' => 'More Battles',
     'see_battle' => 'See Battle',
     'vote_with_google' => 'Vote with Google',
+    'deleted_user' => 'Deleted user',
+    'claim_profile' => 'This profile is yours',
+    'keep_profile' => 'Keep the profile',
+    'delete_profile' => 'Delete the profile',
 ];

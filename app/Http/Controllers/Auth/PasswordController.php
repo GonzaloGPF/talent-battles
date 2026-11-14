@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\AuthService;
 use App\Services\EmailService;
 use App\Services\UserService;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -35,9 +36,12 @@ class PasswordController extends LoginController
     /**
      * Create a new controller instance.
      */
-    public function __construct(private readonly UserService $userService, private readonly EmailService $emailService)
-    {
-        parent::__construct($userService);
+    public function __construct(
+        private readonly UserService $userService,
+        private readonly EmailService $emailService,
+        private readonly AuthService $authService,
+    ) {
+        parent::__construct($userService, $authService);
         $this->middleware('guest')->except('update');
         $this->middleware('auth:sanctum')->only('update');
     }
@@ -86,10 +90,7 @@ class PasswordController extends LoginController
             'verified_at' => $user->verified_at ?? now(),
         ])->save();
 
-        auth()->attempt([
-            'email' => $user->email,
-            'password' => request('password'),
-        ]);
+        $this->authService->login($user);
 
         return $this->sendResponse('logged', $user);
     }

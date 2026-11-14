@@ -43,6 +43,12 @@ export default [
         beforeEnter: [fetchUser]
     },
     {
+        path: '/users/:id/claim',
+        name: 'users.claim',
+        component: () => import('@/pages/users/ProfileClaim.vue'),
+        beforeEnter: [guest]
+    },
+    {
         path: '/beats',
         name: 'beats.index',
         component: () => import('@/pages/tracks/TrackIndex.vue'),

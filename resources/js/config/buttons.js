@@ -131,6 +131,18 @@ export default {
         type: 'primary',
         icon: 'mdi-check',
     },
+    claim_link: {
+        title: 'claim_link',
+        event: 'claim_link',
+        type: 'default',
+        icon: 'mdi-account-key',
+    },
+    revoke_claim_link: {
+        title: 'revoke_claim_link',
+        event: 'revoke_claim_link',
+        type: 'danger',
+        icon: 'mdi-link-off',
+    },
     help: {
         title: 'help',
         event: 'help',

@@ -24,6 +24,7 @@ use App\Http\Controllers\OrderCompleteController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PayNowController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileClaimController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
@@ -50,6 +51,12 @@ Route::get('constants', [ConstantsController::class, 'index'])->name('constants.
 Route::get('company', [CompanyController::class, 'index'])->name('company.index');
 
 Route::apiResource('users', UserController::class);
+Route::post('users/{user}/claim_link', [ProfileClaimController::class, 'link'])->name('users.claim.link');
+Route::delete('users/{user}/claim_link', [ProfileClaimController::class, 'revokeLink'])->name('users.claim.revoke');
+Route::middleware(['signed', 'throttle:sensitive'])->group(function () {
+    Route::post('users/{user}/claim', [ProfileClaimController::class, 'store'])->name('users.claim.store');
+    Route::delete('users/{user}/claim', [ProfileClaimController::class, 'destroy'])->name('users.claim.destroy');
+});
 Route::apiResource('tracks', TrackController::class);
 Route::apiResource('designs', DesignController::class);
 Route::apiResource('albums', AlbumController::class);

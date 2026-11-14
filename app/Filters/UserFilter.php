@@ -23,6 +23,7 @@ class UserFilter extends Filter
         'role', 'last_name', 'email', 'phone', 'birthdate', 'gender', 'points', 'address', 'account',
         'notification_settings', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'token',
         'remember_token', 'oauth_id', 'oauth_driver', 'stripe_id', 'pm_type', 'pm_last_four', 'trial_ends_at',
+        'claim_token', 'claim_expires_at',
     ];
 
     public function email($value): Builder
