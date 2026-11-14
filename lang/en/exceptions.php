@@ -2,6 +2,7 @@
 
 return [
     'server_error' => 'Server Error',
+    'request_failed' => 'The request could not be completed',
     'validation' => 'Validation Errors',
     'token_expired' => 'Expired Session',
     'session_expired' => 'Expired Session', // Csrf token
