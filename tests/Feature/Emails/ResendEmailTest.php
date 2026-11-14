@@ -57,6 +57,25 @@ class ResendEmailTest extends TestCase
     }
 
     #[Test]
+    public function resending_an_email_someone_else_created_keeps_who_is_signed_in()
+    {
+        $user = create(User::class, ['role' => Roles::USER]);
+        $this->email
+            ->forceFill([
+                'created_by' => create(User::class)->id,
+                'to' => [$user->email],
+                'retries' => 0,
+            ])->saveQuietly();
+
+        $this->signIn($user);
+
+        $this->makeRequest()
+            ->assertSuccessful();
+
+        $this->assertAuthenticatedAs($user, 'web');
+    }
+
+    #[Test]
     public function non_admin_users_cannot_resend_emails_if_it_has_more_than_3_retries()
     {
         /** @var User $user */

@@ -26,7 +26,7 @@ class EmailScope implements Scope
         }
 
         $builder->where(function (Builder $builder) use ($user) {
-            $builder->where('to', 'like', "%$user->email%")
+            $builder->whereJsonContains('to', $user->email)
                 ->orWhere('created_by', $user->id);
         });
     }

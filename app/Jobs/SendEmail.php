@@ -18,14 +18,9 @@ class SendEmail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * The email carries everything it shows, so sending it needs nobody signed in.
      */
-    public function __construct(public Email $email)
-    {
-        auth('web')->loginUsingId($this->email->created_by);
-    }
+    public function __construct(public Email $email) {}
 
     /**
      * Execute the job.
