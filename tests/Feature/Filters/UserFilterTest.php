@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestWith;
 use Tests\TestCase;
 
 class UserFilterTest extends TestCase
@@ -47,6 +48,7 @@ class UserFilterTest extends TestCase
     #[Test]
     public function it_can_filter_users_by_role()
     {
+        $this->signIn();
         User::query()->update(['role' => Roles::USER]);
 
         create(User::class, ['role' => Roles::MANAGER]);
@@ -59,6 +61,7 @@ class UserFilterTest extends TestCase
     #[Test]
     public function it_can_filter_users_by_gender()
     {
+        $this->signIn();
         User::query()->update(['gender' => Gender::MALE]);
 
         create(User::class, ['gender' => Gender::FEMALE]);
@@ -85,11 +88,40 @@ class UserFilterTest extends TestCase
     #[Test]
     public function it_can_filter_users_by_email()
     {
+        $this->signIn();
         create(User::class, ['email' => 'test@mail.com']);
 
-        $data = User::filter(['email' => 'test'])->get();
+        $data = User::filter(['email' => 'test@mail'])->get();
 
         $this->assertCount(1, $data);
+    }
+
+    #[Test]
+    #[TestWith([['email' => 'private']])]
+    #[TestWith([['not_email' => 'zz-private@mail.com']])]
+    #[TestWith([['min_birthdate' => '2000-01-01']])]
+    #[TestWith([['gender' => ['female']]])]
+    #[TestWith([['roles' => ['manager']]])]
+    #[TestWith([['sort' => 'email|asc']])]
+    public function only_admins_can_filter_or_sort_users_by_private_fields(array $input)
+    {
+        $admin = User::factory()->admin()->create();
+        User::query()->update(['gender' => Gender::MALE, 'birthdate' => '1980-01-01']);
+        User::query()->whereKeyNot($admin->id)->update(['role' => Roles::USER]);
+        create(User::class, [
+            'email' => 'zz-private@mail.com',
+            'birthdate' => '2005-01-01',
+            'gender' => Gender::FEMALE,
+            'role' => Roles::MANAGER,
+            'created_at' => now()->addMinute(),
+        ]);
+        $everyone = User::filter([])->pluck('id')->all();
+
+        $this->assertSame($everyone, User::filter($input)->pluck('id')->all());
+
+        $this->actingAs($admin);
+
+        $this->assertNotSame($everyone, User::filter($input)->pluck('id')->all());
     }
 
     #[Test]

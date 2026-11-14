@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Enums\Roles;
 use App\Interfaces\FilterableMorph;
 use App\Interfaces\HasCreatedByInterface;
 use Carbon\Carbon;
@@ -28,6 +29,13 @@ class Filter extends ModelFilter
 
     private const LIMIT = 'limit'; // Limit results
 
+    /**
+     * Columns only admins may filter or sort by, because the API only shows them to their owner and to admins.
+     *
+     * @var array<int, string>
+     */
+    protected array $privateColumns = [];
+
     private array $errors;
 
     private array $enumColumns;
@@ -40,6 +48,16 @@ class Filter extends ModelFilter
             ->filter(fn (string $cast) => Str::startsWith($cast, 'App\Enums'))
             ->keys()
             ->toArray();
+    }
+
+    /**
+     * Filter methods named after a private column are ignored for everyone but admins.
+     */
+    public function setup(): void
+    {
+        collect($this->privateColumns)
+            ->reject(fn (string $column) => $this->canUseColumn($column))
+            ->each(fn (string $column) => $this->blacklistMethod(Str::camel($column)));
     }
 
     public function handle(): Builder
@@ -132,6 +150,10 @@ class Filter extends ModelFilter
         // Clean up prefixes to determine the table's column name
         $column = str_replace(self::MIN_PREFIX, '', str_replace(self::MAX_PREFIX, '', $input));
 
+        if (! $this->canUseColumn($column)) {
+            return;
+        }
+
         $operator = Str::startsWith($input, self::MIN_PREFIX)
             ? '>='
             : '<=';
@@ -157,6 +179,10 @@ class Filter extends ModelFilter
         // Clean up prefixes to determine the table's column name
         $column = str_replace(self::NOT_PREFIX, '', $input);
 
+        if (! $this->canUseColumn($column)) {
+            return;
+        }
+
         if (is_array($value)) {
             $this->whereIn($column, $value, 'and', true); // Where not in
         } else {
@@ -173,14 +199,13 @@ class Filter extends ModelFilter
     private function applySorting(): void
     {
         $table = $this->query->getModel()->getTable();
-        $sortString = $this->input[self::SORT] ?? null;
+        $sortString = $this->input[self::SORT] ?? '';
+        [$attribute, $direction] = str_contains($sortString, '|') ? explode('|', $sortString) : [null, null];
 
         if ($this->input[self::RANDOMIZE] ?? false) {
             $this->query->inRandomOrder();
-        } elseif ($sortString && str_contains($sortString, '|')) {
+        } elseif ($attribute && $this->canUseColumn($attribute)) {
             $this->query->getQuery()->orders = []; // clean up any previous ordering
-
-            [$attribute, $direction] = explode('|', $sortString);
 
             $this->query->orderBy("$table.$attribute", $direction);
         } else {
@@ -328,6 +353,12 @@ class Filter extends ModelFilter
     {
         return ! method_exists($this, $constant)
             && isset($this->input[$constant])
-            && in_array(Str::singular($constant), $this->enumColumns);
+            && in_array(Str::singular($constant), $this->enumColumns)
+            && $this->canUseColumn(Str::singular($constant));
+    }
+
+    private function canUseColumn(string $column): bool
+    {
+        return ! in_array($column, $this->privateColumns, true) || hasRole(Roles::ADMIN);
     }
 }

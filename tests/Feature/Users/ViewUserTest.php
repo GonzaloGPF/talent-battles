@@ -43,6 +43,8 @@ class ViewUserTest extends TestCase
     #[Test]
     #[TestWith(['address'])]
     #[TestWith(['role'])]
+    #[TestWith(['birthdate'])]
+    #[TestWith(['gender'])]
     public function a_private_field_of_a_user_is_not_public(string $field)
     {
         $user = create(User::class);
@@ -61,6 +63,8 @@ class ViewUserTest extends TestCase
     #[Test]
     #[TestWith(['address'])]
     #[TestWith(['role'])]
+    #[TestWith(['birthdate'])]
+    #[TestWith(['gender'])]
     public function users_can_see_their_own_private_fields(string $field)
     {
         $user = $this->signIn(create(User::class, ['role' => Roles::USER]));
@@ -74,6 +78,8 @@ class ViewUserTest extends TestCase
     #[Test]
     #[TestWith(['address'])]
     #[TestWith(['role'])]
+    #[TestWith(['birthdate'])]
+    #[TestWith(['gender'])]
     public function admins_can_see_the_private_fields_of_any_user(string $field)
     {
         $this->signIn();

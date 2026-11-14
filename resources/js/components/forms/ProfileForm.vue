@@ -36,6 +36,8 @@
     <i-select
       v-model="form.gender"
       :errors="errors('gender')"
+      :hint="Translator.t('help.not_on_public_profile')"
+      persistent-hint
       name="gender"
       src="genders"
       class="max-w-sm"
@@ -62,6 +64,8 @@
     <i-date
       v-model="form.birthdate"
       :errors="errors('birthdate')"
+      :hint="Translator.t('help.not_on_public_profile')"
+      persistent-hint
       name="birthdate"
     />
 
