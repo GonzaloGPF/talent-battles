@@ -42,6 +42,7 @@ class UserResource extends ApiResource
             'social_settings' => $this->social_settings,
             'notification_settings' => $this->when($itsMe, $this->notification_settings),
             'is_account_ready' => $this->when($itsMe, $this->isAccountReady()),
+            'claim_link_expires_at' => $this->when(hasRole(Roles::ADMIN) && $this->claim_token && $this->claim_expires_at?->isFuture(), fn () => $this->claim_expires_at->toISOString()),
             'created_at' => $this->created_at?->toISOString(),
             'deleted_at' => $this->when((bool) $this->deleted_at, $this->deleted_at?->toISOString()),
             //            'disabled' => $this->disabled?->toISOString(),

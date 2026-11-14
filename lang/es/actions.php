@@ -100,4 +100,6 @@ return [
     'claim_link' => 'Enlace para reclamar',
     'profile_claimed' => 'El perfil ya es tuyo. Te hemos enviado un email para confirmar tu dirección.',
     'profile_deleted' => 'Hemos borrado el perfil y todo su contenido.',
+    'revoke_claim_link' => 'Anular enlace para reclamar',
+    'claim_link_revoked' => 'Enlace para reclamar anulado',
 ];

@@ -15,8 +15,11 @@ use App\Models\File;
 use App\Models\Like;
 use App\Models\Track;
 use App\Models\User;
+use App\Notifications\ProfileClaimed;
+use App\Notifications\ProfileDeleted;
 use App\Services\ProfileClaimService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
@@ -29,22 +32,29 @@ class ProfileClaimTest extends TestCase
 
     private const PASSWORD = 'Secret-123';
 
+    private User $admin;
+
     private User $producer;
 
     protected function setUp(): void
     {
         parent::setUp();
+        Notification::fake();
+        $this->admin = User::factory()->admin()->create();
         $this->producer = create(User::class, ['role' => Roles::USER, 'nick' => 'Seed Beats']);
     }
 
     #[Test]
     public function admins_get_a_link_that_opens_the_claim_page()
     {
-        $this->signIn();
+        $this->signIn($this->admin);
 
         $url = $this->postJson(route('users.claim.link', $this->producer))
             ->assertOk()
             ->json('data.url');
+
+        $this->getJson(route('users.show', $this->producer))
+            ->assertJsonPath('data.claim_link_expires_at', $this->producer->fresh()->claim_expires_at->toISOString());
 
         $this->logout();
         $this->get($url)
@@ -56,26 +66,69 @@ class ProfileClaimTest extends TestCase
     #[TestWith([Roles::USER, Roles::USER])]
     #[TestWith([Roles::ADMIN, Roles::ADMIN])]
     #[TestWith([Roles::ADMIN, Roles::MANAGER])]
-    public function only_admins_get_links_and_only_for_user_profiles(Roles $role, Roles $profileRole)
+    public function only_admins_manage_links_and_only_for_user_profiles(Roles $role, Roles $profileRole)
     {
         $this->signIn(create(User::class, ['role' => $role]));
         $profile = create(User::class, ['role' => $profileRole]);
 
         $this->postJson(route('users.claim.link', $profile))
             ->assertForbidden();
+        $this->deleteJson(route('users.claim.revoke', $profile))
+            ->assertForbidden();
     }
 
     #[Test]
-    public function guests_do_not_get_links()
+    public function guests_do_not_manage_links()
     {
         $this->postJson(route('users.claim.link', $this->producer))
             ->assertUnauthorized();
+        $this->deleteJson(route('users.claim.revoke', $this->producer))
+            ->assertUnauthorized();
+    }
+
+    #[Test]
+    public function only_admins_see_whether_a_profile_has_a_link()
+    {
+        $this->createLink();
+        $this->signIn(create(User::class, ['role' => Roles::USER]));
+
+        $this->getJson(route('users.show', $this->producer))
+            ->assertJsonMissingPath('data.claim_link_expires_at');
+    }
+
+    #[Test]
+    public function a_new_link_replaces_the_previous_one()
+    {
+        $previousLink = $this->createLink();
+        $previousActions = $this->actionLinks($previousLink['key']);
+        $link = $this->createLink();
+
+        $this->get($previousLink['url'])->assertForbidden();
+        $this->postJson($previousActions['claim_url'], $this->claimData())->assertForbidden();
+        $this->deleteJson($previousActions['decline_url'])->assertForbidden();
+        $this->get($link['url'])->assertOk();
+    }
+
+    #[Test]
+    public function admins_revoke_the_link_of_a_profile()
+    {
+        $link = $this->createLink();
+        $this->signIn($this->admin);
+
+        $this->deleteJson(route('users.claim.revoke', $this->producer))
+            ->assertAccepted()
+            ->assertJsonPath('message', trans('actions.claim_link_revoked'));
+
+        $this->getJson(route('users.show', $this->producer))
+            ->assertJsonMissingPath('data.claim_link_expires_at');
+        $this->logout();
+        $this->get($link['url'])->assertForbidden();
     }
 
     #[Test]
     public function an_expired_or_altered_link_does_not_open_the_page()
     {
-        $url = resolve(ProfileClaimService::class)->createLink($this->producer)['url'];
+        $url = $this->createLink()['url'];
 
         $otherUser = create(User::class);
         $this->get(str_replace("users/{$this->producer->id}/", "users/{$otherUser->id}/", $url))->assertForbidden();
@@ -88,9 +141,9 @@ class ProfileClaimTest extends TestCase
     public function the_producer_keeps_the_profile_with_their_email_and_password()
     {
         Queue::fake([SendEmail::class]);
-        $pageUrl = resolve(ProfileClaimService::class)->createLink($this->producer)['url'];
+        $link = $this->createLink();
 
-        $this->postJson($this->actionLinks()['claim_url'], $this->claimData())
+        $this->postJson($this->actionLinks($link['key'])['claim_url'], $this->claimData())
             ->assertSuccessful()
             ->assertJsonPath('message', trans('actions.profile_claimed'))
             ->assertJsonPath('data.email', 'owner@mail.com');
@@ -101,8 +154,11 @@ class ProfileClaimTest extends TestCase
         $this->assertNull($producer->verified_at);
         Queue::assertPushed(SendEmail::class, fn (SendEmail $job) => $job->email->email_type === EmailTypes::VERIFY_EMAIL
             && $job->email->to === ['owner@mail.com']);
+        Notification::assertSentTo($this->admin, ProfileClaimed::class, fn (ProfileClaimed $notification, array $channels) => $channels === ['database', 'mail']
+            && $notification->getMessageKeys() === ['name' => 'Seed Beats', 'email' => 'owner@mail.com']);
+        Notification::assertNotSentTo($producer, ProfileClaimed::class);
 
-        $this->get($pageUrl)->assertForbidden();
+        $this->get($link['url'])->assertForbidden();
     }
 
     #[Test]
@@ -145,21 +201,8 @@ class ProfileClaimTest extends TestCase
         $this->assertDatabaseMissing('users', ['nick' => 'Seed Beats']);
         $this->assertDatabaseMissing('users', ['email' => $this->producer->email]);
         $this->assertGuest('web');
-    }
-
-    #[Test]
-    #[TestWith(['postJson'])]
-    #[TestWith(['deleteJson'])]
-    public function a_link_from_before_the_profile_changed_does_nothing(string $method)
-    {
-        $links = $this->actionLinks();
-        $this->producer->update(['password' => 'Changed-123']);
-
-        $this->{$method}($method === 'postJson' ? $links['claim_url'] : $links['decline_url'], $this->claimData())
-            ->assertForbidden();
-
-        $this->assertNotSoftDeleted($this->producer);
-        $this->assertNotSame('owner@mail.com', $this->producer->fresh()->email);
+        Notification::assertSentTo($this->admin, ProfileDeleted::class, fn (ProfileDeleted $notification, array $channels) => $channels === ['database', 'mail']
+            && $notification->getMessageKeys() === ['name' => 'Seed Beats']);
     }
 
     #[Test]
@@ -175,11 +218,25 @@ class ProfileClaimTest extends TestCase
     }
 
     /**
+     * @return array{url: string, key: string}
+     */
+    private function createLink(): array
+    {
+        $url = resolve(ProfileClaimService::class)->createLink($this->producer)['url'];
+        parse_str(parse_url($url, PHP_URL_QUERY), $query);
+
+        return ['url' => $url, 'key' => $query['key']];
+    }
+
+    /**
+     * The links the claim page posts to, for a link the producer got or for a new one.
+     *
      * @return array{claim_url: string, decline_url: string}
      */
-    private function actionLinks(): array
+    private function actionLinks(?string $key = null): array
     {
-        return resolve(ProfileClaimService::class)->createActionLinks($this->producer, now()->addDay());
+        return resolve(ProfileClaimService::class)
+            ->createActionLinks($this->producer, $key ?? $this->createLink()['key'], now()->addDay());
     }
 
     /**

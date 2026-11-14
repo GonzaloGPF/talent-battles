@@ -52,6 +52,7 @@ Route::get('company', [CompanyController::class, 'index'])->name('company.index'
 
 Route::apiResource('users', UserController::class);
 Route::post('users/{user}/claim_link', [ProfileClaimController::class, 'link'])->name('users.claim.link');
+Route::delete('users/{user}/claim_link', [ProfileClaimController::class, 'revokeLink'])->name('users.claim.revoke');
 Route::middleware(['signed', 'throttle:sensitive'])->group(function () {
     Route::post('users/{user}/claim', [ProfileClaimController::class, 'store'])->name('users.claim.store');
     Route::delete('users/{user}/claim', [ProfileClaimController::class, 'destroy'])->name('users.claim.destroy');

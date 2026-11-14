@@ -96,6 +96,7 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
     protected $hidden = [
         'password',
         'remember_token',
+        'claim_token',
     ];
 
     /**
@@ -110,6 +111,7 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
         'birthdate' => 'date',
         'verified_at' => 'datetime',
         'last_donation' => 'datetime',
+        'claim_expires_at' => 'datetime',
         'points' => 'float',
         'experience' => 'float',
         'rating' => 'float',

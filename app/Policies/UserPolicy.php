@@ -38,9 +38,9 @@ class UserPolicy
     }
 
     /**
-     * Admins hand profiles to their owners; staff accounts are never handed over.
+     * Admins create and revoke the links that hand profiles to their owners; staff accounts are never handed over.
      */
-    public function createClaimLink(User $user, User $profile): bool
+    public function manageClaimLink(User $user, User $profile): bool
     {
         return hasRole(Roles::ADMIN) && $profile->role === Roles::USER;
     }

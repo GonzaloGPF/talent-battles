@@ -56,4 +56,12 @@ return [
     'report_closed' => 'Report Closed',
     'report_closed_title' => 'Report Closed',
     'report_closed_message' => ':reported report has been closed',
+
+    'profile_claimed' => 'Profile Claimed',
+    'profile_claimed_title' => 'Profile Claimed!',
+    'profile_claimed_message' => 'Someone with the link kept the profile of :name, with the email :email',
+
+    'profile_deleted' => 'Profile Deleted',
+    'profile_deleted_title' => 'Profile Deleted',
+    'profile_deleted_message' => 'Someone with the link deleted the profile of :name and all its content',
 ];

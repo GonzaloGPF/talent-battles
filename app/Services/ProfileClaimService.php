@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\Roles;
 use App\Models\Activity;
 use App\Models\Album;
 use App\Models\Battle;
@@ -13,16 +14,20 @@ use App\Models\Product;
 use App\Models\Track;
 use App\Models\User;
 use App\Models\Vote;
+use App\Notifications\ProfileClaimed;
+use App\Notifications\ProfileDeleted;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 /**
  * Hands a profile created to show the platform working to the producer whose music it holds, or deletes it when they
- * decline. Admins send the link; whoever holds it decides, so it stops working once the profile changes hands.
+ * decline. Admins send the link and whoever holds it decides. A profile has one link at a time: a new one replaces it,
+ * an admin can revoke it, and it stops working once used. Admins hear about every answer.
  */
 class ProfileClaimService
 {
@@ -34,37 +39,52 @@ class ProfileClaimService
     ) {}
 
     /**
+     * A new link, which replaces the one the profile had. The account keeps only the hash of its key.
+     *
      * @return array{url: string, expires_at: string}
      */
     public function createLink(User $user): array
     {
+        $key = Str::random(40);
         $expiresAt = now()->addDays(self::LINK_DAYS);
 
+        $user->forceFill([
+            'claim_token' => hash('sha256', $key),
+            'claim_expires_at' => $expiresAt,
+        ])->saveQuietly();
+
         return [
-            'url' => URL::temporarySignedRoute('users.claim.show', $expiresAt, $this->linkParameters($user)),
+            'url' => URL::temporarySignedRoute('users.claim.show', $expiresAt, ['user' => $user->id, 'key' => $key]),
             'expires_at' => $expiresAt->toISOString(),
         ];
     }
 
-    /**
-     * The API links the claim page posts to, expiring with the link that opened it.
-     *
-     * @return array{claim_url: string, decline_url: string}
-     */
-    public function createActionLinks(User $user, Carbon $expiresAt): array
+    public function revokeLink(User $user): void
     {
-        return [
-            'claim_url' => URL::temporarySignedRoute('users.claim.store', $expiresAt, $this->linkParameters($user)),
-            'decline_url' => URL::temporarySignedRoute('users.claim.destroy', $expiresAt, $this->linkParameters($user)),
-        ];
+        $user->forceFill(['claim_token' => null, 'claim_expires_at' => null])->saveQuietly();
     }
 
     /**
-     * The key changes with the email and the password, so a link only works until the profile is claimed.
+     * The API links the claim page posts to, with the key and the expiry of the link that opened it.
+     *
+     * @return array{claim_url: string, decline_url: string}
      */
+    public function createActionLinks(User $user, string $key, Carbon $expiresAt): array
+    {
+        $parameters = ['user' => $user->id, 'key' => $key];
+
+        return [
+            'claim_url' => URL::temporarySignedRoute('users.claim.store', $expiresAt, $parameters),
+            'decline_url' => URL::temporarySignedRoute('users.claim.destroy', $expiresAt, $parameters),
+        ];
+    }
+
     public function isValidKey(User $user, mixed $key): bool
     {
-        return is_string($key) && hash_equals($this->key($user), $key);
+        return is_string($key)
+            && $user->claim_token !== null
+            && $user->claim_expires_at?->isFuture()
+            && hash_equals($user->claim_token, hash('sha256', $key));
     }
 
     /**
@@ -79,9 +99,12 @@ class ProfileClaimService
             'oauth_id' => null,
             'oauth_driver' => null,
             'verified_at' => null,
+            'claim_token' => null,
+            'claim_expires_at' => null,
         ])->save();
 
         $this->emailService->createVerifyEmail($user);
+        Notification::send($this->admins(), new ProfileClaimed($user));
 
         return $user;
     }
@@ -92,6 +115,8 @@ class ProfileClaimService
      */
     public function decline(User $user): void
     {
+        $name = $user->getNickName();
+
         DB::transaction(function () use ($user) {
             $this->battleService->deleteBattles($this->battlesOf($user));
 
@@ -121,19 +146,16 @@ class ProfileClaimService
             $this->anonymize($user);
             $user->delete();
         });
+
+        Notification::send($this->admins(), new ProfileDeleted($user, $name));
     }
 
     /**
-     * @return array{user: int, key: string}
+     * @return EloquentCollection<int, User>
      */
-    private function linkParameters(User $user): array
+    private function admins(): EloquentCollection
     {
-        return ['user' => $user->id, 'key' => $this->key($user)];
-    }
-
-    private function key(User $user): string
-    {
-        return Str::limit(hash_hmac('sha256', $user->email.'|'.$user->password, config('app.key')), 32, '');
+        return User::where('role', Roles::ADMIN)->get();
     }
 
     /**
@@ -168,6 +190,8 @@ class ProfileClaimService
             'token' => Str::random(64),
             'oauth_id' => null,
             'oauth_driver' => null,
+            'claim_token' => null,
+            'claim_expires_at' => null,
         ])->save();
     }
 }

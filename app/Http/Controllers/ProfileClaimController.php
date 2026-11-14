@@ -21,17 +21,26 @@ class ProfileClaimController extends Controller
         private readonly AuthService $authService,
     ) {
         parent::__construct();
-        $this->middleware('auth')->only('link');
+        $this->middleware('auth')->only(['link', 'revokeLink']);
     }
 
     /**
-     * The link an admin sends to the producer whose music the profile holds.
+     * The link an admin sends to the producer whose music the profile holds. It replaces the previous one.
      */
     public function link(User $user): JsonResponse
     {
-        $this->authorize('createClaimLink', $user);
+        $this->authorize('manageClaimLink', $user);
 
         return $this->dataResponse(trans('help.claim_link_created'), $this->profileClaimService->createLink($user));
+    }
+
+    public function revokeLink(User $user): JsonResponse
+    {
+        $this->authorize('manageClaimLink', $user);
+
+        $this->profileClaimService->revokeLink($user);
+
+        return $this->destroyResponse(null, 'claim_link_revoked');
     }
 
     /**
@@ -51,7 +60,7 @@ class ProfileClaimController extends Controller
                 'tracks_count' => $user->tracks_count,
                 'designs_count' => $user->designs_count,
             ],
-            ...$this->profileClaimService->createActionLinks($user, $expiresAt),
+            ...$this->profileClaimService->createActionLinks($user, $request->query('key'), $expiresAt),
         ]]);
     }
 
