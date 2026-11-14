@@ -49,9 +49,6 @@ class Kernel extends HttpKernel
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
         ConvertStringsToBoolean::class,
-        StartSession::class,
-        ShareErrorsFromSession::class,
-        Language::class,
     ];
 
     /**
@@ -66,12 +63,14 @@ class Kernel extends HttpKernel
             StartSession::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             ShareErrorsFromSession::class,
+            Language::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
         ],
 
         'api' => [
             EnsureFrontendRequestsAreStateful::class,
+            Language::class,
             //          \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             SubstituteBindings::class,
         ],
