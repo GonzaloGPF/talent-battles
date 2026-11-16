@@ -23,6 +23,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Laravel\Cashier\Exceptions\InvalidCustomer;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -108,7 +109,7 @@ class Handler extends ExceptionHandler
             }
 
             if ($e instanceof NotFoundHttpException || $e instanceof FileNotFoundException) {
-                return $this->simpleResponse->exception($e->getMessage() ?? 'not_found', Response::HTTP_NOT_FOUND);
+                return $this->simpleResponse->exception($e->getMessage() ?: 'not_found', Response::HTTP_NOT_FOUND);
             }
 
             if ($e instanceof RelationNotFoundException) {
@@ -130,7 +131,9 @@ class Handler extends ExceptionHandler
             }
 
             if ($e instanceof MethodNotAllowedHttpException) {
-                return $this->simpleResponse->exception(new Exception(trans('exceptions.wrong_verb', ['verb' => $request->getMethod()])));
+                return $this->simpleResponse
+                    ->exception(new Exception(trans('exceptions.wrong_verb', ['verb' => $request->getMethod()])), Response::HTTP_METHOD_NOT_ALLOWED)
+                    ->withHeaders($e->getHeaders());
             }
 
             if ($e instanceof TokenMismatchException) {
@@ -153,6 +156,12 @@ class Handler extends ExceptionHandler
                     ->withHeaders($e->getHeaders());
             }
 
+            if ($e instanceof HttpException) {
+                return $this->simpleResponse
+                    ->exception($e->getMessage() !== '' ? $e : $this->httpErrorMessage($e->getStatusCode()), $e->getStatusCode())
+                    ->withHeaders($e->getHeaders());
+            }
+
             return $this->simpleResponse->exception('server_error', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
@@ -161,6 +170,21 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $e);
+    }
+
+    /**
+     * The exceptions translation for an HTTP error that came without a message.
+     */
+    private function httpErrorMessage(int $statusCode): string
+    {
+        return match (true) {
+            $statusCode === Response::HTTP_UNAUTHORIZED => 'authentication',
+            $statusCode === Response::HTTP_FORBIDDEN => 'unauthorized',
+            $statusCode === Response::HTTP_NOT_FOUND => 'not_found',
+            $statusCode === Response::HTTP_REQUEST_ENTITY_TOO_LARGE => 'too_large',
+            $statusCode >= Response::HTTP_INTERNAL_SERVER_ERROR => 'server_error',
+            default => 'request_failed',
+        };
     }
 
     /**
