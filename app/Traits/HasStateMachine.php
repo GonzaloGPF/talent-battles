@@ -18,6 +18,8 @@ use function Illuminate\Support\enum_value;
 trait HasStateMachine
 {
     /**
+     * @param  array<string, mixed>  $attributes
+     *
      * @throws AuthorizationException
      */
     public function changeState(string|BackedEnum $state, array $attributes = []): Model

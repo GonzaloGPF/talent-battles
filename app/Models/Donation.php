@@ -9,6 +9,7 @@ use App\Objects\StripeLineItem;
 use App\Services\ActivityService;
 use App\Traits\HasCreatedBy;
 use App\Traits\IsFilterable;
+use Database\Factories\DonationFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Donation extends Model implements HasCreatedByInterface, StripeLineInterface
 {
+    /** @use HasFactory<DonationFactory> */
     use HasCreatedBy,
         HasFactory,
         IsFilterable;

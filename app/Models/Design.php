@@ -18,7 +18,6 @@ use App\Interfaces\HasProductInterface;
 use App\Interfaces\HasReportsInterface;
 use App\Interfaces\HasTagsInterface;
 use App\Interfaces\HasVotesInterface;
-use App\Interfaces\PromotableInterface;
 use App\Traits\Commentable;
 use App\Traits\Downloable;
 use App\Traits\Favoritable;
@@ -33,7 +32,7 @@ use App\Traits\HasVotes;
 use App\Traits\IsFilterable;
 use App\Traits\Likeable;
 use App\Traits\NameFormatter;
-use App\Traits\Promotable;
+use Database\Factories\DesignFactory;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,8 +41,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @mixin IdeHelperDesign
  */
-class Design extends Model implements HasBattlesInterface, HasCommentsInterface, HasCreatedByInterface, HasDownloadsInterface, HasFavoritesInterface, HasFilesInterface, HasLikesInterface, HasOrderLineInterface, HasProductInterface, HasReportsInterface, HasTagsInterface, HasVotesInterface, PromotableInterface
+class Design extends Model implements HasBattlesInterface, HasCommentsInterface, HasCreatedByInterface, HasDownloadsInterface, HasFavoritesInterface, HasFilesInterface, HasLikesInterface, HasOrderLineInterface, HasProductInterface, HasReportsInterface, HasTagsInterface, HasVotesInterface
 {
+    /** @use HasFactory<DesignFactory> */
     use BroadcastsEvents,
         Commentable,
         Downloable,
@@ -59,8 +59,7 @@ class Design extends Model implements HasBattlesInterface, HasCommentsInterface,
         HasVotes,
         IsFilterable,
         Likeable,
-        NameFormatter,
-        Promotable;
+        NameFormatter;
 
     const DEFAULT_COLOR = '#0D47A1';
 
@@ -93,6 +92,10 @@ class Design extends Model implements HasBattlesInterface, HasCommentsInterface,
         return $this->belongsTo(Album::class);
     }
 
+    /**
+     * @param  string  $event
+     * @return array<int, Model|null>
+     */
     public function broadcastOn($event): array
     {
         return [$this, $this->createdBy];

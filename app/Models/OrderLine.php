@@ -13,6 +13,7 @@ use App\Scopes\ViewOnlyMine;
 use App\Traits\HasCreatedBy;
 use App\Traits\HasFiles;
 use App\Traits\IsFilterable;
+use Database\Factories\OrderLineFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class OrderLine extends Model implements HasCreatedByInterface, HasFilesInterface, StripeLineInterface
 {
+    /** @use HasFactory<OrderLineFactory> */
     use HasCreatedBy,
         HasFactory,
         HasFiles,
@@ -47,6 +49,9 @@ class OrderLine extends Model implements HasCreatedByInterface, HasFilesInterfac
         'total_with_taxes' => 'float',
     ];
 
+    /**
+     * @var list<ProductTypes>
+     */
     public static array $CREATION_TYPES = [
         ProductTypes::TRACK,
         ProductTypes::DESIGN,
@@ -74,11 +79,17 @@ class OrderLine extends Model implements HasCreatedByInterface, HasFilesInterfac
         return new StripeLineItem($this->description, $this->total_with_taxes);
     }
 
+    /**
+     * @return BelongsTo<Order, $this>
+     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function seller(): BelongsTo
     {
         return $this->belongsTo(User::class, 'seller_id');
@@ -112,6 +123,9 @@ class OrderLine extends Model implements HasCreatedByInterface, HasFilesInterfac
         return $this->belongsTo(Product::class);
     }
 
+    /**
+     * @return MorphTo<Model, $this>
+     */
     public function orderable(): MorphTo
     {
         return $this->morphTo('orderable');

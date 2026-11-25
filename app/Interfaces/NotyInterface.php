@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 interface NotyInterface
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function getMessageKeys(): array;
 
     public function getLevel(): ?string;

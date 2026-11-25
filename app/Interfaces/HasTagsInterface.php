@@ -2,17 +2,7 @@
 
 namespace App\Interfaces;
 
-use Illuminate\Database\Eloquent\Builder;
-
 /**
- * @property null|array[] $tags
+ * @property list<string>|null $tags
  */
-interface HasTagsInterface
-{
-    //    /**
-    //     * @return BelongsToMany
-    //     */
-    //    public function tags(): BelongsToMany;
-
-    public function scopeByTags(Builder $builder, array|string $values): Builder;
-}
+interface HasTagsInterface {}

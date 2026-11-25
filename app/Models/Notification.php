@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Scopes\ViewOnlyMine;
 use App\Traits\IsFilterable;
+use Database\Factories\NotificationFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\DatabaseNotification;
 
@@ -12,6 +13,7 @@ use Illuminate\Notifications\DatabaseNotification;
  */
 class Notification extends DatabaseNotification
 {
+    /** @use HasFactory<NotificationFactory> */
     use HasFactory, IsFilterable;
 
     protected static function boot()

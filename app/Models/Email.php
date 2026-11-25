@@ -7,6 +7,7 @@ use App\Interfaces\HasCreatedByInterface;
 use App\Scopes\EmailScope;
 use App\Traits\HasCreatedBy;
 use App\Traits\IsFilterable;
+use Database\Factories\EmailFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Email extends Model implements HasCreatedByInterface
 {
+    /** @use HasFactory<EmailFactory> */
     use HasCreatedBy,
         HasFactory,
         IsFilterable;

@@ -6,6 +6,7 @@ use App\Interfaces\HasCreatedByInterface;
 use App\Scopes\ViewOnlyMine;
 use App\Traits\HasCreatedBy;
 use App\Traits\IsFilterable;
+use Database\Factories\SaleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Sale extends Model implements HasCreatedByInterface
 {
+    /** @use HasFactory<SaleFactory> */
     use HasCreatedBy,
         HasFactory,
         IsFilterable;

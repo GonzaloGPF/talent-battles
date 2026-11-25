@@ -8,11 +8,17 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait Downloable
 {
+    /**
+     * @return MorphMany<Download, $this>
+     */
     public function downloads(): MorphMany
     {
         return $this->morphMany(Download::class, 'downloable');
     }
 
+    /**
+     * @return MorphOne<Download, $this>
+     */
     public function download(): MorphOne
     {
         return $this->morphOne(Download::class, 'downloable')

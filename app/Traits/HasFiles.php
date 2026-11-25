@@ -34,18 +34,27 @@ trait HasFiles
         return $this->files()->areImage();
     }
 
+    /**
+     * @return MorphOne<File, $this>
+     */
     public function file(): MorphOne
     {
         return $this->morphOne(File::class, 'fileable')
             ->latest();
     }
 
+    /**
+     * @return MorphOne<File, $this>
+     */
     public function image(): MorphOne
     {
         return $this->file()
             ->where('file_type', FileTypes::IMAGE);
     }
 
+    /**
+     * @return MorphOne<File, $this>
+     */
     public function audio(): MorphOne
     {
         return $this->file()

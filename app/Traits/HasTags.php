@@ -21,7 +21,10 @@ trait HasTags
         });
     }
 
-    protected function tags(): ?Attribute
+    /**
+     * @return Attribute<list<string>|null, string|list<string>|null>
+     */
+    protected function tags(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => json_decode($value),
@@ -29,6 +32,11 @@ trait HasTags
         );
     }
 
+    /**
+     * @param  Builder<self>  $builder
+     * @param  string|list<string>  $values
+     * @return Builder<self>
+     */
     public function scopeByTags(Builder $builder, string|array $values): Builder
     {
         if (is_array($values)) {

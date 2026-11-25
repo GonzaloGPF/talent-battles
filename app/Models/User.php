@@ -21,11 +21,13 @@ use App\Traits\HasFiles;
 use App\Traits\HasReports;
 use App\Traits\IsFilterable;
 use App\Traits\Likeable;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -45,6 +47,7 @@ use Str;
 #[ObservedBy(UserObserver::class)]
 class User extends Authenticatable implements HasCommentsInterface, HasFavoritesInterface, HasFilesInterface, HasLikesInterface, HasReportsInterface
 {
+    /** @use HasFactory<UserFactory> */
     use Billable,
         BroadcastsEvents,
         Commentable,
@@ -129,6 +132,9 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
         return $this->nick ?? $this->name;
     }
 
+    /**
+     * @return Attribute<string, string>
+     */
     protected function password(): Attribute
     {
         return Attribute::set(fn ($value) => Hash::make($value));
@@ -153,41 +159,65 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
         );
     }
 
+    /**
+     * @return HasMany<Album, $this>
+     */
     public function albums(): HasMany
     {
         return $this->hasMany(Album::class, 'created_by');
     }
 
+    /**
+     * @return HasMany<Order, $this>
+     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class, 'created_by');
     }
 
+    /**
+     * @return HasMany<Activity, $this>
+     */
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class, 'created_by');
     }
 
+    /**
+     * @return HasMany<Activity, $this>
+     */
     public function feed(): HasMany
     {
         return $this->hasMany(Activity::class, 'receiver_id');
     }
 
+    /**
+     * @return HasManyThrough<OrderLine, Order, $this>
+     */
     public function orderLines(): HasManyThrough
     {
         return $this->hasManyThrough(OrderLine::class, Order::class, 'orders.created_by');
     }
 
+    /**
+     * @return HasMany<Report, $this>
+     */
     public function createdReports(): HasMany
     {
         return $this->hasMany(Report::class, 'created_by');
     }
 
+    /**
+     * @return HasManyDeep<Model, $this>
+     */
     public function battles(): HasManyDeep
     {
         return $this->hasManyDeepFromRelations($this->tracks(), (new Track)->battles());
     }
 
+    /**
+     * @return HasMany<FavoriteList, $this>
+     */
     public function favoriteLists(): HasMany
     {
         return $this->hasMany(FavoriteList::class, 'created_by');
@@ -201,16 +231,25 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
         return $this->hasOne(Cart::class, 'created_by');
     }
 
+    /**
+     * @return HasMany<Email, $this>
+     */
     public function emails(): HasMany
     {
         return $this->hasMany(Email::class, 'created_by');
     }
 
+    /**
+     * @return HasMany<Product, $this>
+     */
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'created_by');
     }
 
+    /**
+     * @return HasMany<Invitation, $this>
+     */
     public function invitations(): HasMany
     {
         return $this->hasMany(Invitation::class, 'created_by');
@@ -227,7 +266,10 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
             && ! empty($this->account['payouts_enabled']);
     }
 
-    private function parseNotificationSettings($value): array
+    /**
+     * @return array<string, array{mail: bool, broadcast: bool}>
+     */
+    private function parseNotificationSettings(mixed $value): array
     {
         if (empty($value) || ! is_array($value)) {
             return [];
@@ -248,11 +290,17 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
         return "App.Models.User.$this->id";
     }
 
+    /**
+     * @return array<string, string|null>
+     */
     public function stripeAddress(): array
     {
         return $this->toStripeAddress();
     }
 
+    /**
+     * @return list<string>|null
+     */
     public function stripePreferredLocales(): ?array
     {
         $countryCode = Str::upper($this->address['country_code'] ?? '');

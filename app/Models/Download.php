@@ -6,6 +6,7 @@ use App\Interfaces\FilterableMorph;
 use App\Interfaces\HasCreatedByInterface;
 use App\Traits\HasCreatedBy;
 use App\Traits\IsFilterableMorph;
+use Database\Factories\DownloadFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Download extends Model implements FilterableMorph, HasCreatedByInterface
 {
+    /** @use HasFactory<DownloadFactory> */
     use HasCreatedBy,
         HasFactory,
         IsFilterableMorph;
@@ -24,6 +26,9 @@ class Download extends Model implements FilterableMorph, HasCreatedByInterface
         return 'downloable';
     }
 
+    /**
+     * @return MorphTo<Model, $this>
+     */
     public function downloable(): MorphTo
     {
         return $this->morphTo();

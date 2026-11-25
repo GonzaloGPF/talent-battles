@@ -9,6 +9,7 @@ use App\Scopes\ReportScope;
 use App\Traits\HasCreatedBy;
 use App\Traits\HasFiles;
 use App\Traits\IsFilterable;
+use Database\Factories\ReportFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Report extends Model implements HasCreatedByInterface, HasFilesInterface
 {
+    /** @use HasFactory<ReportFactory> */
     use HasCreatedBy,
         HasFactory,
         HasFiles,
@@ -39,6 +41,9 @@ class Report extends Model implements HasCreatedByInterface, HasFilesInterface
         static::addGlobalScope(new ReportScope);
     }
 
+    /**
+     * @return MorphTo<Model, $this>
+     */
     public function reportable(): MorphTo
     {
         return $this->morphTo();

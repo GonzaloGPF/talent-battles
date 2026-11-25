@@ -8,6 +8,7 @@ use App\Observers\FileObserver;
 use App\Services\FileService;
 use App\Traits\HasCreatedBy;
 use App\Traits\IsFilterable;
+use Database\Factories\FileFactory;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Storage;
 #[ObservedBy(FileObserver::class)]
 class File extends Model implements HasCreatedByInterface
 {
+    /** @use HasFactory<FileFactory> */
     use Filterable,
         HasCreatedBy,
         HasFactory,
@@ -75,21 +77,37 @@ class File extends Model implements HasCreatedByInterface
         return "data:$this->mime;base64,".base64_encode(Storage::get($this->path));
     }
 
+    /**
+     * @return MorphTo<Model, $this>
+     */
     public function fileable(): MorphTo
     {
         return $this->morphTo();
     }
 
+    /**
+     * @param  Builder<self>  $builder
+     * @return Builder<self>
+     */
     public function scopeAreImage(Builder $builder): Builder
     {
         return $builder->whereIn('mime', FileService::$IMAGE_MIMES);
     }
 
+    /**
+     * @param  Builder<self>  $builder
+     * @return Builder<self>
+     */
     public function scopeAreAudio(Builder $builder): Builder
     {
         return $builder->whereIn('mime', FileService::$AUDIO_MIMES);
     }
 
+    /**
+     * @param  Builder<self>  $builder
+     * @param  list<FileTypes|string>  $fileTypes
+     * @return Builder<self>
+     */
     public function scopeByTypes(Builder $builder, array $fileTypes): Builder
     {
         return $builder->whereIn('file_type', $fileTypes);

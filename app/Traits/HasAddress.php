@@ -11,17 +11,15 @@ use Illuminate\Support\Str;
  * Trait HasAddress
  *
  * @property ?Region $region
- * @property array $address
+ * @property array<string, mixed>|null $address
  */
 trait HasAddress
 {
     public ?Region $region = null;
 
-    public function initializeHasAddressData(): void
-    {
-        $this->casts += ['address' => 'array'];
-    }
-
+    /**
+     * @return Attribute<array<string, mixed>|null, array<string, mixed>|null>
+     */
     protected function address(): Attribute
     {
         return Attribute::make(
@@ -30,6 +28,9 @@ trait HasAddress
         );
     }
 
+    /**
+     * @param  array<string, mixed>|null  $value
+     */
     private function parseAddress(?array $value): ?string
     {
         if (empty($value)) {
@@ -66,6 +67,9 @@ trait HasAddress
         ]);
     }
 
+    /**
+     * @return array<string, string|null>
+     */
     public function toStripeAddress(): array
     {
         return [

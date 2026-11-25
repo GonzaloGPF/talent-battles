@@ -8,6 +8,7 @@ use App\Interfaces\HasFilesInterface;
 use App\Traits\HasCreatedBy;
 use App\Traits\HasFiles;
 use App\Traits\IsFilterable;
+use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Product extends Model implements HasCreatedByInterface, HasFilesInterface
 {
+    /** @use HasFactory<ProductFactory> */
     use HasCreatedBy,
         HasFactory,
         HasFiles,
@@ -41,6 +43,9 @@ class Product extends Model implements HasCreatedByInterface, HasFilesInterface
         'promoted' => 'datetime',
     ];
 
+    /**
+     * @param  array<string, mixed>  $itemData
+     */
     public static function fromItem(array $itemData): Product
     {
         return (new Product)->forceFill([
@@ -59,6 +64,9 @@ class Product extends Model implements HasCreatedByInterface, HasFilesInterface
         ]);
     }
 
+    /**
+     * @return MorphTo<Model, $this>
+     */
     public function orderable(): MorphTo
     {
         return $this->morphTo();

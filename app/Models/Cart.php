@@ -7,6 +7,7 @@ use App\Interfaces\HasCreatedByInterface;
 use App\Objects\CartItem;
 use App\Scopes\MineOrGuestScope;
 use App\Traits\HasCreatedBy;
+use Database\Factories\CartFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Cart extends Model implements HasCreatedByInterface
 {
+    /** @use HasFactory<CartFactory> */
     use HasCreatedBy,
         HasFactory;
 

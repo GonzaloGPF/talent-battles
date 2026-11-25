@@ -6,6 +6,7 @@ use App\Enums\ActivityTypes;
 use App\Interfaces\HasCreatedByInterface;
 use App\Traits\HasCreatedBy;
 use App\Traits\IsFilterable;
+use Database\Factories\ActivityFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Activity extends Model implements HasCreatedByInterface
 {
+    /** @use HasFactory<ActivityFactory> */
     use HasCreatedBy,
         HasFactory,
         IsFilterable;
@@ -26,11 +28,17 @@ class Activity extends Model implements HasCreatedByInterface
         'target_id' => 'int',
     ];
 
+    /**
+     * @return MorphTo<Model, $this>
+     */
     public function target(): MorphTo
     {
         return $this->morphTo();
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function receiver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'receiver_id');
