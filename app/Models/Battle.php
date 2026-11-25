@@ -73,22 +73,6 @@ class Battle extends Model implements HasCommentsInterface, HasCreatedByInterfac
         return $this->morphTo('winner');
     }
 
-    //    /**
-    //     * @return BelongsToMany|null
-    //     */
-    //    public function creations(): ?BelongsToMany
-    //    {
-    //        if ($this->isTrack()) {
-    //            return $this->tracks();
-    //        }
-    //
-    //        if ($this->isDesign()) {
-    //            return $this->designs();
-    //        }
-    //
-    //        return null;
-    //    }
-
     public function getCreations(): Collection
     {
         if ($this->battle_type === BattleTypes::TRACK) {

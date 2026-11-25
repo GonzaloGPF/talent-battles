@@ -87,7 +87,6 @@ Route::post('pay_now', [PayNowController::class, 'store'])->name('pay_now.store'
  * Polymorphic Resources
  */
 Route::get('files/multiple', [FileController::class, 'zip'])->name('files.zip');
-// Route::get('files/creation', [FileController::class, 'creation'])->name('files.creation');
 Route::resource('files', FileController::class)->except(['edit', 'create']);
 Route::resource('comments', CommentController::class)->only(['index', 'store', 'destroy']);
 Route::resource('likes', LikeController::class)->only(['index', 'store', 'destroy']);
