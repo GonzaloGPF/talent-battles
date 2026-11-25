@@ -66,10 +66,6 @@ class LoginController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
-        if (auth()->check()) {
-            $this->sendResponse('logged', auth()->user(), Response::HTTP_ACCEPTED);
-        }
-
         $request->validate([
             'email' => 'string|required|email',
             'password' => 'string|required',
