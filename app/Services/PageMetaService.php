@@ -273,7 +273,7 @@ class PageMetaService
      * @return array{name: string, author: string, app: string}
      */
     /**
-     * @param  Collection<int, Track|Design>  $creations
+     * @param  Collection<int, Track>|Collection<int, Design>  $creations
      */
     private function battleName(Collection $creations): string
     {
@@ -289,7 +289,7 @@ class PageMetaService
     }
 
     /**
-     * @param  Collection<int, Track|Design>  $creations
+     * @param  Collection<int, Track>|Collection<int, Design>  $creations
      */
     private function battleDescription(Battle $battle, Collection $creations): string
     {

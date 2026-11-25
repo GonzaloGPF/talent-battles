@@ -18,11 +18,17 @@ trait HasFiles
         });
     }
 
+    /**
+     * @return MorphMany<File, $this>
+     */
     public function files(): MorphMany
     {
         return $this->morphMany(File::class, 'fileable');
     }
 
+    /**
+     * @return MorphMany<File, $this>
+     */
     public function images(): MorphMany
     {
         return $this->files()->areImage();

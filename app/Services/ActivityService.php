@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
+use App\Enums\ActivityTypes;
 use App\Models\Activity;
 use App\Models\User;
-use BackedEnum;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class ActivityService
 {
-    public function create(string|BackedEnum $activityType, Model $target, ?User $receiver = null): ?Activity
+    public function create(ActivityTypes $activityType, Model $target, ?User $receiver = null): ?Activity
     {
         if ($target instanceof User) {
             $receiver = $target;

@@ -10,6 +10,7 @@ use App\Models\Track;
 use App\Models\User;
 use App\Services\UserService;
 use Event;
+use Illuminate\Database\Eloquent\Collection;
 use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -39,7 +40,7 @@ class UpdateUserRatingTest extends TestCase
         $track = new Track;
 
         $track->setRelation('createdBy', $user);
-        $this->battle->setRelation('tracks', collect([$track]));
+        $this->battle->setRelation('tracks', new Collection([$track]));
 
         $this->mock(UserService::class, function (MockInterface $mock) use ($user) {
             $mock->shouldReceive('updateRating')

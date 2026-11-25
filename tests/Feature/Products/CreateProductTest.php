@@ -94,6 +94,16 @@ class CreateProductTest extends TestCase
     }
 
     #[Test]
+    public function it_wont_let_create_a_product_for_a_model_that_cannot_be_sold()
+    {
+        $this->makeRequest([
+            'model_type' => 'user',
+            'model_id' => $this->user->id,
+            'price' => 100,
+        ])->assertUnprocessable();
+    }
+
+    #[Test]
     public function it_wont_let_create_a_product_to_non_authenticated_user()
     {
         $this->logout();

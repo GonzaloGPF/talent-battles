@@ -120,7 +120,7 @@ class PointsService
         }
 
         $battle->votes
-            ->filter(fn (Vote $vote) => $vote->votable_id === $winner->id)
+            ->filter(fn (Vote $vote) => $vote->votable_id === $winner->getKey())
             ->each(fn (Vote $vote) => $this->earnPoints($this->winnerVotePoints, $vote->createdBy));
     }
 }

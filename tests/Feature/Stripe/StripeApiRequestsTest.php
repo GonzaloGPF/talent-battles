@@ -85,7 +85,7 @@ class StripeApiRequestsTest extends TestCase
         $this->assertArrayNotHasKey('automatic_payment_methods', $request['params']);
         $this->assertSame('pm_1', $request['params']['payment_method']);
         $this->assertSame('cus_1', $request['params']['customer']);
-        $this->assertSame('1050', $request['params']['amount']);
+        $this->assertSame(1050, $request['params']['amount']);
         $this->assertSame('true', $request['params']['confirm']);
     }
 

@@ -14,6 +14,9 @@ trait HasBattles
         return $this->morphMany(Battle::class, 'winner');
     }
 
+    /**
+     * @return BelongsToMany<Battle, $this>
+     */
     public function battles(): BelongsToMany
     {
         return $this->belongsToMany(Battle::class);

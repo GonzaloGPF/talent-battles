@@ -31,8 +31,8 @@ class BattleRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->model = morphedModel($this->get('type'), $this->get('id'));
-        $this->opponent = morphedModel($this->get('type'), $this->get('opponent_id'));
+        $this->model = $this->findCreation($this->get('id'));
+        $this->opponent = $this->findCreation($this->get('opponent_id'));
 
         if (! $this->model) {
             throw new NotFoundHttpException(trans('exceptions.not_found_data', ['data' => tl('creation')]));
@@ -45,6 +45,16 @@ class BattleRequest extends FormRequest
             'opponent_in_battle' => $this->opponent?->battles()->areInProgress()->exists(),
             'battle' => true,
         ]);
+    }
+
+    /**
+     * Only a Track or a Design can battle; any other type is left for the validation to reject.
+     */
+    private function findCreation(mixed $id): Track|Design|null
+    {
+        $creation = morphedModel($this->get('type'), $id);
+
+        return $creation instanceof Track || $creation instanceof Design ? $creation : null;
     }
 
     /**

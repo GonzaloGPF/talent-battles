@@ -270,6 +270,13 @@ class CreateTrackBattleTest extends TestCase
     }
 
     #[Test]
+    public function it_wont_find_a_creation_to_battle_with_when_the_type_is_not_a_creation()
+    {
+        $this->makeRequest(['type' => 'user', 'id' => $this->user->id])
+            ->assertNotFound();
+    }
+
+    #[Test]
     public function it_wont_let_create_a_battle_to_non_authenticated_user()
     {
         $this->logout();

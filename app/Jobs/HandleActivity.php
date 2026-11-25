@@ -29,6 +29,6 @@ class HandleActivity implements ShouldBeUnique, ShouldQueue
      */
     public function handle(ActivityService $activityService): void
     {
-        $activityService->create($this->activityType->value, $this->target, $this->receiver);
+        $activityService->create($this->activityType, $this->target, $this->receiver);
     }
 }

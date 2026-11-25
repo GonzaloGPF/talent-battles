@@ -21,7 +21,7 @@ class CartItem implements Arrayable, JsonSerializable
 
     public ?float $price;
 
-    public ?float $quantity;
+    public float $quantity;
 
     public ?float $discount;
 
