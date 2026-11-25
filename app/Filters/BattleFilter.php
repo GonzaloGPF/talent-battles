@@ -12,36 +12,32 @@ class BattleFilter extends Filter
      * Related Models that have ModelFilters as well as the method on the ModelFilter
      * As [relationMethod => [input_key1, input_key2]].
      *
-     * @var array
+     * @var array<string, array<array-key, string>>
      */
     public $relations = [];
 
-    public function inProgress($value): Builder
+    public function inProgress(mixed $value): void
     {
         $operator = $value
             ? '='
             : '!=';
 
         $this->where('battle_state', $operator, BattleStates::IN_PROGRESS);
-
-        return $this->query;
     }
 
-    public function isFinished($value): Builder
+    public function isFinished(mixed $value): void
     {
         $operator = $value
             ? '='
             : '!=';
 
         $this->where('battle_state', $operator, BattleStates::FINISHED);
-
-        return $this->query;
     }
 
-    public function isNext($value): Builder
+    public function isNext(mixed $value): void
     {
         if (! $value) {
-            return $this->query;
+            return;
         }
 
         $this->where('battle_state', BattleStates::IN_PROGRESS)
@@ -50,47 +46,39 @@ class BattleFilter extends Filter
                 $builder->where(fn (Builder $sub) => $sub->where('battle_type', BattleTypes::TRACK)->has('tracks', '=', 2)->whereDoesntHave('tracks', fn (Builder $q) => $q->where('created_by', auth()->id())))
                     ->orWhere(fn (Builder $sub) => $sub->where('battle_type', BattleTypes::DESIGN)->has('designs', '=', 2)->whereDoesntHave('designs', fn (Builder $q) => $q->where('created_by', auth()->id())));
             })->inRandomOrder();
-
-        return $this->query;
     }
 
-    public function name($name): Builder
+    public function name(mixed $name): void
     {
         $this->where(function (Builder $builder) use ($name) {
             $builder->where(fn (Builder $sub) => $sub->where('battle_type', BattleTypes::TRACK)->whereHas('tracks', fn (Builder $q) => $q->where('name', 'like', "%$name%")))
                 ->orWhere(fn (Builder $sub) => $sub->where('battle_type', BattleTypes::DESIGN)->whereHas('designs', fn (Builder $q) => $q->where('name', 'like', "%$name%")));
         });
-
-        return $this->query;
     }
 
-    public function won($value): Builder
+    public function won(mixed $value): void
     {
         $this->where('battle_state', BattleStates::FINISHED);
 
         $value
             ? $this->whereHas('winner', fn (Builder $builder) => $builder->where('created_by', auth()->id()))
             : $this->whereHas('winner', fn (Builder $builder) => $builder->whereNot('created_by', auth()->id()));
-
-        return $this->query;
     }
 
-    public function wonBy($ids): Builder
+    public function wonBy(mixed $ids): void
     {
         $this->whereHas('winner', fn (Builder $builder) => $builder->whereIn('created_by', $ids));
-
-        return $this->query;
     }
 
-    public function lostBy($ids): Builder
+    public function lostBy(mixed $ids): void
     {
-        return $this->query
+        $this->query
             ->scopes(['byParticipants' => [$ids]])
             ->whereHas('winner', fn (Builder $builder) => $builder->whereNotIn('created_by', $ids));
     }
 
-    public function byParticipants($ids): Builder
+    public function byParticipants(mixed $ids): void
     {
-        return $this->query->scopes(['byParticipants' => [$ids]]);
+        $this->query->scopes(['byParticipants' => [$ids]]);
     }
 }

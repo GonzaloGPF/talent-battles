@@ -9,7 +9,10 @@ use Carbon\Carbon;
 use EloquentFilter\ModelFilter;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use ReflectionMethod;
 
 class Filter extends ModelFilter
 {
@@ -36,8 +39,20 @@ class Filter extends ModelFilter
      */
     protected array $privateColumns = [];
 
+    /**
+     * @var array<string, mixed>
+     */
+    protected $input;
+
+    /**
+     * @var array<int, string>
+     */
     private array $enumColumns;
 
+    /**
+     * @param  Builder<Model>  $query
+     * @param  array<string, mixed>  $input
+     */
     public function __construct($query, array $input = [], $relationsEnabled = true)
     {
         parent::__construct($query, $input, $relationsEnabled);
@@ -49,15 +64,30 @@ class Filter extends ModelFilter
     }
 
     /**
+     * Each input key calls the filter method with its name. Only public methods are filters:
+     * the protected and private ones are helpers, and calling them with the input would fail.
+     *
+     * @param  string  $method
+     */
+    public function methodIsCallable($method): bool
+    {
+        return parent::methodIsCallable($method)
+            && (new ReflectionMethod($this, $method))->isPublic();
+    }
+
+    /**
      * Filter methods named after a private column are ignored for everyone but admins.
      */
-    public function setup(): void
+    protected function setup(): void
     {
         collect($this->privateColumns)
             ->reject(fn (string $column) => $this->canUseColumn($column))
             ->each(fn (string $column) => $this->blacklistMethod(Str::camel($column)));
     }
 
+    /**
+     * @return Builder<Model>
+     */
     public function handle(): Builder
     {
         $query = parent::handle();
@@ -95,7 +125,7 @@ class Filter extends ModelFilter
 
     private function applyRelations(): void
     {
-        $relations = collect($this->input[self::WITH] ?? [])
+        $relations = collect(Arr::wrap($this->input[self::WITH] ?? []))
             ->mapWithKeys(fn ($relation, $key) => is_numeric($key) ? [$key => Str::camel($relation)] : [Str::camel($key) => $relation])
             ->toArray();
 
@@ -120,7 +150,7 @@ class Filter extends ModelFilter
 
     private function applyCounts(): void
     {
-        $input = collect($this->input[self::COUNT] ?? [])
+        $input = collect(Arr::wrap($this->input[self::COUNT] ?? []))
             ->map(fn ($relation) => Str::camel($relation));
 
         $rootCounts = $input
@@ -143,7 +173,7 @@ class Filter extends ModelFilter
         $this->query->withCount($rootCounts);
     }
 
-    private function applyRange(string $input, $value): void
+    private function applyRange(string $input, mixed $value): void
     {
         // Clean up prefixes to determine the table's column name
         $column = str_replace(self::MIN_PREFIX, '', str_replace(self::MAX_PREFIX, '', $input));
@@ -172,7 +202,7 @@ class Filter extends ModelFilter
         }
     }
 
-    private function applyNotFilter(string $input, $value): void
+    private function applyNotFilter(string $input, mixed $value): void
     {
         // Clean up prefixes to determine the table's column name
         $column = str_replace(self::NOT_PREFIX, '', $input);
@@ -223,37 +253,29 @@ class Filter extends ModelFilter
         }
     }
 
-    public function createdBy($userIds): Builder
+    public function createdBy(mixed $userIds): void
     {
         if ($this->query->getModel() instanceof HasCreatedByInterface) {
             $this->whereIn('created_by', $userIds);
         }
-
-        return $this->query;
     }
 
-    public function ids($ids): Builder
+    public function ids(mixed $ids): void
     {
         $this->filterMultiple('id', $ids);
-
-        return $this->query;
     }
 
-    public function exceptIds($ids): Builder
+    public function exceptIds(mixed $ids): void
     {
         $this->whereIn('id', $ids, 'and', true);
-
-        return $this->query;
     }
 
-    public function id($id): Builder
+    public function id(mixed $id): void
     {
         $this->where('id', $id);
-
-        return $this->query;
     }
 
-    protected function modelType($modelType): Builder
+    public function modelType(mixed $modelType): void
     {
         $model = $this->query->getModel();
 
@@ -261,11 +283,9 @@ class Filter extends ModelFilter
             $column = $model->getMorphColumn();
             $this->where("{$column}_type", classByString($modelType));
         }
-
-        return $this->query;
     }
 
-    protected function model($modelId): Builder
+    public function model(mixed $modelId): void
     {
         $model = $this->query->getModel();
 
@@ -273,11 +293,9 @@ class Filter extends ModelFilter
             $column = $model->getMorphColumn();
             $this->where("{$column}_id", $modelId);
         }
-
-        return $this->query;
     }
 
-    protected function filterMultiple(string $column, $values): Builder
+    protected function filterMultiple(string $column, mixed $values): void
     {
         if (is_string($values) && str_contains($values, ',')) {
             $values = explode(',', $values);
@@ -287,13 +305,13 @@ class Filter extends ModelFilter
             $values = [$values];
         }
 
-        return $this->whereIn($column, $values);
+        $this->whereIn($column, $values);
     }
 
-    public function whereIn(string $column, mixed $values, string $boolean = 'and', bool $not = false): Builder
+    protected function whereIn(string $column, mixed $values, string $boolean = 'and', bool $not = false): void
     {
         if (empty($values)) {
-            return $this->query;
+            return;
         }
 
         if (! is_array($values)) {
@@ -309,36 +327,31 @@ class Filter extends ModelFilter
         if (count($values)) {
             parent::whereIn("$table.$column", $values, $boolean, $not);
         }
-
-        return $this->query;
     }
 
-    public function name($name): Builder
+    public function name(mixed $name): void
     {
-        collect($name)
+        collect(Arr::wrap($name))
             ->each(fn ($value) => $this->where('name', 'like', "%$value%"));
-
-        return $this->query;
     }
 
-    public function nullable(string $column, $value): Builder
+    protected function nullable(string $column, mixed $value): void
     {
         $value
             ? $this->whereNotNull($column)
             : $this->whereNull($column);
-
-        return $this->query;
     }
 
-    public function boolean(string $column, $value, ?Builder $customBuilder = null): Builder
+    /**
+     * @param  Builder<Model>|null  $customBuilder
+     */
+    protected function boolean(string $column, mixed $value, ?Builder $customBuilder = null): void
     {
         $builder = $customBuilder ?? $this;
 
         $value
             ? $builder->where(fn (Builder $q) => $q->where($column, '!=', 0)->orWhere($column, '!=', false))
             : $builder->where(fn (Builder $q) => $q->where($column, 0)->orWhere($column, false)->orWhereNull($column));
-
-        return $this->query;
     }
 
     private function shouldFilterConstant(string $constant): bool

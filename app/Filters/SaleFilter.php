@@ -10,16 +10,14 @@ class SaleFilter extends Filter
      * Related Models that have ModelFilters as well as the method on the ModelFilter
      * As [relationMethod => [input_key1, input_key2]].
      *
-     * @var array
+     * @var array<string, array<array-key, string>>
      */
     public $relations = [];
 
-    public function name($name): Builder
+    public function name(mixed $name): void
     {
         $this->whereHas('product', function (Builder $builder) use ($name) {
             return $builder->where('name', 'like', "%$name%");
         });
-
-        return $this->query;
     }
 }

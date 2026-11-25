@@ -2,15 +2,13 @@
 
 namespace App\Filters;
 
-use Illuminate\Database\Eloquent\Builder;
-
 class ActivityFilter extends Filter
 {
     /**
      * Related Models that have ModelFilters as well as the method on the ModelFilter
      * As [relationMethod => [input_key1, input_key2]].
      *
-     * @var array
+     * @var array<string, array<array-key, string>>
      */
     public $relations = [
         'receiver' => [
@@ -21,10 +19,10 @@ class ActivityFilter extends Filter
         ],
     ];
 
-    public function targetType($value): Builder
+    public function targetType(mixed $value): void
     {
         if (empty($value)) {
-            return $this->query;
+            return;
         }
 
         if (! is_array($value)) {
@@ -36,6 +34,6 @@ class ActivityFilter extends Filter
             ->map(fn ($value) => classByString($value))
             ->toArray();
 
-        return $this->whereIn('target_type', $values);
+        $this->whereIn('target_type', $values);
     }
 }

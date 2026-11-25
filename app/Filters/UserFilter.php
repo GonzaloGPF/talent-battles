@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 class UserFilter extends Filter
 {
@@ -10,7 +11,7 @@ class UserFilter extends Filter
      * Related Models that have ModelFilters as well as the method on the ModelFilter
      * As [relationMethod => [input_key1, input_key2]].
      *
-     * @var array
+     * @var array<string, array<array-key, string>>
      */
     public $relations = [];
 
@@ -26,50 +27,38 @@ class UserFilter extends Filter
         'claim_token', 'claim_expires_at',
     ];
 
-    public function email($value): Builder
+    public function email(mixed $value): void
     {
         $this->where('email', 'like', "%$value%");
-
-        return $this->query;
     }
 
-    public function verified($value): Builder
+    public function verified(mixed $value): void
     {
         $this->nullable('verified_at', $value);
-
-        return $this->query;
     }
 
-    public function skills($values): Builder
+    public function skills(mixed $values): void
     {
-        collect($values)
+        collect(Arr::wrap($values))
             ->each(fn (string $value) => $this->where('skills', 'like', "%$value%"));
-
-        return $this->query;
     }
 
-    public function categories($values): Builder
+    public function categories(mixed $values): void
     {
-        collect($values)
+        collect(Arr::wrap($values))
             ->each(fn (string $value) => $this->where('categories', 'like', "%$value%"));
-
-        return $this->query;
     }
 
-    public function nick($value): Builder
+    public function nick(mixed $value): void
     {
         $this->where('nick', 'like', "%$value%");
-
-        return $this->query;
     }
 
-    public function nickName($value): Builder
+    public function nickName(mixed $value): void
     {
         $this->where(function (Builder $builder) use ($value) {
             $builder->where('name', 'like', "%$value%")
                 ->orWhere('nick', 'like', "%$value%");
         });
-
-        return $this->query;
     }
 }

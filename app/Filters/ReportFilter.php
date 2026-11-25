@@ -11,35 +11,29 @@ class ReportFilter extends Filter
      * Related Models that have ModelFilters as well as the method on the ModelFilter
      * As [relationMethod => [input_key1, input_key2]].
      *
-     * @var array
+     * @var array<string, array<array-key, string>>
      */
     public $relations = [];
 
-    public function message($value): Builder
+    public function message(mixed $value): void
     {
         $this->where('message', 'like', "%$value%");
-
-        return $this->query;
     }
 
-    public function resolution($value): Builder
+    public function resolution(mixed $value): void
     {
         $this->where('resolution', 'like', "%$value%");
-
-        return $this->query;
     }
 
-    protected function solved($value): Builder
+    public function solved(mixed $value): void
     {
-        return $this->nullable('resolution', $value);
+        $this->nullable('resolution', $value);
     }
 
-    protected function hasCreation($value): Builder
+    public function hasCreation(mixed $value): void
     {
         $value
             ? $this->where('reportable_type', Track::class)
             : $this->where(fn (Builder $q) => $q->whereNull('reportable_type')->orWhere('reportable_type', '!=', Track::class));
-
-        return $this->query;
     }
 }
