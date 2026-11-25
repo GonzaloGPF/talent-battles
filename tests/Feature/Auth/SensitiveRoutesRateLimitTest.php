@@ -48,6 +48,8 @@ class SensitiveRoutesRateLimitTest extends TestCase
     #[Test]
     public function a_limited_request_says_when_to_try_again()
     {
+        $this->freezeTime();
+
         foreach (range(1, 5) as $ignored) {
             $this->postJson(route('auth.password.forgot'));
         }
