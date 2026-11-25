@@ -134,11 +134,17 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
         return Attribute::set(fn ($value) => Hash::make($value));
     }
 
+    /**
+     * @return Attribute<string, string>
+     */
     protected function email(): Attribute
     {
         return Attribute::set(fn ($value) => \Illuminate\Support\Str::of($value)->trim()->lower()->value());
     }
 
+    /**
+     * @return Attribute<array<string, array{mail: bool, broadcast: bool}>, array<string, mixed>|null>
+     */
     protected function notificationSettings(): Attribute
     {
         return Attribute::make(
@@ -187,6 +193,9 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
         return $this->hasMany(FavoriteList::class, 'created_by');
     }
 
+    /**
+     * @return HasOne<Cart, $this>
+     */
     public function cart(): HasOne
     {
         return $this->hasOne(Cart::class, 'created_by');

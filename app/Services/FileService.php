@@ -11,6 +11,7 @@ use App\Models\File;
 use App\Models\Track;
 use BackedEnum;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -79,12 +80,12 @@ class FileService
         $this->imageManager = $imageManager;
     }
 
-    private function createFile(HasFilesInterface $model, array $attributes): ?File
+    private function createFile(HasFilesInterface&Model $model, array $attributes): ?File
     {
         $path = $attributes['path'] ?? null;
 
         if (! $path || ! Storage::exists($path)) {
-            Logger::exception(new Exception('Could not save File in: '.$path), ['file_id' => $model->id]);
+            Logger::exception(new Exception('Could not save File in: '.$path), ['file_id' => $model->getKey()]);
 
             return null;
         }
@@ -92,7 +93,7 @@ class FileService
         $file = (new File($attributes))
             ->forceFill([
                 'mime' => $attributes['mime'],
-                'fileable_id' => $model->id,
+                'fileable_id' => $model->getKey(),
                 'fileable_type' => get_class($model),
                 'file_type' => $attributes['file_type'] ?? null,
                 'path' => $path,
@@ -107,7 +108,7 @@ class FileService
     /**
      * Saves a file to a given model. The model must implement HasFilesInterface.
      */
-    public function saveFile(HasFilesInterface $model, ?UploadedFile $uploadedFile = null, ?FileTypes $fileType = null): ?File
+    public function saveFile(HasFilesInterface&Model $model, ?UploadedFile $uploadedFile = null, ?FileTypes $fileType = null): ?File
     {
         if (! $uploadedFile) {
             return null;
@@ -128,7 +129,7 @@ class FileService
         ]);
     }
 
-    public function saveFiles(HasFilesInterface $model, Collection $uploadedFiles, ?BackedEnum $fileType = null): Collection
+    public function saveFiles(HasFilesInterface&Model $model, Collection $uploadedFiles, ?BackedEnum $fileType = null): Collection
     {
         return $uploadedFiles->filter()
             ->map(fn (UploadedFile $uploadedFile) => $this->saveFile($model, $uploadedFile, $fileType))
@@ -157,10 +158,10 @@ class FileService
         return $file;
     }
 
-    public function updateOrSave(HasFilesInterface $model, UploadedFile $uploadedFile): ?File
+    public function updateOrSave(HasFilesInterface&Model $model, UploadedFile $uploadedFile): ?File
     {
-        if ($model->file) {
-            return $this->updateFile($model->file, $uploadedFile);
+        if ($model->getRelationValue('file')) {
+            return $this->updateFile($model->getRelationValue('file'), $uploadedFile);
         } else {
             return $this->saveFile($model, $uploadedFile);
         }

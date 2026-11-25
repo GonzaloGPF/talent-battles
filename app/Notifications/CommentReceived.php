@@ -54,7 +54,7 @@ class CommentReceived extends Notification implements NotyInterface
     {
         return [
             'name' => $this->comment->createdBy?->getNickName(),
-            'target' => $this->comment->commentable?->name,
+            'target' => $this->comment->commentable?->getAttribute('name'),
         ];
     }
 

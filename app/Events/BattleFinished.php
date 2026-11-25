@@ -31,7 +31,7 @@ class BattleFinished implements NotyEventInterface, ShouldBroadcast
     public function notify(): void
     {
         /** @var User $winnerUser */
-        $winnerUser = $this->battle->winner?->createdBy;
+        $winnerUser = $this->battle->winner?->getRelationValue('createdBy');
         $participants = $this->battle
             ->getParticipants();
 

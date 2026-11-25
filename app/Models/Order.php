@@ -42,8 +42,8 @@ class Order extends Model implements HasCreatedByInterface
     {
         parent::boot();
         static::addGlobalScope(new MineOrGuestScope);
-        static::creating(function (HasCreatedByInterface $model) {
-            $model->payment_state = $model->payment_state ?? PaymentStates::PENDING;
+        static::creating(function (self $model) {
+            $model->payment_state ??= PaymentStates::PENDING;
         });
         static::created(function (Order $order) {
             /** @var User $user */

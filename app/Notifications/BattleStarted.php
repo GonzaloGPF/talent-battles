@@ -3,9 +3,10 @@
 namespace App\Notifications;
 
 use App\Helpers\NotificationHelper;
-use App\Interfaces\HasCreatedByInterface;
 use App\Interfaces\NotyInterface;
 use App\Models\Battle;
+use App\Models\Design;
+use App\Models\Track;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -55,7 +56,7 @@ class BattleStarted extends Notification implements NotyInterface
     {
         return [
             'creation' => $this->battle->getCreations()
-                ->filter(fn (HasCreatedByInterface $creation) => $creation->created_by === auth()->id())
+                ->filter(fn (Track|Design $creation) => $creation->created_by === auth()->id())
                 ->first()
                 ?->name,
         ];

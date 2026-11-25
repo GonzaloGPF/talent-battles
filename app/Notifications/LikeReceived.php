@@ -54,7 +54,7 @@ class LikeReceived extends Notification implements NotyInterface
     {
         return [
             'name' => $this->like->createdBy?->getNickName(),
-            'target' => $this->like->likeable?->name,
+            'target' => $this->like->likeable?->getAttribute('name'),
         ];
     }
 

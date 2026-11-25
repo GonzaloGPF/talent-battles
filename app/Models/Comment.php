@@ -66,7 +66,7 @@ class Comment extends Model implements FilterableMorph, HasCommentsInterface, Ha
 
     public function getTargetUser(): ?User
     {
-        return $this->commentable->createdBy;
+        return $this->commentable->getRelationValue('createdBy');
     }
 
     protected function title(): Attribute

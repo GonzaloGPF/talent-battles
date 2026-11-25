@@ -20,6 +20,9 @@ class Tag extends Model
         'name',
     ];
 
+    /**
+     * @return Attribute<string, string>
+     */
     protected function name(): Attribute
     {
         return Attribute::set(fn ($value) => TagService::sanitize($value));

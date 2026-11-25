@@ -10,6 +10,7 @@ use App\Services\FileService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -48,7 +49,7 @@ class FileController extends Controller
      */
     public function store(FileRequest $request): JsonResponse
     {
-        /** @var HasFilesInterface $model */
+        /** @var HasFilesInterface&Model $model */
         $model = morphedModel($request->get('model_type'), $request->get('model_id'));
 
         $files = $this->saveFilesTo($model, 'files', $request->get('file_type'));

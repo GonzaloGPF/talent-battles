@@ -47,7 +47,7 @@ class NotificationHelper
     public function toArray(NotyInterface $noty): array
     {
         return [
-            'noty_id' => self::notyId($noty->getTarget()->id, get_class($noty)),
+            'noty_id' => self::notyId($noty->getTarget()->getKey(), get_class($noty)),
             'message_keys' => $noty->getMessageKeys(),
             'level' => $noty->getLevel(),
             'icon' => $noty->getIcon(),
@@ -83,6 +83,6 @@ class NotificationHelper
             $baseFrontUrl = Str::plural($model->track_type->value);
         }
 
-        return url("$baseFrontUrl/$model->id");
+        return url("$baseFrontUrl/{$model->getKey()}");
     }
 }

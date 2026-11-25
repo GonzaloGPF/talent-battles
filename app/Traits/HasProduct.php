@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait HasProduct
 {
+    /**
+     * @return MorphOne<Product, $this>
+     */
     public function product(): MorphOne
     {
         return $this->morphOne(Product::class, 'orderable');

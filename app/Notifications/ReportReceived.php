@@ -53,7 +53,7 @@ class ReportReceived extends Notification implements NotyInterface
     public function getMessageKeys(): array
     {
         return [
-            'reported' => $this->report->reportable?->name,
+            'reported' => $this->report->reportable?->getAttribute('name'),
         ];
     }
 

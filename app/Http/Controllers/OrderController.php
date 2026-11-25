@@ -52,7 +52,7 @@ class OrderController extends Controller
 
     public function store(OrderRequest $request): JsonResponse
     {
-        /** @var User $user */
+        /** @var ?User $user */
         $user = auth()->user();
 
         $email = $user?->email ?? $request->get('email');

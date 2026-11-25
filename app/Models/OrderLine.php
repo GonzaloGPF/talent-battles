@@ -104,6 +104,9 @@ class OrderLine extends Model implements HasCreatedByInterface, HasFilesInterfac
         return $this->product_type === ProductTypes::DONATION;
     }
 
+    /**
+     * @return BelongsTo<Product, $this>
+     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

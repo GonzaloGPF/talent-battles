@@ -23,7 +23,7 @@ class VoteService
                 'created_by' => $user->id,
                 'battle_id' => $battleId,
                 'votable_type' => get_class($model),
-                'votable_id' => $model->id,
+                'votable_id' => $model->getKey(),
                 'value' => $user->level->getVoteValue(),
             ]);
         } catch (Exception $exception) {
