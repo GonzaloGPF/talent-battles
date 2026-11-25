@@ -17,6 +17,7 @@ class ApiRateLimitTest extends TestCase
     #[Test]
     public function the_api_allows_300_requests_a_minute_and_then_says_when_to_try_again()
     {
+        $this->freezeTime();
         $this->useUpTheLimit();
 
         $this->getJson(route('company.index'))
