@@ -32,6 +32,18 @@ class LoginTest extends TestCase
     }
 
     #[Test]
+    public function signing_in_while_signed_in_switches_to_the_account_of_the_credentials()
+    {
+        $this->actingAs(create(User::class), 'web');
+
+        $this->loginRequest()
+            ->assertSuccessful()
+            ->assertJsonPath('data.id', $this->user->id);
+
+        $this->assertAuthenticatedAs($this->user, 'web');
+    }
+
+    #[Test]
     public function it_shows_token_data_when_login_from_external_app()
     {
         $data = $this->loginRequest([])
