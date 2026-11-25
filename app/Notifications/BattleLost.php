@@ -52,7 +52,7 @@ class BattleLost extends Notification implements NotyInterface
     }
 
     /**
-     * @return null[]
+     * @return array<string, string|null>
      */
     public function getMessageKeys(): array
     {

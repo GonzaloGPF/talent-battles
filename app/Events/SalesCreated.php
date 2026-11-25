@@ -21,9 +21,7 @@ class SalesCreated implements NotyEventInterface, ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * Create a new event instance.
-     *
-     * @return void
+     * @param  Collection<int, Sale>  $sales
      */
     public function __construct(public Collection $sales) {}
 
@@ -33,7 +31,7 @@ class SalesCreated implements NotyEventInterface, ShouldBroadcast
     public function broadcastOn(): array
     {
         return $this->sales
-            ->filter(fn (Sale $sale) => $sale->created_by)
+            ->filter(fn (Sale $sale) => $sale->created_by !== null)
             ->map(fn (Sale $sale) => new PrivateChannel($sale->createdBy?->getChannelName()))
             ->toArray();
     }

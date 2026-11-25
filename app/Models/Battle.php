@@ -17,6 +17,7 @@ use App\Traits\IsFilterable;
 use App\Traits\Likeable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -73,7 +74,10 @@ class Battle extends Model implements HasCommentsInterface, HasCreatedByInterfac
         return $this->morphTo('winner');
     }
 
-    public function getCreations(): Collection
+    /**
+     * @return EloquentCollection<int, Track>|EloquentCollection<int, Design>
+     */
+    public function getCreations(): EloquentCollection
     {
         if ($this->battle_type === BattleTypes::TRACK) {
             return $this->tracks;
@@ -82,11 +86,17 @@ class Battle extends Model implements HasCommentsInterface, HasCreatedByInterfac
         return $this->designs;
     }
 
+    /**
+     * @return BelongsToMany<Track, $this>
+     */
     public function tracks(): BelongsToMany
     {
         return $this->belongsToMany(Track::class);
     }
 
+    /**
+     * @return BelongsToMany<Design, $this>
+     */
     public function designs(): BelongsToMany
     {
         return $this->belongsToMany(Design::class);

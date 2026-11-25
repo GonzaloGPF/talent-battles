@@ -42,7 +42,8 @@ class ProductRequest extends FormRequest
     {
         $morphsAttributeId = getMorphIdAttribute($this->get('model_type'));
 
-        $this->orderable = morphedModel($this->get('model_type'), $this->get('model_id'));
+        $orderable = morphedModel($this->get('model_type'), $this->get('model_id'));
+        $this->orderable = $orderable instanceof HasProductInterface ? $orderable : null;
 
         $this->merge([
             $morphsAttributeId => $this->get('model_id'),

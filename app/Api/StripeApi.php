@@ -455,7 +455,7 @@ class StripeApi extends Api
         $buyer = $order->createdBy;
 
         $isFullyPaid = $paymentIntent->currency === strtolower($buyer->currency ?? $this->currency)
-            && $paymentIntent->amount_received >= (int) $this->getStripeAmount($order->total);
+            && $paymentIntent->amount_received >= $this->getStripeAmount($order->total);
 
         if (! $isFullyPaid) {
             Logger::error('Stripe payment does not cover the order', [
@@ -475,8 +475,8 @@ class StripeApi extends Api
         return $payment->asStripePaymentIntent()->id;
     }
 
-    private function getStripeAmount(float $amount): string
+    private function getStripeAmount(float $amount): int
     {
-        return (string) (int) round($amount * 100); // 19.99 * 100 is 1998.9999999999998 in floating point
+        return (int) round($amount * 100); // 19.99 * 100 is 1998.9999999999998 in floating point
     }
 }

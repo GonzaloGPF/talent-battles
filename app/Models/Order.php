@@ -52,6 +52,9 @@ class Order extends Model implements HasCreatedByInterface
         });
     }
 
+    /**
+     * @return HasMany<OrderLine, $this>
+     */
     public function orderLines(): HasMany
     {
         return $this->hasMany(OrderLine::class)->withoutGlobalScopes();

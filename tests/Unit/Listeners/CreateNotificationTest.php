@@ -35,6 +35,7 @@ use App\Notifications\LikeReceived;
 use App\Notifications\OrderCompleted;
 use App\Notifications\TrackSold;
 use Event;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -140,7 +141,7 @@ class CreateNotificationTest extends TestCase
 
         $battle = new Battle;
         $battle->battle_type = BattleTypes::TRACK;
-        $battle->setRelation('tracks', collect([$track1, $track2]));
+        $battle->setRelation('tracks', new Collection([$track1, $track2]));
 
         $event = new BattleInProgress($battle);
         $listener = resolve(CreateNotification::class);
@@ -172,7 +173,7 @@ class CreateNotificationTest extends TestCase
         $battle->battle_type = BattleTypes::TRACK;
         $battle->setRelations([
             'winner' => $winnerTrack,
-            'tracks' => collect([$winnerTrack, $loserTrack]),
+            'tracks' => new Collection([$winnerTrack, $loserTrack]),
         ]);
 
         $event = new BattleFinished($battle);
@@ -205,7 +206,7 @@ class CreateNotificationTest extends TestCase
         $battle->battle_type = BattleTypes::TRACK;
         $battle->setRelations([
             'winner' => null,
-            'tracks' => collect([$track1, $track2]),
+            'tracks' => new Collection([$track1, $track2]),
         ]);
 
         $event = new BattleFinished($battle);

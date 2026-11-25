@@ -65,7 +65,7 @@ class Calculator
         ];
     }
 
-    public function getProductTotals(Product $product, int $quantity = 1): array
+    public function getProductTotals(Product $product, float $quantity = 1): array
     {
         $pointDiscount = $this->getPointDiscount($quantity);
         $promoDiscount = $this->getPromoDiscount($quantity);
@@ -99,7 +99,7 @@ class Calculator
         return ($months - $minMonths) * $discount;
     }
 
-    public function getPointDiscount(int $points): float
+    public function getPointDiscount(float $points): float
     {
         $pointsData = resolve(CompanyService::class)->getBuy();
 
