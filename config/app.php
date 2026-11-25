@@ -5,7 +5,6 @@ use App\Providers\AppServiceProvider;
 use App\Providers\EventServiceProvider;
 use App\Providers\FacadeServiceProvider;
 use App\Providers\HorizonServiceProvider;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
 use Illuminate\Broadcasting\BroadcastServiceProvider;
@@ -204,7 +203,6 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         EventServiceProvider::class,
         HorizonServiceProvider::class,
-        RouteServiceProvider::class,
         FacadeServiceProvider::class,
 
     ],

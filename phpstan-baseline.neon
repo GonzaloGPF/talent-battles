@@ -55,18 +55,6 @@ parameters:
 			path: app/Events/SalesCreated.php
 
 		-
-			message: '#^PHPDoc type array of property App\\Exceptions\\Handler\:\:\$dontFlash is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Exceptions\\Handler\:\:\$dontFlash\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Exceptions/Handler.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Exceptions\\Handler\:\:\$dontReport is not covariant with PHPDoc type array\<int, class\-string\<Throwable\>\> of overridden property Illuminate\\Foundation\\Exceptions\\Handler\:\:\$dontReport\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Exceptions/Handler.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:byTags\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -329,24 +317,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Controllers/Stripe/PaymentMethodController.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Http\\Kernel\:\:\$middleware is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$middleware\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Http/Kernel.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Http\\Kernel\:\:\$middlewareAliases is not covariant with PHPDoc type array\<string, string\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$middlewareAliases\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Http/Kernel.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Http\\Kernel\:\:\$middlewareGroups is not covariant with PHPDoc type array\<string, array\<int, string\>\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$middlewareGroups\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Http/Kernel.php
 
 		-
 			message: '#^PHPDoc type array of property App\\Http\\Middleware\\EncryptCookies\:\:\$except is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Cookie\\Middleware\\EncryptCookies\:\:\$except\.$#'

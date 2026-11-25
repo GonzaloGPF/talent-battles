@@ -1,7 +1,10 @@
 <?php
 
+use App\Jobs\CheckBattlesToFinish;
+use App\Jobs\MatchBattles;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,10 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+/*
+ * Production runs no cron: these jobs also run after the battles are listed. The schedule keeps them going wherever a
+ * scheduler runs.
+ */
+Schedule::job(new CheckBattlesToFinish)->hourly();
+Schedule::job(new MatchBattles)->hourly();

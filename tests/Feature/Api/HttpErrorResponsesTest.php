@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Api;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -16,6 +18,8 @@ class HttpErrorResponsesTest extends TestCase
         Route::middleware('api')->prefix('api')->group(function () {
             Route::get('testing/abort/{status}', fn (string $status) => abort((int) $status));
             Route::get('testing/maintenance', fn () => abort(503, 'Back in a minute', ['Retry-After' => 60]));
+            Route::get('testing/expired-token', fn () => throw new TokenMismatchException);
+            Route::get('testing/denied', fn () => throw new AuthorizationException('Not your battle'));
         });
     }
 
@@ -38,6 +42,31 @@ class HttpErrorResponsesTest extends TestCase
             ->assertServiceUnavailable()
             ->assertJsonPath('message', 'Back in a minute')
             ->assertHeader('Retry-After', 60);
+    }
+
+    #[Test]
+    public function a_missing_model_says_which_one_is_missing()
+    {
+        $this->getJson(route('users.show', 999999))
+            ->assertNotFound()
+            ->assertJsonPath('message', trans('exceptions.not_found_data', ['data' => modelTitle('user')]));
+    }
+
+    #[Test]
+    public function an_expired_csrf_token_asks_the_spa_to_reload()
+    {
+        $this->getJson('api/testing/expired-token')
+            ->assertUnauthorized()
+            ->assertJsonPath('data.action', 'reload')
+            ->assertJsonPath('data.message', trans('exceptions.session_expired'));
+    }
+
+    #[Test]
+    public function a_denied_action_keeps_its_message()
+    {
+        $this->getJson('api/testing/denied')
+            ->assertForbidden()
+            ->assertJsonPath('message', 'Not your battle');
     }
 
     #[Test]
