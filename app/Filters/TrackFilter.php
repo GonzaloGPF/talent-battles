@@ -19,18 +19,20 @@ class TrackFilter extends Filter
         ],
     ];
 
-    public function promoted($value): Filter
+    public function promoted($value): Builder
     {
-        if (! $value) {
-            return $this;
+        if ($value) {
+            $this->whereHas('product', fn (Builder $q) => $q->where('promoted', '>=', today()));
         }
 
-        return $this->whereHas('product', fn (Builder $q) => $q->where('promoted', '>=', today()));
+        return $this->query;
     }
 
-    public function withoutOpenBattles(): Filter
+    public function withoutOpenBattles(): Builder
     {
-        return $this->whereDoesntHave('battles', fn (Builder $builder) => $builder->whereIn('battle_state', [BattleStates::OPEN, BattleStates::IN_PROGRESS]));
+        $this->whereDoesntHave('battles', fn (Builder $builder) => $builder->whereIn('battle_state', [BattleStates::OPEN, BattleStates::IN_PROGRESS]));
+
+        return $this->query;
     }
 
     public function canChallenge($value): Builder
@@ -38,30 +40,36 @@ class TrackFilter extends Filter
         return $this->boolean('can_challenge', $value);
     }
 
-    public function exclusive($value): TrackFilter
+    public function exclusive($value): Builder
     {
-        return $this->whereHas('product', fn (Builder $q) => $this->boolean('exclusive', $value, $q));
+        $this->whereHas('product', fn (Builder $q) => $this->boolean('exclusive', $value, $q));
+
+        return $this->query;
     }
 
-    public function inSale($value): TrackFilter
+    public function inSale($value): Builder
     {
-        return $value
+        $value
             ? $this->whereHas('product')
             : $this->whereDoesntHave('product');
+
+        return $this->query;
     }
 
-    public function sold($value): TrackFilter
+    public function sold($value): Builder
     {
         $operator = $value
             ? '>'
             : '=';
 
-        return $this->whereHas('product', fn (Builder $q) => $q->where('sales', $operator, 0));
+        $this->whereHas('product', fn (Builder $q) => $q->where('sales', $operator, 0));
+
+        return $this->query;
     }
 
     public function tags($tags): Builder
     {
-        return $this->query->byTags($tags);
+        return $this->query->scopes(['byTags' => [$tags]]);
     }
 
     public function genres($values): Builder
