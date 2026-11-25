@@ -15,6 +15,10 @@ trait IsFilterable
 
     public int $maxLimit = 1000;
 
+    /**
+     * @param  Builder<self>  $query
+     * @return Collection<int, self>|LengthAwarePaginator<int, self>
+     */
     public function scopeGetOrPaginate(Builder $query): Collection|LengthAwarePaginator
     {
         $perPage = request('per_page') ?? $this->defaultPerPage;

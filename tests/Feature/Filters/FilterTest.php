@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestWith;
 use Tests\TestCase;
 
 class FilterTest extends TestCase
@@ -169,6 +170,24 @@ class FilterTest extends TestCase
         $data = $this->makeRequest(route('users.index', [
             'not_name' => ['User 1'],
         ]));
+
+        $this->assertCount(2, $data);
+    }
+
+    #[Test]
+    #[TestWith(['where_in'])]
+    #[TestWith(['boolean'])]
+    #[TestWith(['nullable'])]
+    #[TestWith(['filter_multiple'])]
+    #[TestWith(['apply_relations'])]
+    #[TestWith(['can_use_column'])]
+    #[TestWith(['setup'])]
+    public function an_input_named_after_a_helper_of_the_filter_is_ignored(string $input)
+    {
+        create(User::class, ['name' => 'User 1']);
+        create(User::class, ['name' => 'User 2']);
+
+        $data = $this->makeRequest(route('users.index', [$input => 'x']));
 
         $this->assertCount(2, $data);
     }

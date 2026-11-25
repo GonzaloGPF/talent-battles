@@ -2,20 +2,18 @@
 
 namespace App\Filters;
 
-use Illuminate\Database\Eloquent\Builder;
-
 class OrderFilter extends Filter
 {
     /**
      * Related Models that have ModelFilters as well as the method on the ModelFilter
      * As [relationMethod => [input_key1, input_key2]].
      *
-     * @var array
+     * @var array<string, array<array-key, string>>
      */
     public $relations = [];
 
-    public function succeeded($value): Builder
+    public function succeeded(mixed $value): void
     {
-        return $this->nullable('succeeded', $value);
+        $this->nullable('succeeded', $value);
     }
 }

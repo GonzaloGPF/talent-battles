@@ -4,6 +4,7 @@ namespace App\Filters;
 
 use App\Enums\BattleStates;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 class TrackFilter extends Filter
 {
@@ -11,7 +12,7 @@ class TrackFilter extends Filter
      * Related Models that have ModelFilters as well as the method on the ModelFilter
      * As [relationMethod => [input_key1, input_key2]].
      *
-     * @var array
+     * @var array<string, array<array-key, string>>
      */
     public $relations = [
         'album' => [
@@ -19,72 +20,58 @@ class TrackFilter extends Filter
         ],
     ];
 
-    public function promoted($value): Builder
+    public function promoted(mixed $value): void
     {
         if ($value) {
             $this->whereHas('product', fn (Builder $q) => $q->where('promoted', '>=', today()));
         }
-
-        return $this->query;
     }
 
-    public function withoutOpenBattles(): Builder
+    public function withoutOpenBattles(): void
     {
         $this->whereDoesntHave('battles', fn (Builder $builder) => $builder->whereIn('battle_state', [BattleStates::OPEN, BattleStates::IN_PROGRESS]));
-
-        return $this->query;
     }
 
-    public function canChallenge($value): Builder
+    public function canChallenge(mixed $value): void
     {
-        return $this->boolean('can_challenge', $value);
+        $this->boolean('can_challenge', $value);
     }
 
-    public function exclusive($value): Builder
+    public function exclusive(mixed $value): void
     {
         $this->whereHas('product', fn (Builder $q) => $this->boolean('exclusive', $value, $q));
-
-        return $this->query;
     }
 
-    public function inSale($value): Builder
+    public function inSale(mixed $value): void
     {
         $value
             ? $this->whereHas('product')
             : $this->whereDoesntHave('product');
-
-        return $this->query;
     }
 
-    public function sold($value): Builder
+    public function sold(mixed $value): void
     {
         $operator = $value
             ? '>'
             : '=';
 
         $this->whereHas('product', fn (Builder $q) => $q->where('sales', $operator, 0));
-
-        return $this->query;
     }
 
-    public function tags($tags): Builder
+    public function tags(mixed $tags): void
     {
-        return $this->query->scopes(['byTags' => [$tags]]);
+        $this->query->scopes(['byTags' => [$tags]]);
     }
 
-    public function genres($values): Builder
+    public function genres(mixed $values): void
     {
-        collect($values)
+        collect(Arr::wrap($values))
             ->each(fn (string $value) => $this->where('genres', 'like', "%$value%"));
-
-        return $this->query;
     }
 
-    public function instruments($values): Builder
+    public function instruments(mixed $values): void
     {
-        collect($values)
+        collect(Arr::wrap($values))
             ->each(fn (string $value) => $this->where('instruments', 'like', "%$value%"));
-
-        return $this->query;
     }
 }

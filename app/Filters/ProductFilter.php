@@ -6,26 +6,20 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ProductFilter extends Filter
 {
-    public function description($value): Builder
+    public function description(mixed $value): void
     {
         $this->where('description', 'like', "%$value%");
-
-        return $this->query;
     }
 
-    public function exclusive($value): Builder
+    public function exclusive(mixed $value): void
     {
         $this->boolean('exclusive', $value);
-
-        return $this->query;
     }
 
-    public function promoted($value): Builder
+    public function promoted(mixed $value): void
     {
         $value
             ? $this->where('promoted', '>=', today())
             : $this->where(fn (Builder $q) => $q->whereNull('promoted')->orWhere('promoted', '<', today()));
-
-        return $this->query;
     }
 }
