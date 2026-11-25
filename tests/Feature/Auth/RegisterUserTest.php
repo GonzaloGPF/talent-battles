@@ -49,14 +49,14 @@ class RegisterUserTest extends TestCase
     }
 
     #[Test]
-    public function when_registering_an_user_it_will_send_a_verification_email()
+    public function registering_sends_one_verification_email()
     {
         Queue::fake();
 
         $this->makeRequest()
             ->assertSuccessful();
 
-        Queue::assertPushed(SendEmail::class);
+        Queue::assertPushedTimes(SendEmail::class, 1);
     }
 
     #[Test]
