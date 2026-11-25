@@ -41,12 +41,14 @@ class HttpErrorResponsesTest extends TestCase
     }
 
     #[Test]
-    public function a_wrong_verb_is_not_allowed()
+    #[TestWith(['es', 'Método DELETE no permitido'])]
+    #[TestWith(['en', 'Method DELETE not allowed'])]
+    public function a_wrong_verb_is_not_allowed_in_the_language_asked_for(string $language, string $message)
     {
-        $this->withHeader('Accept-Language', 'en')
+        $this->withHeader('Accept-Language', $language)
             ->deleteJson(route('company.index'))
             ->assertMethodNotAllowed()
             ->assertHeader('Allow')
-            ->assertJsonPath('message', 'Method DELETE not allowed');
+            ->assertJsonPath('message', $message);
     }
 }

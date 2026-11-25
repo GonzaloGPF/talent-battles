@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 class Language
 {
     /**
-     * Handle an incoming request.
+     * Runs twice. As global middleware, before routing, it gives errors raised before a route is found the language the
+     * browser asks for. In the web and api groups, once the session has started, signed-in users get their own locale.
      *
      * @return mixed
      */
