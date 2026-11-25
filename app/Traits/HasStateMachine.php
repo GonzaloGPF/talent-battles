@@ -8,6 +8,8 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
 
+use function Illuminate\Support\enum_value;
+
 /**
  * Trait HasStateMachine
  *
@@ -20,13 +22,10 @@ trait HasStateMachine
      */
     public function changeState(string|BackedEnum $state, array $attributes = []): Model
     {
-        if ($state instanceof BackedEnum) {
-            $state = $state->value;
-        }
-
+        $state = enum_value($state);
         $property = array_keys($this->stateMachines)[0];
 
-        if (empty($this->$property) || $state === $this->$property) {
+        if (empty($this->$property) || $state === enum_value($this->$property)) {
             return $this;
         }
 

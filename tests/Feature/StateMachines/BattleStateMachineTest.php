@@ -79,7 +79,7 @@ class BattleStateMachineTest extends TestCase
     {
         $this->battle->changeState(BattleStates::OPEN);
 
-        $this->assertSame(BattleStates::OPEN->value, $this->battle->fresh()->battle_state);
+        $this->assertSame(BattleStates::OPEN, $this->battle->fresh()->battle_state);
     }
 
     #[Test]
@@ -91,7 +91,7 @@ class BattleStateMachineTest extends TestCase
             $this->battle->changeState(BattleStates::IN_PROGRESS);
             $this->fail('The transition should have been rejected');
         } catch (ValidationException) {
-            $this->assertSame(BattleStates::OPEN->value, $this->battle->fresh()->battle_state);
+            $this->assertSame(BattleStates::OPEN, $this->battle->fresh()->battle_state);
         }
     }
 
@@ -100,7 +100,7 @@ class BattleStateMachineTest extends TestCase
     {
         $this->battle->changeState(BattleStates::IN_PROGRESS);
 
-        $this->assertEquals(BattleStates::IN_PROGRESS->value, $this->battle->battle_state);
+        $this->assertEquals(BattleStates::IN_PROGRESS, $this->battle->battle_state);
     }
 
     #[Test]
@@ -126,7 +126,7 @@ class BattleStateMachineTest extends TestCase
 
         $this->battle->changeState(BattleStates::FINISHED);
 
-        $this->assertEquals(BattleStates::FINISHED->value, $this->battle->battle_state);
+        $this->assertEquals(BattleStates::FINISHED, $this->battle->battle_state);
         $this->assertEquals($this->winnerUser->id, $this->battle->won_by);
     }
 
@@ -245,6 +245,6 @@ class BattleStateMachineTest extends TestCase
 
         $this->battle = $this->battle->changeState(BattleStates::IN_PROGRESS);
 
-        $this->assertEquals(BattleStates::OPEN->value, $this->battle->battle_state);
+        $this->assertEquals(BattleStates::OPEN, $this->battle->battle_state);
     }
 }

@@ -64,7 +64,7 @@ class BattleVoteRequest extends FormRequest
             ],
             'battle_id' => [
                 new BattleNotVoted,
-                Rule::exists('battles', 'id')->where('battle_state', BattleStates::IN_PROGRESS->value),
+                Rule::exists('battles', 'id')->where('battle_state', BattleStates::IN_PROGRESS),
             ],
             $morphsAttributeId => new MustNotBeOwner(getMorphTable($this->get('model_type'))),
         ];

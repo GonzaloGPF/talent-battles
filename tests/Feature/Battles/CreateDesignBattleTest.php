@@ -57,7 +57,7 @@ class CreateDesignBattleTest extends TestCase
 
         /** @var Battle $battle */
         $battle = Battle::first();
-        $this->assertEquals(BattleStates::OPEN->value, $battle->battle_state);
+        $this->assertEquals(BattleStates::OPEN, $battle->battle_state);
         $this->assertEquals(BattleTypes::DESIGN, $battle->battle_type);
         $this->assertCount(1, $battle->designs);
 
@@ -96,7 +96,7 @@ class CreateDesignBattleTest extends TestCase
             ->assertSuccessful();
 
         $battle = Battle::first();
-        $this->assertEquals(BattleStates::IN_PROGRESS->value, $battle->battle_state);
+        $this->assertEquals(BattleStates::IN_PROGRESS, $battle->battle_state);
         $this->assertCount(2, $battle->designs);
 
         $this->assertTrue($design->battles->contains($battle->id));
@@ -163,7 +163,7 @@ class CreateDesignBattleTest extends TestCase
 
         /** @var Battle $battle */
         $battle = Battle::first();
-        $this->assertEquals(BattleStates::IN_PROGRESS->value, $battle->battle_state);
+        $this->assertEquals(BattleStates::IN_PROGRESS, $battle->battle_state);
         $this->assertEquals(BattleTypes::DESIGN, $battle->battle_type);
         $this->assertCount(2, $battle->designs);
 

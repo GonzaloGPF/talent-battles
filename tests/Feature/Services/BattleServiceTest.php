@@ -37,7 +37,7 @@ class BattleServiceTest extends TestCase
 
         $battle = $this->service->createForTracks($track1, $track2);
 
-        $this->assertEquals(BattleStates::IN_PROGRESS->value, $battle->battle_state);
+        $this->assertEquals(BattleStates::IN_PROGRESS, $battle->battle_state);
         $this->assertEquals(BattleTypes::TRACK, $battle->battle_type);
         $this->assertCount(2, $battle->tracks);
     }
@@ -59,7 +59,7 @@ class BattleServiceTest extends TestCase
         $battle = $this->service->createForTracks($track1, $track2);
 
         $this->assertEquals($existingBattle->id, $battle->id);
-        $this->assertEquals(BattleStates::IN_PROGRESS->value, $battle->battle_state);
+        $this->assertEquals(BattleStates::IN_PROGRESS, $battle->battle_state);
         $this->assertEquals(BattleTypes::TRACK, $battle->battle_type);
         $this->assertCount(2, $battle->tracks);
     }
@@ -72,7 +72,7 @@ class BattleServiceTest extends TestCase
 
         $battle = $this->service->createForTrack($track);
 
-        $this->assertEquals(BattleStates::OPEN->value, $battle->battle_state);
+        $this->assertEquals(BattleStates::OPEN, $battle->battle_state);
         $this->assertEquals(BattleTypes::TRACK, $battle->battle_type);
         $this->assertCount(1, $battle->tracks);
     }
@@ -98,7 +98,7 @@ class BattleServiceTest extends TestCase
         $battle = $this->service->createForTrack($track1);
 
         $this->assertEquals($existingBattle->id, $battle->id);
-        $this->assertEquals(BattleStates::IN_PROGRESS->value, $battle->battle_state);
+        $this->assertEquals(BattleStates::IN_PROGRESS, $battle->battle_state);
         $this->assertEquals(BattleTypes::TRACK, $battle->battle_type);
         $this->assertCount(2, $battle->tracks);
     }
@@ -118,7 +118,7 @@ class BattleServiceTest extends TestCase
         $battle = $this->service->createForTrack($track1);
 
         $this->assertEquals($existingBattle->id, $battle->id);
-        $this->assertEquals(BattleStates::OPEN->value, $battle->battle_state);
+        $this->assertEquals(BattleStates::OPEN, $battle->battle_state);
         $this->assertEquals(BattleTypes::TRACK, $battle->battle_type);
         $this->assertCount(1, $battle->tracks);
     }

@@ -76,7 +76,7 @@ class MatchmakingServiceTest extends TestCase
         $this->matchmakingService->fillBattlesInProgress();
 
         $battle = Battle::sole();
-        $this->assertEquals(BattleStates::IN_PROGRESS->value, $battle->battle_state);
+        $this->assertEquals(BattleStates::IN_PROGRESS, $battle->battle_state);
         $this->assertEqualsCanonicalizing($beats->pluck('id')->all(), $battle->tracks->modelKeys());
         Event::assertDispatched(BattleInProgress::class);
     }

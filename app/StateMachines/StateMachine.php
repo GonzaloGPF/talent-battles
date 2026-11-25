@@ -3,9 +3,12 @@
 namespace App\StateMachines;
 
 use App\Exceptions\TransitionNotAllowedException;
+use BackedEnum;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
+
+use function Illuminate\Support\enum_value;
 
 abstract class StateMachine
 {
@@ -46,12 +49,15 @@ abstract class StateMachine
     }
 
     /**
+     * The field may be cast to a backed enum: transitions, validators and hooks work with its value.
+     *
      * @throws TransitionNotAllowedException
      * @throws ValidationException
      */
-    public function transitionTo(string $to): void
+    public function transitionTo(string|BackedEnum $to): void
     {
-        $from = $this->model->{$this->field};
+        $from = enum_value($this->model->{$this->field});
+        $to = enum_value($to);
 
         if ($to === $from) {
             return;
