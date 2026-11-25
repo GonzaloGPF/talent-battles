@@ -301,7 +301,7 @@ class PageMetaService
                 : trans('seo.pages.battles.description');
         }
 
-        if ($battle->battle_state !== BattleStates::FINISHED->value) {
+        if ($battle->battle_state !== BattleStates::FINISHED) {
             return trans('seo.battle_description', $this->versusReplacements($creations[0], $creations[1]));
         }
 

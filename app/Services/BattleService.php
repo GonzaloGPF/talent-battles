@@ -173,7 +173,7 @@ class BattleService
         $participants = $battles->flatMap(fn (Battle $battle) => $battle->getParticipants())->unique('id');
 
         DB::transaction(function () use ($battles, $ids, $morphClass, $participants) {
-            $battles->where('battle_state', BattleStates::FINISHED->value)
+            $battles->where('battle_state', BattleStates::FINISHED)
                 ->each(fn (Battle $battle) => $this->pointsService->takeBackBattlePoints($battle));
 
             Comment::where('commentable_type', $morphClass)->whereIn('commentable_id', $ids)->delete();
@@ -204,7 +204,7 @@ class BattleService
     private function changeStateToInProgress(Battle $battle): void
     {
         try {
-            $battle->fresh()->changeState(BattleStates::IN_PROGRESS); // TODO: remove fresh() when StateMachines supports enums
+            $battle->changeState(BattleStates::IN_PROGRESS);
         } catch (Exception $e) {
             Logger::exception($e);
 

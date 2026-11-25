@@ -78,7 +78,7 @@ class BattleController extends Controller
      */
     public function destroy(Battle $battle): JsonResponse
     {
-        if ($battle->battle_state !== BattleStates::OPEN->value) {
+        if ($battle->battle_state !== BattleStates::OPEN) {
             throw new AuthorizationException(trans('validation.wrong_state'));
         }
 

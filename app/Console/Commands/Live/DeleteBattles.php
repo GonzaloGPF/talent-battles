@@ -36,7 +36,7 @@ class DeleteBattles extends Command
     {
         $before = Carbon::parse($this->argument('before'));
         $battles = Battle::where('created_at', '<', $before)->get();
-        $finished = $battles->where('battle_state', BattleStates::FINISHED->value)->count();
+        $finished = $battles->where('battle_state', BattleStates::FINISHED)->count();
 
         $this->info("{$battles->count()} Battles were created before {$before->toDateTimeString()}, $finished of them finished.");
 

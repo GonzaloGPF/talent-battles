@@ -44,7 +44,7 @@ class Battle extends Model implements HasCommentsInterface, HasCreatedByInterfac
     protected $fillable = [];
 
     protected $casts = [
-        //        'battle_state' => BattleStates::class, // TODO: uncomment it when StateMachines offers support to enums fields
+        'battle_state' => BattleStates::class,
         'battle_type' => BattleTypes::class,
         'won_by' => 'int',
     ];

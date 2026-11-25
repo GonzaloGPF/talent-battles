@@ -55,10 +55,10 @@ class CheckBattlesToFinishTest extends TestCase
 
         $this->job->handle();
 
-        $this->assertEquals(BattleStates::OPEN->value, $this->openBattle->fresh()->battle_state);
-        $this->assertEquals(BattleStates::FINISHED->value, $this->finishedBattle->fresh()->battle_state);
-        $this->assertEquals(BattleStates::FINISHED->value, $this->inProgressBattleOld->fresh()->battle_state);
-        $this->assertEquals(BattleStates::IN_PROGRESS->value, $this->inProgressBattleRecent->fresh()->battle_state);
+        $this->assertEquals(BattleStates::OPEN, $this->openBattle->fresh()->battle_state);
+        $this->assertEquals(BattleStates::FINISHED, $this->finishedBattle->fresh()->battle_state);
+        $this->assertEquals(BattleStates::FINISHED, $this->inProgressBattleOld->fresh()->battle_state);
+        $this->assertEquals(BattleStates::IN_PROGRESS, $this->inProgressBattleRecent->fresh()->battle_state);
     }
 
     #[Test]
@@ -70,8 +70,8 @@ class CheckBattlesToFinishTest extends TestCase
 
         $this->job->handle();
 
-        $this->assertEquals(BattleStates::IN_PROGRESS->value, $battleWithoutOpponent->fresh()->battle_state);
-        $this->assertEquals(BattleStates::FINISHED->value, $battleWithOpponent->fresh()->battle_state);
+        $this->assertEquals(BattleStates::IN_PROGRESS, $battleWithoutOpponent->fresh()->battle_state);
+        $this->assertEquals(BattleStates::FINISHED, $battleWithOpponent->fresh()->battle_state);
     }
 
     #[Test]
@@ -99,7 +99,7 @@ class CheckBattlesToFinishTest extends TestCase
 
         $this->job->handle();
 
-        $this->assertEquals(BattleStates::IN_PROGRESS->value, $this->inProgressBattleOld->fresh()->battle_state);
+        $this->assertEquals(BattleStates::IN_PROGRESS, $this->inProgressBattleOld->fresh()->battle_state);
     }
 
     private function createExpiredBattle(int $daysAgo): Battle

@@ -19,11 +19,11 @@ class BattleSummaryCardController extends Controller
             ])->count(),
             'open' => Battle::filter([
                 'by_participants' => [$userId],
-            ])->where('battle_state', BattleStates::OPEN->value)
+            ])->where('battle_state', BattleStates::OPEN)
                 ->count(),
             'in_progress' => Battle::filter([
                 'by_participants' => [$userId],
-            ])->where('battle_state', BattleStates::IN_PROGRESS->value)
+            ])->where('battle_state', BattleStates::IN_PROGRESS)
                 ->count(),
             'won' => Battle::filter([
                 'by_participants' => [$userId],

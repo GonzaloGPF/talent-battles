@@ -93,11 +93,4 @@ class BattleFilter extends Filter
     {
         return $this->query->byParticipants($ids);
     }
-
-    public function battleStates($values): Builder // TODO: remove this when StateMachine supports enums (and could cast battle_state correctly for automatic enum filtering)
-    {
-        $this->whereIn('battle_state', $values);
-
-        return $this->query;
-    }
 }

@@ -130,7 +130,7 @@ class MatchmakingService
             DB::transaction(function () use ($creation, $opponent, $platformUserId, $settings) {
                 $battle = Battle::forceCreate([
                     'created_by' => $platformUserId,
-                    'battle_state' => BattleStates::OPEN->value,
+                    'battle_state' => BattleStates::OPEN,
                     'battle_type' => $settings['battle'],
                 ]);
 
