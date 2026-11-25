@@ -8,21 +8,18 @@ use Illuminate\Http\Request;
 class TrustProxies extends Middleware
 {
     /**
-     * The trusted proxies for this application.
+     * In production the public nginx passes every request to another nginx on the same server, so PHP sees them all
+     * coming from the loopback address.
      *
-     * @var array|string|null
+     * @var array<int, string>
      */
-    protected $proxies;
+    protected $proxies = ['127.0.0.1', '::1'];
 
     /**
-     * The headers that should be used to detect proxies.
+     * Only the visitor's IP is taken from the proxy: nginx appends it to X-Forwarded-For, so a visitor cannot forge it.
+     * Other forwarded headers would pass through from the visitor unchanged.
      *
      * @var int
      */
-    protected $headers =
-        Request::HEADER_X_FORWARDED_FOR |
-        Request::HEADER_X_FORWARDED_HOST |
-        Request::HEADER_X_FORWARDED_PORT |
-        Request::HEADER_X_FORWARDED_PROTO |
-        Request::HEADER_X_FORWARDED_AWS_ELB;
+    protected $headers = Request::HEADER_X_FORWARDED_FOR;
 }
