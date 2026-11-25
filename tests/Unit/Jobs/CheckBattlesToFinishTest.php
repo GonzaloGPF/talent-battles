@@ -16,6 +16,8 @@ class CheckBattlesToFinishTest extends TestCase
 {
     use RefreshDatabase;
 
+    private int $battleTTL;
+
     private CheckBattlesToFinish $job;
 
     private Battle $openBattle;
