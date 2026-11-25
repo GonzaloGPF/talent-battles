@@ -224,8 +224,6 @@ class StripeApi extends Api
     }
 
     /**
-     * @return array|null
-     *
      * @throws ValidationException
      */
     public function createAccount(User $user): ?Account

@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^PHPDoc tag @return with type array\|null is not subtype of native type Stripe\\Account\|null\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: app/Api/StripeApi.php
-
-		-
 			message: '#^Parameter \#1 \$amount of method App\\Models\\User\:\:creditBalance\(\) expects int, string given\.$#'
 			identifier: argument.type
 			count: 1
@@ -121,12 +115,6 @@ parameters:
 			path: app/Filters/Filter.php
 
 		-
-			message: '#^Property App\\Filters\\Filter\:\:\$errors is never read, only written\.$#'
-			identifier: property.onlyWritten
-			count: 1
-			path: app/Filters/Filter.php
-
-		-
 			message: '#^Method App\\Filters\\ProductFilter\:\:promoted\(\) should return App\\Filters\\TrackFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
 			identifier: return.type
 			count: 2
@@ -151,7 +139,7 @@ parameters:
 			path: app/Filters/TrackFilter.php
 
 		-
-			message: '#^Method App\\Filters\\TrackFilter\:\:promoted\(\) should return App\\Filters\\TrackFilter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
+			message: '#^Method App\\Filters\\TrackFilter\:\:promoted\(\) should return App\\Filters\\Filter but returns Illuminate\\Database\\Eloquent\\Builder\.$#'
 			identifier: return.type
 			count: 1
 			path: app/Filters/TrackFilter.php
@@ -169,12 +157,6 @@ parameters:
 			path: app/Filters/TrackFilter.php
 
 		-
-			message: '#^PHPDoc tag @return with type Illuminate\\Database\\Eloquent\\Builder is incompatible with native type App\\Filters\\TrackFilter\.$#'
-			identifier: return.phpDocType
-			count: 3
-			path: app/Filters/TrackFilter.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
 			identifier: property.notFound
 			count: 2
@@ -189,12 +171,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\|Illuminate\\Support\\Collection\:\:\$id\.$#'
 			identifier: property.notFound
-			count: 2
-			path: app/Helpers/globals.php
-
-		-
-			message: '#^Call to static method factory\(\) on an unknown class Illuminate\\Database\\Eloquent\\Factories\\HasFactory\.$#'
-			identifier: class.notFound
 			count: 2
 			path: app/Helpers/globals.php
 
@@ -217,28 +193,10 @@ parameters:
 			path: app/Helpers/globals.php
 
 		-
-			message: '#^PHPDoc tag @return with type mixed is not subtype of native type Illuminate\\Database\\Eloquent\\Model\|Illuminate\\Support\\Collection\.$#'
-			identifier: return.phpDocType
-			count: 2
-			path: app/Helpers/globals.php
-
-		-
 			message: '#^Using nullsafe property access "\?\-\>id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
 			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Helpers/globals.php
-
-		-
-			message: '#^Access to property \$created_by on an unknown class App\\Traits\\HasCreatedBy\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Http/Controllers/DownloadController.php
-
-		-
-			message: '#^Call to method downloads\(\) on an unknown class App\\Traits\\HasCreatedBy\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Http/Controllers/DownloadController.php
 
 		-
 			message: '#^Negated boolean expression is always false\.$#'
@@ -319,34 +277,10 @@ parameters:
 			path: app/Http/Controllers/Stripe/PaymentMethodController.php
 
 		-
-			message: '#^PHPDoc type array of property App\\Http\\Middleware\\EncryptCookies\:\:\$except is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Cookie\\Middleware\\EncryptCookies\:\:\$except\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Http/Middleware/EncryptCookies.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Http\\Middleware\\PreventRequestsDuringMaintenance\:\:\$except is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance\:\:\$except\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Http/Middleware/PreventRequestsDuringMaintenance.php
-
-		-
 			message: '#^PHPDoc tag @param for parameter \$guards with type string\|null is not subtype of native type string\.$#'
 			identifier: parameter.phpDocType
 			count: 1
 			path: app/Http/Middleware/RedirectIfAuthenticated.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Http\\Middleware\\TrimStrings\:\:\$except is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Http\\Middleware\\TrimStrings\:\:\$except\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Http/Middleware/TrimStrings.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Http\\Middleware\\VerifyCsrfToken\:\:\$except is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Http\\Middleware\\PreventRequestForgery\:\:\$except\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Http/Middleware/VerifyCsrfToken.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\:\:areInProgress\(\)\.$#'
@@ -455,24 +389,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Resources/UserResource.php
-
-		-
-			message: '#^PHPDoc tag @property has invalid value \(User createdBy\)\: Unexpected token "createdBy", expected variable at offset 119 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Interfaces/HasCreatedByInterface.php
-
-		-
-			message: '#^PHPDoc tag @property has invalid value \(int created_by\)\: Unexpected token "created_by", expected variable at offset 59 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Interfaces/HasCreatedByInterface.php
-
-		-
-			message: '#^PHPDoc tag @property has invalid value \(int payment_state\)\: Unexpected token "payment_state", expected variable at offset 87 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Interfaces/HasCreatedByInterface.php
 
 		-
 			message: '#^Method App\\Jobs\\HandlePaymentIntent\:\:handle\(\) with return type void returns null but should not return anything\.$#'
@@ -817,24 +733,6 @@ parameters:
 			path: app/Models/User.php
 
 		-
-			message: '#^PHPDoc type array of property App\\Models\\User\:\:\$casts is not covariant with PHPDoc type array\<string, string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$casts\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Models/User.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Models\\User\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Models/User.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Models\\User\:\:\$hidden is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$hidden\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Models/User.php
-
-		-
 			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
 			identifier: property.notFound
 			count: 1
@@ -895,12 +793,6 @@ parameters:
 			path: app/Objects/FFMpegManager.php
 
 		-
-			message: '#^Call to static method exception\(\) on an unknown class App\\Objects\\Logger\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Objects/FFMpegManager.php
-
-		-
 			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
 			identifier: nullsafe.neverNull
 			count: 1
@@ -917,18 +809,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Providers/AuthServiceProvider.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Providers\\AuthServiceProvider\:\:\$policies is not covariant with PHPDoc type array\<class\-string, class\-string\> of overridden property Illuminate\\Foundation\\Support\\Providers\\AuthServiceProvider\:\:\$policies\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Providers/AuthServiceProvider.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Providers\\EventServiceProvider\:\:\$listen is not covariant with PHPDoc type array\<string, array\<int, string\>\> of overridden property Illuminate\\Foundation\\Support\\Providers\\EventServiceProvider\:\:\$listen\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Providers/EventServiceProvider.php
 
 		-
 			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
@@ -977,12 +857,6 @@ parameters:
 			identifier: property.unusedType
 			count: 1
 			path: app/Rules/NameRule.php
-
-		-
-			message: '#^Property App\\Scopes\\MineOrGuestScope\:\:\$column is never read, only written\.$#'
-			identifier: property.onlyWritten
-			count: 1
-			path: app/Scopes/MineOrGuestScope.php
 
 		-
 			message: '#^If condition is always true\.$#'
@@ -1037,30 +911,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Services/ConstantsService.php
-
-		-
-			message: '#^PHPDoc tag @return with type App\\Interfaces\\HasFilesInterface\|App\\Interfaces\\HasProductInterface\|null is not subtype of native type App\\Models\\Design\|App\\Models\\Track\|null\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: app/Services/CreationService.php
-
-		-
-			message: '#^PHPDoc tag @param references unknown parameter\: \$creatorName$#'
-			identifier: parameter.notFound
-			count: 1
-			path: app/Services/EmailService.php
-
-		-
-			message: '#^PHPDoc tag @param references unknown parameter\: \$email$#'
-			identifier: parameter.notFound
-			count: 1
-			path: app/Services/EmailService.php
-
-		-
-			message: '#^PHPDoc tag @param references unknown parameter\: \$userName$#'
-			identifier: parameter.notFound
-			count: 1
-			path: app/Services/EmailService.php
 
 		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{description\: string, url\: string\|null\}, Closure\(App\\Models\\OrderLine\)\: array\{description\: string, url\: string\|null\} given\.$#'

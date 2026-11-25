@@ -36,8 +36,6 @@ class Filter extends ModelFilter
      */
     protected array $privateColumns = [];
 
-    private array $errors;
-
     private array $enumColumns;
 
     public function __construct($query, array $input = [], $relationsEnabled = true)
@@ -166,8 +164,8 @@ class Filter extends ModelFilter
                     : $date->endOfDay()->toDateTimeString();
 
                 $this->query->where($column, $operator, $dateString);
-            } catch (Exception $exception) {
-                $this->errors[$input] = trans('exceptions.wrong_format', ['value' => $value]);
+            } catch (Exception) {
+                // A date that cannot be read leaves the range unfiltered
             }
         } else {
             $this->query->where($column, $operator, (float) $value);

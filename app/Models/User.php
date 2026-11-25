@@ -64,7 +64,7 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = [
         // 'role',
@@ -91,7 +91,7 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -102,7 +102,7 @@ class User extends Authenticatable implements HasCommentsInterface, HasFavorites
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'role' => Roles::class,

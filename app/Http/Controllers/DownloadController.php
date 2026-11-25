@@ -8,7 +8,6 @@ use App\Http\Resources\DownloadResource;
 use App\Interfaces\HasDownloadsInterface;
 use App\Models\Download;
 use App\Rules\ModelInterfaceRule;
-use App\Traits\HasCreatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -55,7 +54,7 @@ class DownloadController extends Controller
             'file_id' => ['required', Rule::exists('files', 'id')],
         ]);
 
-        /** @var HasCreatedBy|HasDownloadsInterface|Model $model */
+        /** @var HasDownloadsInterface&Model $model */
         $model = morphedModel($request->get('model_type'), $request->get('model_id'));
 
         /** @var Download $download */
@@ -64,7 +63,7 @@ class DownloadController extends Controller
             ->where('created_by', auth()->id())
             ->first();
 
-        if ($model->created_by !== auth()->id() && ! $download) {
+        if ($model->getAttribute('created_by') !== auth()->id() && ! $download) {
             /** @var Download $download */
             $download = (new Download)
                 ->downloable()
