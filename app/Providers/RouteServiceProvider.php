@@ -47,8 +47,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureRateLimiting(): void
     {
+        /*
+         * A page of the SPA makes up to 13 API requests when it loads from scratch: 300 a minute leaves room for fast
+         * browsing and stops a script hammering the API.
+         */
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+            return Limit::perMinute(300)->by($request->user()?->id ?: $request->ip());
         });
 
         /*
