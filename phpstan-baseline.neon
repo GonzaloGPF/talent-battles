@@ -25,12 +25,6 @@ parameters:
 			path: app/Api/StripeApi.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Events/BattleFinished.php
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
@@ -49,24 +43,6 @@ parameters:
 			path: app/Events/SalesCreated.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Helpers/NotificationHelper.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Helpers/globals.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\|Illuminate\\Support\\Collection\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Helpers/globals.php
-
-		-
 			message: '#^Expression on left side of \?\? is not nullable\.$#'
 			identifier: nullCoalesce.expr
 			count: 1
@@ -81,12 +57,6 @@ parameters:
 		-
 			message: '#^Offset ''function'' on array\{function\: string, line\?\: int, file\?\: string, class\?\: class\-string, type\?\: string, args\?\: list\<mixed\>, object\?\: object\} in isset\(\) always exists and is not nullable\.$#'
 			identifier: isset.offset
-			count: 1
-			path: app/Helpers/globals.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Helpers/globals.php
 
@@ -131,18 +101,6 @@ parameters:
 			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Http/Controllers/OrderController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getTotal\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Controllers/PayNowController.php
-
-		-
-			message: '#^Parameter \#1 \$cart of method App\\Services\\OrderService\:\:createFromCart\(\) expects App\\Models\\Cart, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Controllers/PayNowController.php
 
 		-
 			message: '#^Using nullsafe property access on non\-nullable type Carbon\\Carbon\. Use \-\> instead\.$#'
@@ -223,12 +181,6 @@ parameters:
 			path: app/Http/Requests/DesignBattleRequest.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$items\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Requests/PayNowRequest.php
-
-		-
 			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
 			identifier: nullsafe.neverNull
 			count: 1
@@ -247,42 +199,6 @@ parameters:
 			path: app/Http/Requests/TrackBattleRequest.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\DesignResource\:\:\$duration\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Resources/DesignResource.php
-
-		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\FileResource\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Resources/FileResource.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$account\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Resources/InvitationResource.php
-
-		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\TagResource\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Resources/TagResource.php
-
-		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$email\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Resources/UserResource.php
-
-		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$notification_settings\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Resources/UserResource.php
-
-		-
 			message: '#^Method App\\Jobs\\HandlePaymentIntent\:\:handle\(\) with return type void returns null but should not return anything\.$#'
 			identifier: return.void
 			count: 1
@@ -293,18 +209,6 @@ parameters:
 			identifier: booleanNot.alwaysFalse
 			count: 1
 			path: app/Jobs/HandlePaymentIntent.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Listeners/CreateActivity.php
-
-		-
-			message: '#^Parameter \#2 \$target of method App\\Services\\ActivityService\:\:create\(\) expects App\\Interfaces\\HasCreatedByInterface\|App\\Models\\User, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
-			identifier: argument.type
-			count: 4
-			path: app/Listeners/CreateActivity.php
 
 		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: \(App\\Models\\Sale\|null\), Closure\(App\\Models\\OrderLine\)\: \(App\\Models\\Sale\|null\) given\.$#'
@@ -349,58 +253,10 @@ parameters:
 			path: app/Listeners/SyncGuestCart.php
 
 		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Activity.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Album.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasTagsInterface\:\:\$tags\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Album.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: app/Models/Album.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$createdBy\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Battle.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Battle.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Cart.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Comment.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Comment.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
@@ -409,130 +265,10 @@ parameters:
 			path: app/Models/Comment.php
 
 		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Design.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasTagsInterface\:\:\$tags\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Design.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$promoted\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Design.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isBlocked\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Models/Design.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: app/Models/Design.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Donation.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Download.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Download.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Email.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Favorite.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Favorite.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/FavoriteList.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/File.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\File\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/File.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Http.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Invitation.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Like.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Like.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Order.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$payment_state\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Order.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:cleanItems\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Models/Order.php
 
 		-
 			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
@@ -541,22 +277,10 @@ parameters:
 			path: app/Models/Order.php
 
 		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/OrderLine.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: app/Models/OrderLine.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Product.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
@@ -565,52 +289,10 @@ parameters:
 			path: app/Models/Product.php
 
 		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Report.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$createdBy\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Report.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: app/Models/Report.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Sale.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Track.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasTagsInterface\:\:\$tags\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Track.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$promoted\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Track.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isBlocked\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Models/Track.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:areImage\(\)\.$#'
@@ -623,60 +305,6 @@ parameters:
 			identifier: method.notFound
 			count: 1
 			path: app/Models/User.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Vote.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/BattleStarted.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/CommentReceived.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/DownloadReceived.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/FavoriteReceived.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/LikeReceived.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/ReportReceived.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/ReportSolved.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Objects/CartItem.php
 
 		-
 			message: '#^Call to an undefined method ProtoneMedia\\LaravelFFMpeg\\Exporters\\MediaExporter\:\:setAdditionalParameters\(\)\.$#'
@@ -695,12 +323,6 @@ parameters:
 			identifier: new.static
 			count: 1
 			path: app/Providers/AppServiceProvider.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Providers/AuthServiceProvider.php
 
 		-
 			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
@@ -757,12 +379,6 @@ parameters:
 			path: app/Scopes/ReportScope.php
 
 		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasCreatedByInterface\|App\\Models\\User\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/ActivityService.php
-
-		-
 			message: '#^Property App\\Models\\Activity\:\:\$activity_type \(App\\Enums\\ActivityTypes\) does not accept BackedEnum\|string\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -775,64 +391,16 @@ parameters:
 			path: app/Services/ActivityService.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$created_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/BattleService.php
-
-		-
 			message: '#^Negated boolean expression is always false\.$#'
 			identifier: booleanNot.alwaysFalse
 			count: 2
 			path: app/Services/BattleService.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/ConstantsService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$label\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/ConstantsService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/ConstantsService.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{description\: string, url\: string\|null\}, Closure\(App\\Models\\OrderLine\)\: array\{description\: string, url\: string\|null\} given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Services/EmailService.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasFilesInterface\:\:\$file\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/FileService.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasFilesInterface\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/FileService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$file\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/OrderLineService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$sales\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/OrderLineService.php
 
 		-
 			message: '#^Negated boolean expression is always false\.$#'
@@ -865,40 +433,10 @@ parameters:
 			path: app/Services/PointsService.php
 
 		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasProductInterface\:\:\$description\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/ProductService.php
-
-		-
-			message: '#^Access to an undefined property App\\Interfaces\\HasProductInterface\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/ProductService.php
-
-		-
 			message: '#^Called ''Model\:\:make\(\)'' which performs unnecessary work, use ''new Model\(\)''\.$#'
 			identifier: larastan.noModelMake
 			count: 1
 			path: app/Services/ProductService.php
-
-		-
-			message: '#^Parameter \#1 \$model of method Illuminate\\Database\\Eloquent\\Relations\\MorphTo\<Illuminate\\Database\\Eloquent\\Model,Illuminate\\Database\\Eloquent\\Model\>\:\:associate\(\) expects Illuminate\\Database\\Eloquent\\Model\|null, App\\Interfaces\\HasProductInterface given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Services/ProductService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/SaleService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/VoteService.php
 
 		-
 			message: '#^Negated boolean expression is always false\.$#'

@@ -26,7 +26,6 @@ class DesignResource extends ApiResource
             'aspect_ratio' => $this->aspect_ratio,
             'name' => $this->name,
             'color' => $this->color,
-            'duration' => $this->duration,
             'description' => $this->description,
             'can_challenge' => $this->can_challenge,
             'tags' => $this->tags,

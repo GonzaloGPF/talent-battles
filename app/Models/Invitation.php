@@ -20,6 +20,9 @@ class Invitation extends Model implements HasCreatedByInterface
         IsFilterable,
         SoftDeletes;
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

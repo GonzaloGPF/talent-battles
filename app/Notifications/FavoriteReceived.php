@@ -54,7 +54,7 @@ class FavoriteReceived extends Notification implements NotyInterface
     {
         return [
             'name' => $this->favorite->createdBy?->getNickName(),
-            'target' => $this->favorite->favoritable?->name,
+            'target' => $this->favorite->favoritable?->getAttribute('name'),
         ];
     }
 

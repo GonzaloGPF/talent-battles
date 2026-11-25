@@ -31,6 +31,6 @@ class Like extends Model implements FilterableMorph, HasCreatedByInterface
 
     public function getTargetUser(): ?User
     {
-        return $this->likeable?->createdBy;
+        return $this->likeable?->getRelationValue('createdBy');
     }
 }

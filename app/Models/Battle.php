@@ -141,7 +141,7 @@ class Battle extends Model implements HasCommentsInterface, HasCreatedByInterfac
         return $pointValues->get(0) === $pointValues->get(1);
     }
 
-    public function getWinningCreation(): ?Model
+    public function getWinningCreation(): Track|Design|null
     {
         if ($this->isDraw()) {
             return null;
@@ -158,7 +158,7 @@ class Battle extends Model implements HasCommentsInterface, HasCreatedByInterfac
     public function getParticipants(): Collection
     {
         return $this->getCreations()
-            ->map(fn (HasCreatedByInterface $creation) => $creation->createdBy)
+            ->map(fn (Track|Design $creation) => $creation->createdBy)
             ->filter();
     }
 

@@ -115,7 +115,7 @@ class CartItem implements Arrayable, JsonSerializable
             ProductTypes::DESIGN => trans('help.buy_of', ['description' => $product->name]),
             ProductTypes::POINTS => trans('help.buying_points', ['points' => $quantity]),
             ProductTypes::PROMO => trans('help.featuring_creation', [
-                'creation' => morphedModel($itemData['orderable_type'], $itemData['orderable_id'])?->name,
+                'creation' => morphedModel($itemData['orderable_type'], $itemData['orderable_id'])?->getAttribute('name'),
                 'date' => today()->addMonths($quantity)->toDateString(),
             ]),
             ProductTypes::DONATION => $this->description ?? modelTitle('donation'),

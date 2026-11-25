@@ -42,9 +42,9 @@ class ConstantsService
         }
 
         return [
-            'id' => $model->id,
-            'name' => $model->name,
-            'label' => $model->label,
+            'id' => $model->getKey(),
+            'name' => $model->getAttribute('name'),
+            'label' => $model->getAttribute('label'),
         ];
     }
 

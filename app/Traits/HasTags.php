@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Interfaces\HasTagsInterface;
 use App\Services\TagService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -17,7 +16,7 @@ trait HasTags
 
     public static function bootHasTags(): void
     {
-        static::created(function (HasTagsInterface $model) {
+        static::created(function (self $model) {
             resolve(TagService::class)->saveTags($model->tags);
         });
     }

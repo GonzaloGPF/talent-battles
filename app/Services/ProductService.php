@@ -7,16 +7,17 @@ use App\Interfaces\HasProductInterface;
 use App\Models\Design;
 use App\Models\Product;
 use App\Models\Track;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
 class ProductService
 {
-    public function create(array $data, HasProductInterface $model, ?UploadedFile $uploadedFile = null): Product
+    public function create(array $data, HasProductInterface&Model $model, ?UploadedFile $uploadedFile = null): Product
     {
         $product = Product::make()->forceFill([
             'product_type' => $this->getProductType($model, $data),
-            'name' => $data['name'] ?? $model->name,
-            'description' => $data['description'] ?? $model->description,
+            'name' => $data['name'] ?? $model->getAttribute('name'),
+            'description' => $data['description'] ?? $model->getAttribute('description'),
             'price' => $data['price'],
             'exclusive' => $data['exclusive'] ?? false,
         ]);
@@ -32,13 +33,13 @@ class ProductService
         return $product;
     }
 
-    public function createFrom(HasProductInterface $model, array $data, UploadedFile $uploadedFile, ?UploadedFile $untaggedFile = null): Product
+    public function createFrom(HasProductInterface&Model $model, array $data, UploadedFile $uploadedFile, ?UploadedFile $untaggedFile = null): Product
     {
         $uploadedFile = $untaggedFile ?? $uploadedFile;
 
         return $this->create([
             'product_type' => $this->getProductType($model),
-            'name' => $model->name,
+            'name' => $model->getAttribute('name'),
             'description' => null,
             'price' => $data['price'],
             'exclusive' => $data['exclusive'] ?? false,
@@ -62,7 +63,7 @@ class ProductService
         return $product;
     }
 
-    private function getProductType(HasProductInterface $model, ?array $data = [])
+    private function getProductType(HasProductInterface&Model $model, ?array $data = [])
     {
         if ($model instanceof Track) {
             return ProductTypes::TRACK;

@@ -51,6 +51,6 @@ class Report extends Model implements HasCreatedByInterface, HasFilesInterface
 
     public function getReportedUser(): ?User
     {
-        return $this->reportable?->createdBy;
+        return $this->reportable?->getRelationValue('createdBy');
     }
 }

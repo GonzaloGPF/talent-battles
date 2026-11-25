@@ -74,6 +74,7 @@ function toSnake(string $className, ?bool $plural = false): string
 
 /**
  * @param  class-string<Model>  $class
+ * @return ($count is null ? Model : Collection<int, Model>)
  */
 function make(string $class, array $parameters = [], ?int $count = null): Collection|Model
 {
@@ -84,6 +85,7 @@ function make(string $class, array $parameters = [], ?int $count = null): Collec
 
 /**
  * @param  class-string<Model>  $class
+ * @return ($count is null ? Model : Collection<int, Model>)
  */
 function create(string $class, array $parameters = [], ?int $count = null): Collection|Model
 {
@@ -127,14 +129,14 @@ function associateTo(string $modelClass, array $attributes = [], bool $create = 
     }
 
     if ($create) {
-        return create($modelClass, $attributes)->id;
+        return create($modelClass, $attributes)->getKey();
     }
 
     /** @var Model $model */
     $model = resolve($modelClass);
 
-    return $model::where($attributes)->inRandomOrder()->first()?->id
-        ?? create($modelClass, $attributes)->id; // call to Factory
+    return $model::where($attributes)->inRandomOrder()->first()?->getKey()
+        ?? create($modelClass, $attributes)->getKey(); // call to Factory
 }
 
 /**

@@ -31,6 +31,6 @@ class Download extends Model implements FilterableMorph, HasCreatedByInterface
 
     public function getTargetUser(): ?User
     {
-        return $this->downloable->createdBy;
+        return $this->downloable->getRelationValue('createdBy');
     }
 }

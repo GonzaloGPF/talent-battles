@@ -40,6 +40,9 @@ class File extends Model implements HasCreatedByInterface
         'file_type' => FileTypes::class,
     ];
 
+    /**
+     * @return Attribute<string, string>
+     */
     protected function name(): Attribute
     {
         return Attribute::set(function ($value) {

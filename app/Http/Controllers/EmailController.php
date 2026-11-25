@@ -56,7 +56,7 @@ class EmailController extends Controller
      */
     public function contact(ContactEmailRequest $request): JsonResponse
     {
-        /** @var User $user */
+        /** @var ?User $user */
         $user = auth()->user();
 
         $userEmail = $user?->email ?? $request->get('email');

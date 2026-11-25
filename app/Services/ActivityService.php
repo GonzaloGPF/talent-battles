@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Interfaces\HasCreatedByInterface;
 use App\Models\Activity;
 use App\Models\User;
 use BackedEnum;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 
 class ActivityService
 {
-    public function create(string|BackedEnum $activityType, HasCreatedByInterface|User $target, ?User $receiver = null): ?Activity
+    public function create(string|BackedEnum $activityType, Model $target, ?User $receiver = null): ?Activity
     {
         if ($target instanceof User) {
             $receiver = $target;
@@ -19,7 +19,7 @@ class ActivityService
         try {
             $activity = new Activity;
             $activity->activity_type = $activityType;
-            $activity->receiver_id = $receiver?->id ?? $target->created_by;
+            $activity->receiver_id = $receiver?->id ?? $target->getAttribute('created_by');
 
             $activity->target()->associate($target);
 

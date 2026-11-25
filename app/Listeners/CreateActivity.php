@@ -51,7 +51,7 @@ class CreateActivity
         }
 
         if ($event instanceof BattleFinished) {
-            $winnerUser = $event->battle->winner?->createdBy;
+            $winnerUser = $event->battle->winner?->getRelationValue('createdBy');
 
             if (! $winnerUser) {
                 return;

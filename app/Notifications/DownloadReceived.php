@@ -54,7 +54,7 @@ class DownloadReceived extends Notification implements NotyInterface
     {
         return [
             'name' => $this->download->createdBy?->getNickName(),
-            'target' => $this->download->downloable?->name,
+            'target' => $this->download->downloable?->getAttribute('name'),
         ];
     }
 

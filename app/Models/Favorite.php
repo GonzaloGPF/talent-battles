@@ -42,6 +42,6 @@ class Favorite extends Model implements HasCreatedByInterface
 
     public function getTargetUser(): ?User
     {
-        return $this->favoritable->createdBy;
+        return $this->favoritable->getRelationValue('createdBy');
     }
 }

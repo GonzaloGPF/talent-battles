@@ -220,7 +220,7 @@ class Controller extends BaseController
     /**
      * It will try to save a single file detected in request under 'file' input
      */
-    public function saveFileTo(HasFilesInterface $model, string $input = 'file', ?FileTypes $fileType = null): ?File
+    public function saveFileTo(HasFilesInterface&Model $model, string $input = 'file', ?FileTypes $fileType = null): ?File
     {
         return $this->fileService->saveFile($model, $this->getFile($input), $fileType);
     }
@@ -228,7 +228,7 @@ class Controller extends BaseController
     /**
      * It will try to save all files detected in request under 'files' of 'file' input
      */
-    public function saveFilesTo(HasFilesInterface $model, string $input = 'files', ?string $fileType = null): Collection
+    public function saveFilesTo(HasFilesInterface&Model $model, string $input = 'files', ?string $fileType = null): Collection
     {
         $files = $this->getFiles($input);
 

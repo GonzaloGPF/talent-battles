@@ -6,6 +6,7 @@ use App\Interfaces\HasCreatedByInterface;
 use App\Models\Order;
 use App\Models\User;
 use App\Policies\OrderPolicy;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,8 +26,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('is_owner', function (User $user, HasCreatedByInterface $model) {
-            return $user->id === $model->created_by;
+        Gate::define('is_owner', function (User $user, HasCreatedByInterface&Model $model) {
+            return $user->id === $model->getAttribute('created_by');
         });
     }
 }
