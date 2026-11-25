@@ -27,6 +27,9 @@ use Stripe\Stripe;
 
 class StripeApi extends Api
 {
+    /**
+     * @var array<string, string>
+     */
     private static array $API = [
         'accounts.index' => 'v1/accounts',
         'accounts.show' => 'v1/accounts/{id}',
@@ -84,6 +87,9 @@ class StripeApi extends Api
         }
     }
 
+    /**
+     * @return Collection<int, PaymentMethod>
+     */
     public function getPaymentMethods(?User $user = null): Collection
     {
         $user = $user ?? $this->user;
@@ -121,7 +127,7 @@ class StripeApi extends Api
         return data_get($defaultPaymentMethod?->toArray(), 'id');
     }
 
-    public function setDefaultPaymentMethod($paymentMethodId, ?User $user = null): ?PaymentMethod
+    public function setDefaultPaymentMethod(string $paymentMethodId, ?User $user = null): ?PaymentMethod
     {
         $user = $user ?? $this->user;
 
@@ -174,6 +180,9 @@ class StripeApi extends Api
         }
     }
 
+    /**
+     * @return Collection<array-key, mixed>
+     */
     public function getAccounts(): Collection
     {
         if (! $this->isEnabled()) {
@@ -189,6 +198,9 @@ class StripeApi extends Api
         }
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function destroyAccount(?User $user = null): ?array
     {
         if (! $this->isEnabled()) {
@@ -292,6 +304,8 @@ class StripeApi extends Api
 
     /**
      * Valid for logged and not logged users
+     *
+     * @param  array<string, mixed>  $options
      */
     public function createPaymentIntent(float $amount, string $email, ?User $user = null, array $options = []): ?Payment
     {
@@ -327,6 +341,8 @@ class StripeApi extends Api
 
     /**
      * Valid only for logged users
+     *
+     * @param  array<string, mixed>  $options
      */
     public function createConfirmedPaymentIntent(float $amount, ?array $options = []): ?Payment
     {
@@ -351,6 +367,9 @@ class StripeApi extends Api
         }
     }
 
+    /**
+     * @param  array<string, mixed>  $options
+     */
     public function updatePaymentIntent(PaymentIntent $paymentIntent, float $amount, array $options = []): ?PaymentIntent
     {
         if (! $this->isEnabled()) {

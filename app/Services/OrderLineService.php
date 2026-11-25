@@ -14,6 +14,9 @@ class OrderLineService
 {
     public function __construct(private readonly Calculator $calculator) {}
 
+    /**
+     * @return Collection<int, OrderLine>
+     */
     public function makeFromCart(Cart $cart): Collection
     {
         return $cart->items
@@ -88,6 +91,9 @@ class OrderLineService
         ])->save();
     }
 
+    /**
+     * @param  Collection<int, OrderLine>  $orderLines
+     */
     public function processPoints(Collection $orderLines, ?User $user = null): void
     {
         if (! $user) {

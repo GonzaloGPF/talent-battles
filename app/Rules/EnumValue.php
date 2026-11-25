@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use BackedEnum;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Arr;
 
 class EnumValue implements Rule
 {
@@ -12,7 +13,7 @@ class EnumValue implements Rule
     /**
      * Create a new rule instance.
      *
-     * @return void
+     * @param  class-string<BackedEnum>  $enumClass
      */
     public function __construct(
         private readonly string $enumClass,
@@ -39,10 +40,6 @@ class EnumValue implements Rule
             return true;
         }
 
-        if (! method_exists($this->enumClass, 'cases')) {
-            return false;
-        }
-
         if ($this->multiple && ! is_array($value)) {
             $value = [$value];
         }
@@ -51,7 +48,7 @@ class EnumValue implements Rule
             ->map(fn (BackedEnum $enum) => $enum->value);
 
         if ($this->multiple) {
-            $notAllowedValue = collect($this->value)
+            $notAllowedValue = collect(Arr::wrap($this->value))
                 ->filter(fn (string $value) => $allowedValues->doesntContain($value))
                 ->first();
 
@@ -72,6 +69,6 @@ class EnumValue implements Rule
      */
     public function message(): string
     {
-        return trans('validation.invalid', ['value' => $this->multiple ? collect($this->value)->join(', ') : $this->value]);
+        return trans('validation.invalid', ['value' => $this->multiple ? collect(Arr::wrap($this->value))->join(', ') : $this->value]);
     }
 }

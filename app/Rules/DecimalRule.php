@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class DecimalRule implements ValidationRule
 {
-    private $value;
+    private mixed $value;
 
     public static int $MAX_DECIMAL_VALUE = 999999;
 

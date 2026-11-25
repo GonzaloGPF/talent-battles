@@ -27,6 +27,9 @@ class ActivitySummaryCardController extends Controller
         ]);
     }
 
+    /**
+     * @param  ActivityTypes|array<int, ActivityTypes>  $activityType
+     */
     private function getCountByType(ActivityTypes|array $activityType): int
     {
         $types = is_array($activityType) ? $activityType : [$activityType];

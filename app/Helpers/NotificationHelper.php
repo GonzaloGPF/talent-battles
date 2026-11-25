@@ -17,6 +17,9 @@ class NotificationHelper
 
     const ERROR = 'error';
 
+    /**
+     * @return array<int, string>
+     */
     public function getVia(string $notificationClassName, object $notifiable): array
     {
         $via = ['database'];
@@ -44,6 +47,9 @@ class NotificationHelper
         return 'noty_'.md5($targetId.$notificationClass);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(NotyInterface $noty): array
     {
         return [

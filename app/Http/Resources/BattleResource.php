@@ -12,6 +12,8 @@ class BattleResource extends ApiResource
 {
     /**
      * Transform the resource into an array.
+     *
+     * @return array<int|string, mixed>
      */
     public function toArray(Request $request): array
     {

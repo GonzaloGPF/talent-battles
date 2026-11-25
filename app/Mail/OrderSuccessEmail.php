@@ -18,6 +18,7 @@ class OrderSuccessEmail extends Mailable
     /**
      * Create a new message instance.
      *
+     * @param  array<int, array<string, mixed>>  $lines
      * @return void
      */
     public function __construct(public array $lines, public ?string $userName)

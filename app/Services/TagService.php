@@ -10,6 +10,10 @@ use Illuminate\Support\Str;
 
 class TagService
 {
+    /**
+     * @param  array<int, string>|string|null  $tags
+     * @return Collection<int, Tag>
+     */
     public function saveTags(null|array|string $tags): Collection
     {
         $tags = $this->sanitizeTags($tags);
@@ -29,6 +33,10 @@ class TagService
             ->filter();
     }
 
+    /**
+     * @param  array<int, string>|string|null  $tags
+     * @return array<int, string>
+     */
     public function sanitizeTags(null|array|string $tags): array
     {
         if (empty($tags)) {

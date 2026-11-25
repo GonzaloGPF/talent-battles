@@ -270,6 +270,36 @@ class UpdateCartTest extends TestCase
     }
 
     #[Test]
+    public function user_can_add_more_points_than_the_biggest_discount_covers_without_a_discount()
+    {
+        /** @var Product $product */
+        $product = create(Product::class, [
+            'created_by' => null,
+            'product_type' => ProductTypes::POINTS,
+            'orderable_type' => null,
+            'orderable_id' => null,
+            'price' => config('company.buy.points.price'),
+            'last_sale' => null,
+            'exclusive' => null,
+        ]);
+
+        $this->makeRequest([
+            'items_data' => [
+                [
+                    'product_id' => $product->id,
+                    'quantity' => 2000,
+                ],
+            ],
+        ])->assertSuccessful();
+
+        /** @var CartItem $cartItem */
+        $cartItem = Cart::first()->items->first();
+
+        $this->assertEquals(2000, $cartItem->quantity);
+        $this->assertEquals(0, $cartItem->discount);
+    }
+
+    #[Test]
     public function when_adding_items_to_cart_it_wont_let_add_same_item_twice()
     {
         $this->initTrackProduct();

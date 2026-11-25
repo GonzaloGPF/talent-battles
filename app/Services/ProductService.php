@@ -12,6 +12,9 @@ use Illuminate\Http\UploadedFile;
 
 class ProductService
 {
+    /**
+     * @param  array<string, mixed>  $data
+     */
     public function create(array $data, HasProductInterface&Model $model, ?UploadedFile $uploadedFile = null): Product
     {
         $product = (new Product)->forceFill([
@@ -33,6 +36,9 @@ class ProductService
         return $product;
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     public function createFrom(HasProductInterface&Model $model, array $data, UploadedFile $uploadedFile, ?UploadedFile $untaggedFile = null): Product
     {
         $uploadedFile = $untaggedFile ?? $uploadedFile;
@@ -46,6 +52,9 @@ class ProductService
         ], $model, $uploadedFile);
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     public function update(Product $product, array $data, ?UploadedFile $uploadedFile = null): Product
     {
         $product->update($data);
@@ -63,7 +72,10 @@ class ProductService
         return $product;
     }
 
-    private function getProductType(HasProductInterface&Model $model, ?array $data = [])
+    /**
+     * @param  array<string, mixed>|null  $data
+     */
+    private function getProductType(HasProductInterface&Model $model, ?array $data = []): ProductTypes|string|null
     {
         if ($model instanceof Track) {
             return ProductTypes::TRACK;

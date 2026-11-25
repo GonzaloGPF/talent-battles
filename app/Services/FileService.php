@@ -27,6 +27,9 @@ class FileService
 
     public static int $IMG_QUALITY = 90;
 
+    /**
+     * @var list<string>
+     */
     public static array $IMAGE_MIMES = [
         'image/png',
         'image/jpg',
@@ -35,6 +38,9 @@ class FileService
         'image/webp',
     ];
 
+    /**
+     * @var list<string>
+     */
     public static array $AUDIO_MIMES = [
         'audio/mpeg',
         'audio/mp3',
@@ -47,6 +53,9 @@ class FileService
         'audio/x-pn-wav',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     public static array $MIME_EXT = [
         'image/jpg' => 'jpg',
         'image/jpeg' => 'jpeg',
@@ -80,6 +89,9 @@ class FileService
         $this->imageManager = $imageManager;
     }
 
+    /**
+     * @param  array<string, mixed>  $attributes
+     */
     private function createFile(HasFilesInterface&Model $model, array $attributes): ?File
     {
         $path = $attributes['path'] ?? null;
@@ -129,6 +141,10 @@ class FileService
         ]);
     }
 
+    /**
+     * @param  Collection<array-key, UploadedFile|null>  $uploadedFiles
+     * @return Collection<array-key, File>
+     */
     public function saveFiles(HasFilesInterface&Model $model, Collection $uploadedFiles, ?BackedEnum $fileType = null): Collection
     {
         return $uploadedFiles->filter()
@@ -223,6 +239,9 @@ class FileService
         return $this->audioHelper->getBpm($file);
     }
 
+    /**
+     * @return array<mixed>|string|null
+     */
     public function getWaveform(File $file): array|string|null
     {
         try {
@@ -278,6 +297,9 @@ class FileService
         return "$hash.$extension";
     }
 
+    /**
+     * @param  array<string, mixed>  $attributes
+     */
     public static function copyFile(File $file, array $attributes = []): File
     {
         $salt = uniqid();
@@ -298,6 +320,7 @@ class FileService
     }
 
     /**
+     * @param  array<int, string>  $mimeTypes
      * @return string[]
      */
     public static function getFileRules(array $mimeTypes): array

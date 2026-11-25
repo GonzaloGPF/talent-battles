@@ -13,6 +13,8 @@ class CreationService
 
     /**
      * Method to process file and product when user decided sell
+     *
+     * @param  array<string, mixed>  $data
      */
     protected function processFileAndProduct(Design|Track $model, array $data, UploadedFile $file, ?UploadedFile $untaggedFile = null): Design|Track|null
     {

@@ -39,6 +39,8 @@ class ReportRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
      */
     public function rules(): array
     {
@@ -65,6 +67,9 @@ class ReportRequest extends FormRequest
         return morphedModel($this->get('model_type'), $this->get('model_id'));
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     private function getMorphRule(): array
     {
         $morphRule = ['nullable'];

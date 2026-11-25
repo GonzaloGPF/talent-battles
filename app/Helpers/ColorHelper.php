@@ -4,6 +4,9 @@ namespace App\Helpers;
 
 class ColorHelper
 {
+    /**
+     * @var list<string>
+     */
     private array $COLORS = [
         '#25CCF7', '#FD7272', '#54a0ff', '#00d2d3',
         '#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e',
@@ -28,6 +31,9 @@ class ColorHelper
         return array_shift($this->COLORS);
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getColors(float $quantity): array
     {
         if ($quantity < 1) {
@@ -42,6 +48,9 @@ class ColorHelper
         return '#'.strtoupper(dechex(rand(0x000000, 0xFFFFFF)));
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function generateColors(int $quantity = 1): array
     {
         if ($quantity < 1) {

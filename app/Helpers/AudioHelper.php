@@ -44,6 +44,8 @@ class AudioHelper
      * It generates a file with waveform data.
      * After generating the file, it will read its content in $waveformData to return it.
      * Finally, it will delete generated file
+     *
+     * @return array<mixed>|string|null
      */
     public function getWaveformData(File $file, string $format = self::FORMAT_JSON): array|string|null
     {

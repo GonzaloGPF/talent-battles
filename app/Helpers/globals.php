@@ -74,6 +74,7 @@ function toSnake(string $className, ?bool $plural = false): string
 
 /**
  * @param  class-string<Model>  $class
+ * @param  array<string, mixed>  $parameters
  * @return ($count is null ? Model : Collection<int, Model>)
  */
 function make(string $class, array $parameters = [], ?int $count = null): Collection|Model
@@ -85,6 +86,7 @@ function make(string $class, array $parameters = [], ?int $count = null): Collec
 
 /**
  * @param  class-string<Model>  $class
+ * @param  array<string, mixed>  $parameters
  * @return ($count is null ? Model : Collection<int, Model>)
  */
 function create(string $class, array $parameters = [], ?int $count = null): Collection|Model
@@ -94,7 +96,11 @@ function create(string $class, array $parameters = [], ?int $count = null): Coll
         ->create($parameters);
 }
 
-function randomConstant(string $enum, bool $multiple = false): string|array
+/**
+ * @param  class-string<BackedEnum>  $enum
+ * @return int|string|array<int, int|string>
+ */
+function randomConstant(string $enum, bool $multiple = false): int|string|array
 {
     $constants = collect($enum::cases());
 
@@ -116,6 +122,8 @@ function randomConstant(string $enum, bool $multiple = false): string|array
  * Helper that returns an ID of a specified Model (by class name).
  * If there are any Model, it will grab one randomly, if not, it will create a new one using its Factory
  * When using make() it won't write in Database, instead, it will return a 1
+ *
+ * @param  array<string, mixed>  $attributes
  */
 function associateTo(string $modelClass, array $attributes = [], bool $create = false): int|string
 {
@@ -198,7 +206,7 @@ function tAction(string $action, ?string $model = null, ?bool $female = null, ?b
 /**
  * Translate given attribute name
  */
-function ta($attribute): string
+function ta(string $attribute): string
 {
     if (! Lang::has("validation.attributes.$attribute")) {
         return Str::title($attribute);
@@ -210,7 +218,7 @@ function ta($attribute): string
 /**
  * Translate given label
  */
-function tl($label): string
+function tl(string $label): string
 {
     return trans("labels.$label");
 }
@@ -291,6 +299,8 @@ function generateTestFile(?string $name = 'Test', ?string $extension = null, str
 }
 
 /**
+ * @param  class-string<Model>  $className
+ * @param  array<string, mixed>  $attributes
  * @return mixed|Model|Collection|LegacyMockInterface|MockInterface
  */
 function makeMock(string $className, array $attributes = [], int $times = 0)
@@ -315,7 +325,7 @@ function mockFileContent(string $path): ?string
 /**
  * Dates always have formats 'Y-m-d' or 'Y/m/d'
  */
-function isDateString($value): bool
+function isDateString(mixed $value): bool
 {
     if (empty($value)) {
         return false;
@@ -332,6 +342,8 @@ function isDateString($value): bool
 
 /**
  * Returns a Collection of Carbon dates
+ *
+ * @return Collection<int, Carbon>
  */
 function createPeriod(?string $minDate = null, ?string $maxDate = null, ?string $interval = '1 month'): Collection
 {
@@ -339,13 +351,16 @@ function createPeriod(?string $minDate = null, ?string $maxDate = null, ?string 
 
     $maxDate = $maxDate ?? Carbon::parse($minDate)->addYear();
 
-    return collect(CarbonPeriod::create($minDate, $interval, $maxDate));
+    /** @var array<int, Carbon> $dates */
+    $dates = CarbonPeriod::create($minDate, $interval, $maxDate)->toArray();
+
+    return collect($dates);
 }
 
 /**
  * Remove special chars in string.
  */
-function removeSpecialChars($string, bool $removeDots = false): string
+function removeSpecialChars(string $string, bool $removeDots = false): string
 {
     //    $string = preg_replace('/[\xE2\x80\xAF]/', '', $string);
     //    $string = mb_convert_encoding($string, 'UTF-8', 'UTF-8');
@@ -362,21 +377,36 @@ function removeSpecialChars($string, bool $removeDots = false): string
     return $withoutAccents;
 }
 
+/**
+ * @return Collection<int, Model>
+ */
 function loadModels(string $interface): Collection
 {
-    return collect(glob(app_path('Models').'/*.php'))
+    /** @var array<int, string> $files */
+    $files = glob(app_path('Models').'/*.php') ?: [];
+
+    return collect($files)
         ->each(fn (string $file) => require_once $file)
         ->map(fn (string $filePath) => 'App\\Models\\'.basename($filePath, '.php'))
         ->filter(fn (string $class) => implementsInterface($class, $interface))
-        ->map(fn (string $modelString) => resolve($modelString));
+        ->map(fn (string $modelString): Model => resolve($modelString));
 }
 
+/**
+ * @return Collection<int, class-string<UnitEnum>>
+ */
 function loadConstants(): Collection
 {
-    return collect(glob(app_path('Enums').'/*.php'))
+    /** @var array<int, string> $files */
+    $files = glob(app_path('Enums').'/*.php') ?: [];
+
+    /** @var Collection<int, class-string<UnitEnum>> $enums */
+    $enums = collect($files)
         ->each(fn (string $file) => require_once $file)
         ->map(fn (string $filePath) => 'App\\Enums\\'.basename($filePath, '.php'))
         ->filter(fn (string $class) => implementsInterface($class, UnitEnum::class));
+
+    return $enums;
 }
 
 function implementsInterface(string $class, string $interface): bool
@@ -391,7 +421,7 @@ function implementsInterface(string $class, string $interface): bool
 /**
  * Formats a currency value
  */
-function money($value, ?string $currencySymbolOrHtmlEntity = '€'): string
+function money(float $value, ?string $currencySymbolOrHtmlEntity = '€'): string
 {
     error_reporting(E_ALL ^ E_DEPRECATED); // php 7.4 problem https://github.com/dompdf/dompdf/issues/2003
     setlocale(LC_MONETARY, 'es_ES.UTF-8');

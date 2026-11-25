@@ -18,6 +18,7 @@ class HandleAccountUpdated implements ShouldQueue
     /**
      * Create a new job instance.
      *
+     * @param  array<string, mixed>  $payload
      * @return void
      */
     public function __construct(public array $payload) {}

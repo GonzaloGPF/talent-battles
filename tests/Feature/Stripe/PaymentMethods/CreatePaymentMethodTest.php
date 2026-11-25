@@ -10,6 +10,7 @@ use Laravel\Cashier\Exceptions\InvalidPaymentMethod;
 use Laravel\Cashier\PaymentMethod;
 use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Test;
+use Stripe\PaymentMethod as StripePaymentMethod;
 use Tests\TestCase;
 
 class CreatePaymentMethodTest extends TestCase
@@ -31,7 +32,10 @@ class CreatePaymentMethodTest extends TestCase
     #[Test]
     public function it_can_create_payment_methods()
     {
-        $paymentMethod = $this->createStub(PaymentMethod::class);
+        $paymentMethod = new PaymentMethod($this->user, StripePaymentMethod::constructFrom([
+            'id' => 'pm_123',
+            'customer' => $this->user->stripe_id,
+        ]));
 
         $this->mock(StripeApi::class, function (MockInterface $mock) use ($paymentMethod) {
             $mock->shouldReceive('createOrGetStripeCustomer')
@@ -47,7 +51,7 @@ class CreatePaymentMethodTest extends TestCase
                 ->andReturn(collect());
             $mock->shouldReceive('setDefaultPaymentMethod')
                 ->once()
-                ->withArgs([$paymentMethod->id])
+                ->withArgs(['pm_123'])
                 ->andReturn($paymentMethod);
         });
 

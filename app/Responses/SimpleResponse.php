@@ -13,6 +13,9 @@ class SimpleResponse
 {
     /**
      * Builds up app's json response structure
+     *
+     * @param  array<mixed>|null  $data
+     * @return array{code: int, message: string, data: array<mixed>|null}
      */
     public function json(string $message, ?array $data = null, int $code = Response::HTTP_OK): array
     {
@@ -25,6 +28,8 @@ class SimpleResponse
 
     /**
      * Returns a json response that can includes specific data.
+     *
+     * @param  array<mixed>|null  $data
      */
     public function jsonData(string $message, ?array $data = null, int $code = Response::HTTP_OK): JsonResponse
     {
@@ -50,6 +55,10 @@ class SimpleResponse
             ->setStatusCode(Response::HTTP_NO_CONTENT, trans('help.no_content'));
     }
 
+    /**
+     * @param  array<string, mixed>|null  $data
+     * @param  array<mixed>  $debug
+     */
     public function exception(Exception|string|null $exception, int $code = Response::HTTP_FORBIDDEN, ?array $data = [], array $debug = []): JsonResponse
     {
         if ($exception instanceof Exception) {

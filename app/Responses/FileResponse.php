@@ -54,6 +54,8 @@ class FileResponse
     /**
      * Force browser to download file zip
      *
+     * @param  array<int, int|string>  $fileIds
+     *
      * @throws BindingResolutionException
      */
     public function zip(array $fileIds): Response
@@ -95,7 +97,7 @@ class FileResponse
     /**
      * Prepares buffer
      */
-    private function cleanBuffer()
+    private function cleanBuffer(): void
     {
         if (ob_get_length()) {
             ob_end_clean();

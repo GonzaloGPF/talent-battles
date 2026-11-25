@@ -14,6 +14,9 @@ class OrderService
 {
     public function __construct(private readonly Calculator $calculator) {}
 
+    /**
+     * @param  array<string, mixed>|null  $meta
+     */
     public function createFromCart(Cart $cart, string $email, ?array $meta = null): ?Order
     {
         $orderLines = resolve(OrderLineService::class)
@@ -22,6 +25,10 @@ class OrderService
         return $this->create($orderLines, $email, $meta);
     }
 
+    /**
+     * @param  Collection<int, OrderLine>  $orderLines
+     * @param  array<string, mixed>|null  $meta
+     */
     private function create(Collection $orderLines, ?string $email = null, ?array $meta = null): ?Order
     {
         if ($orderLines->isEmpty()) {

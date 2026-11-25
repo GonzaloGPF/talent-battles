@@ -9,6 +9,9 @@ enum ReportStates: string
     case SOLVED = 'solved';
     case CLOSED = 'closed';
 
+    /**
+     * @return list<string>
+     */
     public static function getPendingStates(): array
     {
         return [
@@ -17,6 +20,9 @@ enum ReportStates: string
         ];
     }
 
+    /**
+     * @return list<string>
+     */
     public static function getFinishedStates(): array
     {
         return [

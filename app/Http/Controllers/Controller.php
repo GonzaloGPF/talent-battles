@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\FileTypes;
 use App\Exceptions\FilterException;
 use App\Interfaces\HasFilesInterface;
-use App\Interfaces\IsConstantInterface;
 use App\Models\File;
 use App\Responses\FileResponse;
 use App\Responses\SimpleResponse;
@@ -25,6 +24,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
@@ -40,8 +40,14 @@ class Controller extends BaseController
 
     protected const PAGE_SIZE = 15;
 
+    /**
+     * @var array<string, string>
+     */
     private array $errors = [];
 
+    /**
+     * @var array<int, string>
+     */
     private array $debug = [];
 
     protected string $modelName;
@@ -65,6 +71,8 @@ class Controller extends BaseController
 
     /**
      * Builds up and returns a json response that can includes specific data.
+     *
+     * @param  array<mixed>|null  $data
      */
     public function dataResponse(string $message, ?array $data = null, int $code = Response::HTTP_OK): JsonResponse
     {
@@ -102,12 +110,6 @@ class Controller extends BaseController
         //                })->toArray()
         //        ]);
 
-        /** @var JsonResource|null $itemsResource */
-        $itemsResource = $resource->resource->first();
-        if ($itemsResource && $itemsResource->resource instanceof IsConstantInterface) {
-            $this->loadRelations($itemsResource);
-        }
-
         return $this->simpleResponse->resource($this->buildMessage($verb, true), $resource, $code);
     }
 
@@ -144,6 +146,9 @@ class Controller extends BaseController
         return $this->dataResponse($message ?? trans('help.no_content'), null, Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $data
+     */
     public function exceptionResponse(string|Throwable $exception, ?int $code = Response::HTTP_FORBIDDEN, ?array $data = []): JsonResponse
     {
         return $this->simpleResponse->exception($exception, $code, $data);
@@ -161,6 +166,8 @@ class Controller extends BaseController
 
     /**
      * Force browser to download file zip
+     *
+     * @param  array<int, int|string>  $fileIds
      *
      * @throws BindingResolutionException
      */
@@ -192,24 +199,19 @@ class Controller extends BaseController
     /**
      * Executes 'load()' method on model to get data from relationships.
      * It will look for a 'with' input in request body. $with can be a string or an array of strings.
-     *
-     * @param  Model|Collection|JsonResource  $model
      */
-    protected function loadRelations($model): Model
+    protected function loadRelations(Model $model): Model
     {
-        $relations = collect(request('with') ?? [])
+        $relations = collect(Arr::wrap(request('with')))
             ->map(fn ($relation) => Str::camel($relation))
             ->toArray();
 
         return $model->load($relations);
     }
 
-    /**
-     * @param  Model|Collection|JsonResource  $model
-     */
-    protected function loadCounts($model): Model
+    protected function loadCounts(Model $model): Model
     {
-        $relations = collect(request('counts') ?? [])
+        $relations = collect(Arr::wrap(request('counts')))
             ->map(fn ($relation) => Str::camel($relation))
             ->filter(fn ($relation) => method_exists($model, $relation))
             ->toArray();
@@ -227,6 +229,8 @@ class Controller extends BaseController
 
     /**
      * It will try to save all files detected in request under 'files' of 'file' input
+     *
+     * @return Collection<array-key, File>
      */
     public function saveFilesTo(HasFilesInterface&Model $model, string $input = 'files', ?string $fileType = null): Collection
     {
@@ -247,6 +251,8 @@ class Controller extends BaseController
     /**
      * It will look for files in request. All Files must come in a 'files' input
      * it will return a Collection of UploadedFile
+     *
+     * @return Collection<array-key, UploadedFile>
      */
     public function getFiles(?string $input = 'files'): Collection
     {
@@ -303,6 +309,11 @@ class Controller extends BaseController
      * Executes the query builder to get data from database.
      * It will look for a 'with' input in request body. If exits, it will eager load relations
      * If a 'per_page' input is detected, it will be paginated.
+     *
+     * @template TModel of Model
+     *
+     * @param  Builder<TModel>  $builder
+     * @return LengthAwarePaginator<int, TModel>|Collection<int, TModel>
      *
      * @throws FilterException
      */
