@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
 
         Str::macro('removeSpecialChars', fn (string $value) => removeSpecialChars($value));
 
-        Stringable::macro('removeSpecialChars', fn (?bool $removeDots = false) => new static(removeSpecialChars($this->value, $removeDots)));
+        Stringable::macro('removeSpecialChars', fn (?bool $removeDots = false) => new Stringable(removeSpecialChars($this->value, $removeDots)));
 
         //        if (app()->isProduction()) {
         //            Vite::useBuildDirectory('storage/build');

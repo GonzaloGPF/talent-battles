@@ -24,11 +24,9 @@ class OrderController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        /** @var Order $order */
         $order = Order::find($id);
 
         if (! $order && $paymentIntentId = request('payment_intent_id')) {
-            /** @var Order $order */
             $order = Order::withoutGlobalScopes()->firstWhere('meta->payment_intent_id', $paymentIntentId);
         }
 
@@ -55,7 +53,7 @@ class OrderController extends Controller
         /** @var ?User $user */
         $user = auth()->user();
 
-        $email = $user?->email ?? $request->get('email');
+        $email = $user->email ?? $request->get('email');
 
         $order = $this->orderService->createFromCart($this->cartService->getOrCreateCart(), $email, [
             'payment_intent_id' => $request->get('payment_intent_id'),

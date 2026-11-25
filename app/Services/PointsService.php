@@ -72,14 +72,13 @@ class PointsService
 
     public function givePointsToWinner(Battle $battle): void
     {
-        /** @var Track|Design|null $winnerCreation */
         $winnerCreation = $battle->winner;
 
-        if (! in_array(get_class($winnerCreation), [Track::class, Design::class])) {
+        if (! $winnerCreation instanceof Track && ! $winnerCreation instanceof Design) {
             return;
         }
 
-        $winnerUser = $winnerCreation?->createdBy;
+        $winnerUser = $winnerCreation->createdBy;
 
         if (! $winnerUser) {
             return;

@@ -14,7 +14,7 @@ class ProductService
 {
     public function create(array $data, HasProductInterface&Model $model, ?UploadedFile $uploadedFile = null): Product
     {
-        $product = Product::make()->forceFill([
+        $product = (new Product)->forceFill([
             'product_type' => $this->getProductType($model, $data),
             'name' => $data['name'] ?? $model->getAttribute('name'),
             'description' => $data['description'] ?? $model->getAttribute('description'),

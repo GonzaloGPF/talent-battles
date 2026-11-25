@@ -23,7 +23,7 @@ class ProductPolicy
             return false;
         }
 
-        if (! $user?->isAccountReady()) {
+        if (! $user->isAccountReady()) {
             throw new AuthorizationException(trans('exceptions.invalid_account'));
         }
 

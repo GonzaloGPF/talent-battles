@@ -26,7 +26,7 @@ trait HasProduct
             return false;
         }
 
-        if (empty($this->product?->promoted)) {
+        if (empty($this->product->promoted)) {
             return false;
         }
 

@@ -82,6 +82,6 @@ class ActivityReceivedController extends Controller
     private function groupByMonth(Collection $activities, Carbon $date): Collection
     {
         return $activities
-            ->filter(fn (Activity $activity) => $activity->created_at?->month === $date->month && $activity->created_at?->year && $date->year);
+            ->filter(fn (Activity $activity) => $activity->created_at->isSameMonth($date));
     }
 }

@@ -23,10 +23,10 @@ class SyncGuestCart
     public function handle(Login $event): void
     {
         /** @var User $user */
-        $user = auth()->user();
+        $user = $event->user;
         $guestId = CartService::getGuestId();
 
-        if (! $user || ! $guestId) {
+        if (! $guestId) {
             return;
         }
 

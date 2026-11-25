@@ -51,7 +51,7 @@ class Logger
 
     private function getErrorData(Throwable $exception, ?array $data = []): array
     {
-        /** @var User $user */
+        /** @var ?User $user */
         $user = auth()->user();
         $exceptionData = [];
 

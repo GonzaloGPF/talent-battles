@@ -41,10 +41,10 @@ class ItemDataRule implements Rule
         }
 
         $productId = $value['product_id'] ?? '';
-        /** @var Product $product */
+        /** @var ?Product $product */
         $product = Product::find($productId);
 
-        if (empty($product)) {
+        if (! $product) {
             $this->messageText = trans('exceptions.not_found_data', ['data' => modelTitle('product')." [id: $productId]"]);
 
             return false;
@@ -104,13 +104,13 @@ class ItemDataRule implements Rule
         }
 
         if (in_array($productType, [ProductTypes::TRACK, ProductTypes::DESIGN])) {
-            /** @var User $user */
+            /** @var ?User $user */
             $user = auth()->user();
 
             $validator = Validator::make([
                 'product_id' => $product->id,
-                'is_sold' => $product?->exclusive && $product?->last_sale,
-                'has_file' => $product?->file()->exists(),
+                'is_sold' => $product->exclusive && $product->last_sale,
+                'has_file' => $product->file()->exists(),
                 'in_sale' => ! empty($product->price),
                 'already_ordered' => $user?->orderLines()
                     ->where('product_id', $product->id)
@@ -125,7 +125,7 @@ class ItemDataRule implements Rule
                 'already_ordered' => ValidationRule::in([false]),
             ], [
                 'is_sold.in' => trans('validation.already_sold'),
-                'has_file.in' => trans('validation.without_data', ['data' => modelTitle('file')])." ({$product?->name})",
+                'has_file.in' => trans('validation.without_data', ['data' => modelTitle('file')])." ({$product->name})",
                 'in_sale.in' => trans('validation.not_in_sale'),
                 'already_ordered.in' => trans('validation.already_ordered'),
             ]);

@@ -46,7 +46,7 @@ class Order extends Model implements HasCreatedByInterface
             $model->payment_state ??= PaymentStates::PENDING;
         });
         static::created(function (Order $order) {
-            /** @var User $user */
+            /** @var ?User $user */
             $user = auth()->user();
             $user?->cart?->cleanItems();
         });

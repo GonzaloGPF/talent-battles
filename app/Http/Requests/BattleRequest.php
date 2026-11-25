@@ -39,10 +39,10 @@ class BattleRequest extends FormRequest
         }
 
         $this->merge([
-            'id' => $this->model?->id,
-            'has_battles' => $this->model?->battles()?->whereIn('battle_state', [BattleStates::OPEN, BattleStates::IN_PROGRESS])?->exists(),
-            'can_challenge' => $this->model?->can_challenge,
-            'opponent_in_battle' => $this->opponent?->battles()?->areInProgress()?->exists(),
+            'id' => $this->model->id,
+            'has_battles' => $this->model->battles()->whereIn('battle_state', [BattleStates::OPEN, BattleStates::IN_PROGRESS])->exists(),
+            'can_challenge' => $this->model->can_challenge,
+            'opponent_in_battle' => $this->opponent?->battles()->areInProgress()->exists(),
             'battle' => true,
         ]);
     }

@@ -19,7 +19,7 @@ class ActivityService
         try {
             $activity = new Activity;
             $activity->activity_type = $activityType;
-            $activity->receiver_id = $receiver?->id ?? $target->getAttribute('created_by');
+            $activity->receiver_id = $receiver->id ?? $target->getAttribute('created_by');
 
             $activity->target()->associate($target);
 

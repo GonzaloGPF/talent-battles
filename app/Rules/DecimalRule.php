@@ -9,8 +9,6 @@ class DecimalRule implements ValidationRule
 {
     private $value;
 
-    private $message;
-
     public static int $MAX_DECIMAL_VALUE = 999999;
 
     private bool $required;

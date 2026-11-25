@@ -13,10 +13,10 @@ class EnoughPoints implements ValidationRule
 
     public function __construct(private readonly int $requiredPoints)
     {
-        /** @var User $user */
+        /** @var ?User $user */
         $user = auth()->user();
 
-        $this->userPoints = $user?->points ?? 0;
+        $this->userPoints = $user->points ?? 0;
     }
 
     /**

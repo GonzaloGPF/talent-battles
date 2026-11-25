@@ -27,7 +27,7 @@ class SendCreationSoldEmail
         $event->sales
             ->groupBy('created_by')
             ->each(function (Collection $sales, int $userId) {
-                /** @var User $user */
+                /** @var ?User $user */
                 $user = $sales->first()->createdBy;
 
                 if (! $user) {

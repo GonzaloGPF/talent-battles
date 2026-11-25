@@ -307,7 +307,7 @@ class StripeApi extends Api
             $paymentIntent = PaymentIntent::create(array_filter(array_merge([
                 'amount' => $this->getStripeAmount($amount),
                 'setup_future_usage' => empty($customer) ? null : 'on_session', // 'off_session',
-                'currency' => $user?->currency ?? $this->currency,
+                'currency' => $user->currency ?? $this->currency,
                 'customer' => $customer?->id,
                 //                'payment_method_types' => ['card'],
                 'automatic_payment_methods' => [
@@ -385,7 +385,7 @@ class StripeApi extends Api
                 'mode' => 'payment',
                 'success_url' => $successUrl,
                 'cancel_url' => config('app.url'),
-            ])?->url;
+            ])->url;
         } catch (Exception $exception) {
             Logger::exception($exception);
 
