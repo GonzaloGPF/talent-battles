@@ -44,6 +44,7 @@ class Kernel extends HttpKernel
         TrustHosts::class,
         TrustProxies::class,
         HandleCors::class,
+        Language::class,
         PreventRequestsDuringMaintenance::class,
         ValidatePostSize::class,
         TrimStrings::class,
