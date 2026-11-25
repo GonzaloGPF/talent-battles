@@ -193,9 +193,14 @@ class BattleService
      */
     private function notificationIds(array $battleIds): array
     {
+        $notificationClasses = [BattleStarted::class, BattleWon::class, BattleLost::class, BattleDraw::class];
+
         return collect($battleIds)
-            ->crossJoin([BattleStarted::class, BattleWon::class, BattleLost::class, BattleDraw::class])
-            ->map(fn (array $pair) => NotificationHelper::notyId(...$pair))
+            ->flatMap(fn (int $battleId) => array_map(
+                fn (string $notificationClass) => NotificationHelper::notyId($battleId, $notificationClass),
+                $notificationClasses,
+            ))
+            ->values()
             ->all();
     }
 

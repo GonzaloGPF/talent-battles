@@ -133,6 +133,17 @@ class CreateReportTest extends TestCase
     }
 
     #[Test]
+    public function a_single_file_sent_as_files_is_saved_with_the_report()
+    {
+        $this->makeRequest([
+            'message' => 'Creating a report with one file',
+            'files' => UploadedFile::fake()->create('evidence.txt'),
+        ])->assertSuccessful();
+
+        $this->assertSame(['evidence'], Report::first()->files->pluck('name')->all());
+    }
+
+    #[Test]
     public function when_creating_a_report_for_a_track_it_will_send_a_notification_to_reported_user()
     {
         Notification::fake();

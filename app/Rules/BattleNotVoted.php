@@ -13,7 +13,7 @@ class BattleNotVoted implements ValidationRule
      */
     public function __construct(public ?int $userId = null)
     {
-        $this->userId = $userId ?? auth()->id();
+        $this->userId = $userId ?? auth()->user()?->id;
     }
 
     public function validate(string $attribute, mixed $value, Closure $fail): void

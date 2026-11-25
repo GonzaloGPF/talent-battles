@@ -105,6 +105,9 @@ class StripeApi extends Api
         }
     }
 
+    /**
+     * A legacy default source (a card or bank account saved before payment methods) does not count.
+     */
     public function getDefaultPaymentMethod(?User $user = null): ?PaymentMethod
     {
         $user = $user ?? $this->user;
@@ -114,17 +117,12 @@ class StripeApi extends Api
         }
 
         try {
-            return $user?->defaultPaymentMethod();
+            $paymentMethod = $user?->defaultPaymentMethod();
         } catch (Exception $exception) {
             return null;
         }
-    }
 
-    public function getDefaultPaymentMethodId(?User $user = null): ?int
-    {
-        $defaultPaymentMethod = $this->getDefaultPaymentMethod($user);
-
-        return data_get($defaultPaymentMethod?->toArray(), 'id');
+        return $paymentMethod instanceof PaymentMethod ? $paymentMethod : null;
     }
 
     public function setDefaultPaymentMethod(string $paymentMethodId, ?User $user = null): ?PaymentMethod
@@ -305,7 +303,7 @@ class StripeApi extends Api
     /**
      * Valid for logged and not logged users
      *
-     * @param  array<string, mixed>  $options
+     * @param  array{payment_method?: string|null, confirmation_method?: string, automatic_payment_methods?: null, payment_method_types?: array<int, string>, confirm?: bool}  $options
      */
     public function createPaymentIntent(float $amount, string $email, ?User $user = null, array $options = []): ?Payment
     {
@@ -318,7 +316,7 @@ class StripeApi extends Api
         $customer = $this->createOrGetStripeCustomer($user);
 
         try {
-            $paymentIntent = PaymentIntent::create(array_filter(array_merge([
+            $paymentIntent = PaymentIntent::create(array_filter([
                 'amount' => $this->getStripeAmount($amount),
                 'setup_future_usage' => empty($customer) ? null : 'on_session', // 'off_session',
                 'currency' => $user->currency ?? $this->currency,
@@ -329,7 +327,8 @@ class StripeApi extends Api
                 ],
                 //                'application_fee_amount' => config('company.fees.creation'), // Can only apply an application_fee_amount (using an OAuth key or Stripe-Account header) or destination payment (using `transfer_data[destination]`)
                 'receipt_email' => $email,
-            ], $options), fn ($value) => $value !== null));
+                ...$options,
+            ], fn ($value) => $value !== null));
 
             return new Payment($paymentIntent);
         } catch (Exception $exception) {
@@ -341,25 +340,23 @@ class StripeApi extends Api
 
     /**
      * Valid only for logged users
-     *
-     * @param  array<string, mixed>  $options
      */
-    public function createConfirmedPaymentIntent(float $amount, ?array $options = []): ?Payment
+    public function createConfirmedPaymentIntent(float $amount): ?Payment
     {
         if (! $this->isEnabled()) {
             return null;
         }
 
-        $paymentMethod = $this->user?->defaultPaymentMethod();
+        $paymentMethod = $this->getDefaultPaymentMethod();
 
         try {
-            return $this->createPaymentIntent($amount, $this->user->email, $this->user, array_merge([
-                'payment_method' => $paymentMethod?->id,
+            return $this->createPaymentIntent($amount, $this->user->email, $this->user, [
+                'payment_method' => $paymentMethod?->asStripePaymentMethod()->id,
                 'confirmation_method' => 'automatic',
                 'automatic_payment_methods' => null, // Stripe would require a return_url otherwise
                 'payment_method_types' => ['card'],
                 'confirm' => true,
-            ], $options));
+            ]);
         } catch (Exception $exception) {
             Logger::exception($exception);
 

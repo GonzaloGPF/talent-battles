@@ -86,6 +86,9 @@ class ApiResource extends JsonResource
         ]);
     }
 
+    /**
+     * @param  class-string<JsonResource>|null  $resourceClass
+     */
     public function morphedResource(string $relation, ?string $resourceClass = null): MissingValue|JsonResource
     {
         $relation = Str::camel($relation); // A bit of normalization
@@ -104,6 +107,10 @@ class ApiResource extends JsonResource
 
         $resource = "App\\Http\\Resources\\{$morphedClass}Resource";
 
+        if (! is_subclass_of($resource, JsonResource::class)) {
+            return new MissingValue;
+        }
+
         return new $resource($this->whenLoaded($relation));
     }
 
@@ -112,6 +119,9 @@ class ApiResource extends JsonResource
         return Str::lower(class_basename($this->resource));
     }
 
+    /**
+     * @param  class-string<JsonResource>  $resource
+     */
     public function firstManyToMany(string $relationship, string $resource): JsonResource|MissingValue
     {
         if (! $this->resource->relationLoaded($relationship)) {

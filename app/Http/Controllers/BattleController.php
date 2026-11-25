@@ -53,15 +53,16 @@ class BattleController extends Controller
 
     public function store(BattleRequest $request): JsonResponse
     {
-        if ($request->get('type') === 'track') {
-            $battle = $this->createTrackBattle($request->model, $request->opponent);
-        }
+        $creation = $request->model;
+        $opponent = $request->opponent;
 
-        if ($request->get('type') === 'design') {
-            $battle = $this->createDesignBattle($request->model, $request->opponent);
-        }
+        $battle = match (true) {
+            $creation instanceof Track => $this->createTrackBattle($creation, $opponent instanceof Track ? $opponent : null),
+            $creation instanceof Design => $this->createDesignBattle($creation, $opponent instanceof Design ? $opponent : null),
+            default => null,
+        };
 
-        if (empty($battle)) {
+        if (! $battle) {
             return $this->emptyResponse();
         }
 

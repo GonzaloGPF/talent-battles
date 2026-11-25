@@ -73,16 +73,28 @@ class BattleRequest extends FormRequest
             'can_challenge' => Rule::in([true]),
             'opponent_in_battle' => Rule::in([false]),
             'battle' => new EnoughPoints(config('company.points.prices.create_battle')),
-            'opponent_id' => [
-                'nullable',
-                'int',
-                Rule::exists($table, 'id')
-                    ->whereNot('created_by', auth()->id())
-                    ->where('can_challenge', true)
-                    ->when($table === 'tracks', fn (Exists $q) => $q->where('track_type', $this->model?->track_type?->value))
-                    ->when($table === 'designs', fn (Exists $q) => $q->where('design_type', $this->model?->design_type?->value)),
-            ],
+            'opponent_id' => ['nullable', 'int', $this->opponentRule($table)],
         ];
+    }
+
+    /**
+     * The opponent must be a creation of the same type, from someone else, that can be challenged.
+     */
+    private function opponentRule(string $table): Exists
+    {
+        $rule = Rule::exists($table, 'id')
+            ->whereNot('created_by', auth()->id())
+            ->where('can_challenge', true);
+
+        if ($this->model instanceof Track) {
+            $rule->where('track_type', $this->model->track_type->value);
+        }
+
+        if ($this->model instanceof Design) {
+            $rule->where('design_type', $this->model->design_type?->value);
+        }
+
+        return $rule;
     }
 
     public function messages(): array

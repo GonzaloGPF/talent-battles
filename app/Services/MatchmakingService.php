@@ -106,7 +106,7 @@ class MatchmakingService
         $previousOpponentIds = $this->previousOpponentIds($creation);
 
         return $candidates->first(fn (Track|Design $candidate) => $candidate instanceof $creation
-            && $candidate->{$type} === $creation->{$type}
+            && $candidate->getAttribute($type) === $creation->getAttribute($type)
             && $candidate->created_by !== $creation->created_by
             && ! $previousOpponentIds->contains($candidate->id));
     }

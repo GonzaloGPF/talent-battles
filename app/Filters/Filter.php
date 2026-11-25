@@ -235,7 +235,7 @@ class Filter extends ModelFilter
         } elseif ($attribute && $this->canUseColumn($attribute)) {
             $this->query->getQuery()->orders = []; // clean up any previous ordering
 
-            $this->query->orderBy("$table.$attribute", $direction);
+            $this->query->orderBy("$table.$attribute", Str::lower($direction ?? '') === 'desc' ? 'desc' : 'asc');
         } else {
             $this->query->latest("$table.created_at"); // default ordering
         }

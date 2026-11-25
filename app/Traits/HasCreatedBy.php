@@ -21,7 +21,11 @@ trait HasCreatedBy
     public static function bootHasCreatedBy(): void
     {
         static::creating(function (self $model) {
-            $model->created_by ??= auth()->id();
+            $userId = auth()->user()?->id;
+
+            if ($userId > 0) {
+                $model->created_by ??= $userId;
+            }
         });
     }
 

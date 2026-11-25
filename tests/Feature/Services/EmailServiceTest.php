@@ -140,6 +140,19 @@ class EmailServiceTest extends TestCase
     }
 
     #[Test]
+    public function an_invitation_email_of_a_deleted_invitation_has_no_mailable()
+    {
+        $email = create(Email::class, [
+            'email_type' => EmailTypes::INVITATION_EMAIL,
+            'meta' => ['invitation_id' => 999],
+        ]);
+
+        $mailable = $this->service->getEmail($email);
+
+        $this->assertNull($mailable);
+    }
+
+    #[Test]
     public function it_can_return_order_success_mailable()
     {
         $email = create(Email::class, [

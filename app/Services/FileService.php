@@ -142,7 +142,7 @@ class FileService
     }
 
     /**
-     * @param  Collection<array-key, UploadedFile|null>  $uploadedFiles
+     * @param  Collection<int, UploadedFile>  $uploadedFiles
      * @return Collection<array-key, File>
      */
     public function saveFiles(HasFilesInterface&Model $model, Collection $uploadedFiles, ?BackedEnum $fileType = null): Collection
