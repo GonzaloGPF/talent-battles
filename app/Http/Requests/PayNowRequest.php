@@ -18,7 +18,7 @@ class PayNowRequest extends FormRequest
         /** @var User $user */
         $user = auth()->user();
 
-        if (! $user?->hasDefaultPaymentMethod()) {
+        if (! $user->hasDefaultPaymentMethod()) {
             throw new AuthorizationException(trans('exceptions.without_data', ['data' => trans('help.default_payment_method')]));
         }
 

@@ -32,7 +32,7 @@ trait HasAddress
 
     private function parseAddress(?array $value): ?string
     {
-        if (empty($value) || ! is_array($value)) {
+        if (empty($value)) {
             return null;
         }
 

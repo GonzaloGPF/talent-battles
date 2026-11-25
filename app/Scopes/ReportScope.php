@@ -16,7 +16,7 @@ class ReportScope implements Scope
             return;
         }
 
-        /** @var User $user */
+        /** @var ?User $user */
         $user = auth()->user();
 
         if ($user) {

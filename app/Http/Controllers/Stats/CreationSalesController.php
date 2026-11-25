@@ -56,6 +56,6 @@ class CreationSalesController extends Controller
     private function groupByMonth(Collection $sales, Carbon $date): Collection
     {
         return $sales
-            ->filter(fn (Sale $sale) => $sale->created_at?->month === $date->month && $sale->created_at?->year === $date->year);
+            ->filter(fn (Sale $sale) => $sale->created_at->isSameMonth($date));
     }
 }

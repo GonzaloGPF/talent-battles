@@ -120,7 +120,7 @@ function randomConstant(string $enum, bool $multiple = false): string|array
 function associateTo(string $modelClass, array $attributes = [], bool $create = false): int|string
 {
     $isMaking = collect(debug_backtrace())
-        ->filter(fn ($item) => isset($item['function']) && $item['function'] === 'make')
+        ->filter(fn ($item) => $item['function'] === 'make')
         ->filter(fn ($item) => isset($item['file']) && Str::endsWith($item['file'], 'globals.php'))
         ->count();
 
@@ -162,7 +162,7 @@ function constantTitle(string $model, string $value, ?bool $plural = false): str
 /**
  * Translate a Model name, useful for Constants Models.
  */
-function tConstValue(string $constant, string|BackedEnum $value): ?string
+function tConstValue(string $constant, string|BackedEnum $value): string
 {
     if ($value instanceof BackedEnum) {
         $value = $value->value;
@@ -335,7 +335,7 @@ function isDateString($value): bool
  */
 function createPeriod(?string $minDate = null, ?string $maxDate = null, ?string $interval = '1 month'): Collection
 {
-    $minDate = Carbon::parse($minDate) ?? today();
+    $minDate = Carbon::parse($minDate ?? today());
 
     $maxDate = $maxDate ?? Carbon::parse($minDate)->addYear();
 

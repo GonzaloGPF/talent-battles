@@ -76,7 +76,7 @@ class OrderLineService
             return;
         }
 
-        /** @var Product $product */
+        /** @var ?Product $product */
         $product = $orderLine->orderable;
 
         if (! $product) {

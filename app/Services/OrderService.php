@@ -40,7 +40,7 @@ class OrderService
             ->forceFill(array_merge([
                 'created_by' => $buyer?->id,
                 'guest_id' => CartService::getOrCreateGuestId(),
-                'email' => $buyer?->email ?? $email,
+                'email' => $buyer->email ?? $email,
                 'payment_state' => PaymentStates::PENDING,
                 'address' => $buyer?->address,
                 'meta' => $meta,

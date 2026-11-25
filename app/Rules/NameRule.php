@@ -16,7 +16,7 @@ class NameRule implements ValidationRule
 
     private array $except;
 
-    private ?string $value;
+    private string $value;
 
     const FORBIDDEN_CHARS = [
         '\\',

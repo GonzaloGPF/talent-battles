@@ -57,11 +57,13 @@ class DownloadController extends Controller
         /** @var HasDownloadsInterface&Model $model */
         $model = morphedModel($request->get('model_type'), $request->get('model_id'));
 
-        /** @var Download $download */
+        /** @var ?Download $download */
         $download = $model
             ->downloads()
             ->where('created_by', auth()->id())
             ->first();
+
+        $created = false;
 
         if ($model->getAttribute('created_by') !== auth()->id() && ! $download) {
             /** @var Download $download */
@@ -77,6 +79,6 @@ class DownloadController extends Controller
             return $this->emptyResponse();
         }
 
-        return $this->storeResponse((new DownloadResource($download))->additional(['created' => $created ?? false]));
+        return $this->storeResponse((new DownloadResource($download))->additional(['created' => $created]));
     }
 }

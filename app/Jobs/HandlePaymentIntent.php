@@ -29,23 +29,20 @@ class HandlePaymentIntent implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle(PaymentService $paymentService)
+    public function handle(PaymentService $paymentService): void
     {
         try {
             $paymentIntentId = data_get($this->payload, 'data.object.id');
 
             // Webhooks have no user or session, so the scopes of Order would hide every order
-            /** @var Order $order */
             $order = Order::withoutGlobalScopes()
                 ->where('meta->payment_intent_id', $paymentIntentId)
                 ->latest('id')
                 ->first();
 
             if (! $order) {
-                return null;
+                return;
             }
 
             if ($this->paymentIntentEvent === 'payment_intent.succeeded') {

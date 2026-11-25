@@ -6,6 +6,7 @@ use App\Enums\ActivityTypes;
 use App\Models\Activity;
 use App\Models\Track;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Attributes\Test;
@@ -78,6 +79,32 @@ class ViewActivityReceivedTest extends TestCase
 
         $this->assertEquals(modelTitle('download', true), $data['datasets'][3]['label']);
         //        $this->assertEquals([0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], $data['datasets'][3]['data']);
+    }
+
+    #[Test]
+    public function the_month_repeated_in_the_period_only_counts_the_activity_of_its_own_year()
+    {
+        $this->travelTo(Carbon::parse('2026-06-15'));
+
+        /** @var Track $track */
+        $track = create(Track::class);
+
+        foreach (['2025-06-20', '2026-06-10'] as $createdAt) {
+            create(Activity::class, [
+                'receiver_id' => auth()->id(),
+                'created_by' => create(User::class)->id,
+                'activity_type' => ActivityTypes::DO_LIKE,
+                'target_id' => $track->id,
+                'target_type' => Track::class,
+                'created_at' => $createdAt,
+            ]);
+        }
+
+        $likes = $this->makeRequest()
+            ->assertSuccessful()
+            ->json('data.datasets.1.data');
+
+        $this->assertEquals([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], $likes);
     }
 
     private function makeRequest(): TestResponse

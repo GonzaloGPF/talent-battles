@@ -93,7 +93,6 @@ class BattleService
 
     public function createForTrack(Track $track): Battle
     {
-        /** @var Battle $battle */
         $battle = Battle::where('battle_state', BattleStates::OPEN)
             ->where(function (Builder $builder) use ($track) {
                 $builder->whereHas('tracks', fn (Builder $q) => $q->where('track_type', $track->track_type)->whereNotIn('created_by', [$track->created_by]))
@@ -120,7 +119,6 @@ class BattleService
 
     public function createForDesign(Design $design): Battle
     {
-        /** @var Battle $battle */
         $battle = Battle::where('battle_state', BattleStates::OPEN)
             ->where(function (Builder $builder) use ($design) {
                 $builder->whereHas('designs', fn (Builder $q) => $q->where('design_type', $design->design_type->value)->whereNotIn('created_by', [$design->created_by]))

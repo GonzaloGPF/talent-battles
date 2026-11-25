@@ -59,7 +59,7 @@ class EmailController extends Controller
         /** @var ?User $user */
         $user = auth()->user();
 
-        $userEmail = $user?->email ?? $request->get('email');
+        $userEmail = $user->email ?? $request->get('email');
 
         $email = $this->emailService->createContactEmail(
             $userEmail,

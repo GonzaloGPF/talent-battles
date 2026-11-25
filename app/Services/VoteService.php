@@ -11,7 +11,7 @@ class VoteService
 {
     public function create(int $battleId, Model $model, ?User $user = null): ?Model
     {
-        /** @var User $user */
+        /** @var ?User $user */
         $user = $user ?? auth()->user();
 
         if (! $user) {
