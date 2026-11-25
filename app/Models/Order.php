@@ -8,6 +8,7 @@ use App\Scopes\MineOrGuestScope;
 use App\Traits\HasAddress;
 use App\Traits\HasCreatedBy;
 use App\Traits\IsFilterable;
+use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Order extends Model implements HasCreatedByInterface
 {
+    /** @use HasFactory<OrderFactory> */
     use HasAddress,
         HasCreatedBy,
         HasFactory,

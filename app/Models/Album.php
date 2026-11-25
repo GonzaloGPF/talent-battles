@@ -21,6 +21,7 @@ use App\Traits\HasTags;
 use App\Traits\IsFilterable;
 use App\Traits\Likeable;
 use App\Traits\NameFormatter;
+use Database\Factories\AlbumFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Album extends Model implements HasCommentsInterface, HasCreatedByInterface, HasDownloadsInterface, HasFavoritesInterface, HasFilesInterface, HasLikesInterface, HasReportsInterface, HasTagsInterface
 {
+    /** @use HasFactory<AlbumFactory> */
     use Commentable,
         Downloable,
         Favoritable,
@@ -53,11 +55,17 @@ class Album extends Model implements HasCommentsInterface, HasCreatedByInterface
         'released' => 'date',
     ];
 
+    /**
+     * @return HasMany<Design, $this>
+     */
     public function designs(): HasMany
     {
         return $this->hasMany(Design::class);
     }
 
+    /**
+     * @return HasMany<Track, $this>
+     */
     public function tracks(): HasMany
     {
         return $this->hasMany(Track::class);

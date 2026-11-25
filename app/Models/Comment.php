@@ -13,6 +13,7 @@ use App\Traits\HasFiles;
 use App\Traits\HasReports;
 use App\Traits\IsFilterableMorph;
 use App\Traits\Likeable;
+use Database\Factories\CommentFactory;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,7 @@ use Illuminate\Support\Str;
  */
 class Comment extends Model implements FilterableMorph, HasCommentsInterface, HasCreatedByInterface, HasFilesInterface, HasLikesInterface, HasReportsInterface
 {
+    /** @use HasFactory<CommentFactory> */
     use Filterable,
         HasCreatedBy,
         HasFactory,
@@ -49,16 +51,25 @@ class Comment extends Model implements FilterableMorph, HasCommentsInterface, Ha
         return 'commentable';
     }
 
+    /**
+     * @return MorphTo<Model, $this>
+     */
     public function commentable(): MorphTo
     {
         return $this->morphTo();
     }
 
+    /**
+     * @return BelongsTo<Comment, $this>
+     */
     public function comment(): BelongsTo
     {
         return $this->belongsTo(Comment::class);
     }
 
+    /**
+     * @return HasMany<Comment, $this>
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
@@ -69,6 +80,9 @@ class Comment extends Model implements FilterableMorph, HasCommentsInterface, Ha
         return $this->commentable->getRelationValue('createdBy');
     }
 
+    /**
+     * @return Attribute<string|null, string|null>
+     */
     protected function title(): Attribute
     {
         return Attribute::set(fn ($value) => $value ? Str::ucfirst(trim($value)) : null);

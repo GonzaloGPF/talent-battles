@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Scopes\NameSortingScope;
 use App\Traits\IsFilterable;
 use App\Traits\NameFormatter;
+use Database\Factories\RegionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Region extends Model
 {
+    /** @use HasFactory<RegionFactory> */
     use HasFactory,
         IsFilterable,
         NameFormatter;
@@ -25,6 +27,9 @@ class Region extends Model
         static::addGlobalScope(new NameSortingScope);
     }
 
+    /**
+     * @return BelongsTo<Country, $this>
+     */
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);

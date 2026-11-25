@@ -8,11 +8,17 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait Commentable
 {
+    /**
+     * @return MorphMany<Comment, $this>
+     */
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
 
+    /**
+     * @return MorphOne<Comment, $this>
+     */
     public function comment(): MorphOne
     {
         return $this->morphOne(Comment::class, 'commentable')

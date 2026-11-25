@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Interfaces\HasCreatedByInterface;
 use App\Traits\HasCreatedBy;
 use App\Traits\IsFilterable;
+use Database\Factories\InvitationFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Invitation extends Model implements HasCreatedByInterface
 {
+    /** @use HasFactory<InvitationFactory> */
     use HasCreatedBy,
         HasFactory,
         IsFilterable,

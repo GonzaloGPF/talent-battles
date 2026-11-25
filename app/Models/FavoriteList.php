@@ -7,6 +7,7 @@ use App\Scopes\ViewOnlyMine;
 use App\Traits\HasCreatedBy;
 use App\Traits\IsFilterable;
 use App\Traits\NameFormatter;
+use Database\Factories\FavoriteListFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class FavoriteList extends Model implements HasCreatedByInterface
 {
+    /** @use HasFactory<FavoriteListFactory> */
     use HasCreatedBy,
         HasFactory,
         IsFilterable,
@@ -31,6 +33,9 @@ class FavoriteList extends Model implements HasCreatedByInterface
         static::addGlobalScope(fn (Builder $builder) => $builder->withCount('favorites'));
     }
 
+    /**
+     * @return HasMany<Favorite, $this>
+     */
     public function favorites(): HasMany
     {
         return $this->hasMany(Favorite::class);

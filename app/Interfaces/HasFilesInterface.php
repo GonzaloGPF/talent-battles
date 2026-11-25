@@ -4,6 +4,7 @@ namespace App\Interfaces;
 
 use App\Models\File;
 use App\Traits\HasFiles;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
@@ -16,6 +17,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 interface HasFilesInterface
 {
+    /**
+     * @return MorphMany<File, covariant Model>
+     */
     public function files(): MorphMany;
 
     /**

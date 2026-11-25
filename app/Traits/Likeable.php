@@ -8,11 +8,17 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait Likeable
 {
+    /**
+     * @return MorphMany<Like, $this>
+     */
     public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likeable');
     }
 
+    /**
+     * @return MorphOne<Like, $this>
+     */
     public function like(): MorphOne
     {
         return $this->morphOne(Like::class, 'likeable')

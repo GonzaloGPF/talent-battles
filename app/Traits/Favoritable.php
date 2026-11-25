@@ -8,11 +8,17 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait Favoritable
 {
+    /**
+     * @return MorphMany<Favorite, $this>
+     */
     public function favorites(): MorphMany
     {
         return $this->morphMany(Favorite::class, 'favoritable');
     }
 
+    /**
+     * @return MorphOne<Favorite, $this>
+     */
     public function favorite(): MorphOne
     {
         return $this->morphOne(Favorite::class, 'favoritable')

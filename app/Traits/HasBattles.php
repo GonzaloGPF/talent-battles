@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasBattles
 {
+    /**
+     * @return MorphMany<Battle, $this>
+     */
     public function victories(): MorphMany
     {
         return $this->morphMany(Battle::class, 'winner');
@@ -22,6 +25,9 @@ trait HasBattles
         return $this->belongsToMany(Battle::class);
     }
 
+    /**
+     * @return BelongsToMany<Battle, $this>
+     */
     public function openBattle(): BelongsToMany
     {
         return $this->battles()
@@ -29,6 +35,9 @@ trait HasBattles
         // ->limit(1) for some reason, this is dangerous. It avoids eager loading relationship when using ApiResource::firstManyToMany()
     }
 
+    /**
+     * @return BelongsToMany<Battle, $this>
+     */
     public function currentBattle(): BelongsToMany
     {
         return $this->battles()
