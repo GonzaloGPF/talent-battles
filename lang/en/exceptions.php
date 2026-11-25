@@ -20,6 +20,7 @@ return [
     'with_data' => 'With :data',
     'greater_than' => ':bigger has to be greater than :smaller',
     'too_large' => 'File too large',
+    'wrong_verb' => 'Method :verb not allowed',
     'invalid_account' => 'Invalid Account',
     'invalid_customer' => 'invalid Customer',
     'unverified_email' => 'Unverified Email',
