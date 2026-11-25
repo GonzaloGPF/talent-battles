@@ -290,13 +290,7 @@ class Filter extends ModelFilter
         return $this->whereIn($column, $values);
     }
 
-    /**
-     * @param  string  $column
-     * @param  mixed  $values
-     * @param  string  $boolean
-     * @param  false  $not
-     */
-    public function whereIn($column, $values, $boolean = 'and', $not = false): Builder
+    public function whereIn(string $column, mixed $values, string $boolean = 'and', bool $not = false): Builder
     {
         if (empty($values)) {
             return $this->query;

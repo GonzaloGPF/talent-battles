@@ -23,6 +23,6 @@ class AlbumFilter extends Filter
 
     public function tags($tags): Builder
     {
-        return $this->query->byTags($tags);
+        return $this->query->scopes(['byTags' => [$tags]]);
     }
 }

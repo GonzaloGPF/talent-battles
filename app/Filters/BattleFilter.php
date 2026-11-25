@@ -47,8 +47,8 @@ class BattleFilter extends Filter
         $this->where('battle_state', BattleStates::IN_PROGRESS)
             ->whereDoesntHave('votes', fn (Builder $builder) => $builder->where('created_by', auth()->id()))
             ->where(function (Builder $builder) {
-                $builder->where(fn (Builder $sub) => $sub->where('battle_type', BattleTypes::TRACK)->has('tracks', 2)->whereDoesntHave('tracks', fn (Builder $q) => $q->where('created_by', auth()->id())))
-                    ->orWhere(fn (Builder $sub) => $sub->where('battle_type', BattleTypes::DESIGN)->has('designs', 2)->whereDoesntHave('designs', fn (Builder $q) => $q->where('created_by', auth()->id())));
+                $builder->where(fn (Builder $sub) => $sub->where('battle_type', BattleTypes::TRACK)->has('tracks', '=', 2)->whereDoesntHave('tracks', fn (Builder $q) => $q->where('created_by', auth()->id())))
+                    ->orWhere(fn (Builder $sub) => $sub->where('battle_type', BattleTypes::DESIGN)->has('designs', '=', 2)->whereDoesntHave('designs', fn (Builder $q) => $q->where('created_by', auth()->id())));
             })->inRandomOrder();
 
         return $this->query;
@@ -85,12 +85,12 @@ class BattleFilter extends Filter
     public function lostBy($ids): Builder
     {
         return $this->query
-            ->byParticipants($ids)
+            ->scopes(['byParticipants' => [$ids]])
             ->whereHas('winner', fn (Builder $builder) => $builder->whereNotIn('created_by', $ids));
     }
 
     public function byParticipants($ids): Builder
     {
-        return $this->query->byParticipants($ids);
+        return $this->query->scopes(['byParticipants' => [$ids]]);
     }
 }

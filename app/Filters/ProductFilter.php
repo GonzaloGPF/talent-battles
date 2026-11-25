@@ -20,18 +20,12 @@ class ProductFilter extends Filter
         return $this->query;
     }
 
-    /**
-     * @return TrackFilter
-     */
-    public function promoted($value): Filter
+    public function promoted($value): Builder
     {
-        if (! $value) {
-            return $this->where(function (Builder $q) {
-                return $q->whereNull('promoted')
-                    ->orWhere('promoted', '<', today());
-            });
-        }
+        $value
+            ? $this->where('promoted', '>=', today())
+            : $this->where(fn (Builder $q) => $q->whereNull('promoted')->orWhere('promoted', '<', today()));
 
-        return $this->where('promoted', '>=', today());
+        return $this->query;
     }
 }
