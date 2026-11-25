@@ -24,6 +24,9 @@ class CartService
         return $cart;
     }
 
+    /**
+     * @param  array<int, array<string, mixed>>|null  $itemData
+     */
     public function addItems(Cart $cart, ?array $itemData = []): Cart
     {
         $oldItems = $cart->items;
@@ -37,6 +40,9 @@ class CartService
         return $cart;
     }
 
+    /**
+     * @param  array<int, int>  $productIds
+     */
     public function removeItems(Cart $cart, array $productIds): Cart
     {
         $productIds = collect($productIds)
@@ -77,6 +83,10 @@ class CartService
         return session(self::$cartSessionKey);
     }
 
+    /**
+     * @param  array<int, mixed>|Collection<int, mixed>|null  $itemsData
+     * @return Collection<int, CartItem>
+     */
     public function parseItemsData(null|array|Collection $itemsData = []): Collection
     {
         if ($itemsData instanceof Collection) {

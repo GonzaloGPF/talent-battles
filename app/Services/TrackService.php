@@ -9,6 +9,9 @@ use Illuminate\Http\UploadedFile;
 
 class TrackService extends CreationService
 {
+    /**
+     * @param  array<string, mixed>  $data
+     */
     public function createTrack(array $data, UploadedFile $audio, ?UploadedFile $image = null, ?UploadedFile $untaggedFile = null): Track
     {
         $track = Track::create($data);

@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
  */
 class UserResource extends ApiResource
 {
+    /**
+     * @return array<int|string, mixed>
+     */
     public function toArray(Request $request): array
     {
         $itsMe = $this->id === auth()->id();

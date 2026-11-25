@@ -15,6 +15,9 @@ class Calculator
         return 0; // self::TAX_21; // TODO: review this
     }
 
+    /**
+     * @return array<string, float|int|null>
+     */
     public static function getOrderTotals(float $brute, ?float $discountAmount = 0, ?float $taxAmount = 0): array
     {
         $subtotal = $brute - $discountAmount;
@@ -44,6 +47,9 @@ class Calculator
         ];
     }
 
+    /**
+     * @return array<string, float|int|null>
+     */
     public static function getOrderLineTotals(float $price, float $quantity = 1, ?float $discount = 0, ?float $tax = 0): array
     {
         $subtotal = $price * $quantity;
@@ -65,6 +71,9 @@ class Calculator
         ];
     }
 
+    /**
+     * @return array<string, float|int|null>
+     */
     public function getProductTotals(Product $product, float $quantity = 1): array
     {
         $pointDiscount = $this->getPointDiscount($quantity);
@@ -99,14 +108,19 @@ class Calculator
         return ($months - $minMonths) * $discount;
     }
 
+    /**
+     * The discount of the smallest threshold that covers the points, as the front calculates it.
+     * Buying more points than the biggest threshold gets no discount.
+     */
     public function getPointDiscount(float $points): float
     {
         $pointsData = resolve(CompanyService::class)->getBuy();
 
+        /** @var array<int, float> $discounts */
         $discounts = $pointsData['points']['discounts'] ?? [];
 
         return collect($discounts)
-            ->filter(fn (float $discount, $minPoints) => $points <= $minPoints)
-            ->first();
+            ->filter(fn (float $discount, int $minPoints) => $points <= $minPoints)
+            ->first() ?? 0;
     }
 }

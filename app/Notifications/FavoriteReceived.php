@@ -28,6 +28,8 @@ class FavoriteReceived extends Notification implements NotyInterface
 
     /**
      * Get the notification's delivery channels.
+     *
+     * @return array<int, string>
      */
     public function via(object $notifiable): array
     {
@@ -44,6 +46,8 @@ class FavoriteReceived extends Notification implements NotyInterface
 
     /**
      * Get the array representation of the notification.
+     *
+     * @return array<string, mixed>
      */
     public function toArray(object $notifiable): array
     {

@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Enums\EmailTypes;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -20,6 +21,7 @@ class CreationSoldEmail extends Mailable
     /**
      * Create a new message instance.
      *
+     * @param  array<int, array<string, mixed>>  $lines
      * @return void
      */
     public function __construct(public string $userName, public array $lines)
@@ -51,6 +53,8 @@ class CreationSoldEmail extends Mailable
 
     /**
      * Get the attachments for the message.
+     *
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {

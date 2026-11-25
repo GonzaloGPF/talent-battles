@@ -10,7 +10,7 @@ class ModelInterfaceRule implements Rule
 {
     private string $interfaceClass;
 
-    private $value;
+    private mixed $value;
 
     private string $attribute;
 

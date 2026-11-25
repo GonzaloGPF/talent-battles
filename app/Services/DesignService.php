@@ -9,6 +9,9 @@ use Illuminate\Http\UploadedFile;
 
 class DesignService extends CreationService
 {
+    /**
+     * @param  array<string, mixed>  $data
+     */
     public function createDesign(array $data, UploadedFile $image, ?UploadedFile $untaggedFile = null): Design
     {
         $fileService = resolve(FileService::class);

@@ -81,6 +81,9 @@ class ItemDataRule implements Rule
         return $this->messageText;
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     private function getValidator(Product $product, array $data): ?\Illuminate\Validation\Validator
     {
         $validator = null;

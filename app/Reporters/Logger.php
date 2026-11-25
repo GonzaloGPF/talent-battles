@@ -12,26 +12,41 @@ use Throwable;
 
 class Logger
 {
+    /**
+     * @param  array<mixed>|null  $data
+     */
     public function info(string $message, ?array $data = [], ?string $channel = null): void
     {
         $this->log($message, $data, LogLevels::INFO, $channel);
     }
 
+    /**
+     * @param  array<mixed>|null  $data
+     */
     public function error(string $message, ?array $data = null, ?string $channel = null): void
     {
         $this->log($message, $data, LogLevels::ERROR, $channel);
     }
 
+    /**
+     * @param  array<mixed>|null  $data
+     */
     public function debug(string $message, ?array $data = [], ?string $channel = null): void
     {
         $this->log($message, $data, LogLevels::DEBUG, $channel);
     }
 
+    /**
+     * @param  array<mixed>|null  $data
+     */
     public function exception(Throwable $exception, ?array $data = null, ?string $channel = null): void
     {
         $this->log($exception->getMessage(), $this->getErrorData($exception, $data), LogLevels::CRITICAL, $channel);
     }
 
+    /**
+     * @param  array<mixed>|null  $data
+     */
     public function http(string $url, ?array $data, ?string $verb = 'GET', ?bool $outgoing = true, ?string $description = null): void
     {
         $data = [
@@ -49,6 +64,10 @@ class Logger
         }
     }
 
+    /**
+     * @param  array<mixed>|null  $data
+     * @return array<string, mixed>
+     */
     private function getErrorData(Throwable $exception, ?array $data = []): array
     {
         /** @var ?User $user */
@@ -77,11 +96,12 @@ class Logger
     }
 
     /**
-     * @param  null  $channel
+     * @param  array<mixed>|null  $data
      */
-    private function log(string $message, array $data = [], ?LogLevels $level = null, $channel = null): void
+    private function log(string $message, ?array $data = [], ?LogLevels $level = null, ?string $channel = null): void
     {
         $logger = Log::channel($channel);
+        $data ??= [];
 
         try {
             match ($level) {

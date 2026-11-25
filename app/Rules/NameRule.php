@@ -14,6 +14,9 @@ class NameRule implements ValidationRule
 
     const REG = "/[a-zA-Z0-9\-_.\s]+/"; // Alphanumeric with spaces, underscores and dashes
 
+    /**
+     * @var array<int, string>
+     */
     private array $except;
 
     private string $value;
@@ -48,6 +51,9 @@ class NameRule implements ValidationRule
         '¬',
     ];
 
+    /**
+     * @param  array<int, string>  $except
+     */
     public function __construct(array $except = [])
     {
         $this->except = $except;

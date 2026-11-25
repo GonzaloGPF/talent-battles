@@ -9,6 +9,9 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 use JsonSerializable;
 
+/**
+ * @implements Arrayable<string, mixed>
+ */
 class CartItem implements Arrayable, JsonSerializable
 {
     public ?string $name;
@@ -47,6 +50,9 @@ class CartItem implements Arrayable, JsonSerializable
 
     private Calculator $calculator;
 
+    /**
+     * @param  array<string, mixed>|null  $itemData
+     */
     public function __construct(Product $product, int $quantity = 1, ?array $itemData = [])
     {
         $this->calculator = new Calculator;
@@ -105,6 +111,9 @@ class CartItem implements Arrayable, JsonSerializable
         return json_encode($this->toArray());
     }
 
+    /**
+     * @param  array<string, mixed>|null  $itemData
+     */
     public function getDescription(?Product $product = null, ?float $quantity = null, ?array $itemData = []): string
     {
         $product = $product ?? $this->product;

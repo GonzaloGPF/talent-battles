@@ -53,6 +53,10 @@ class CreationSalesController extends Controller
         ]);
     }
 
+    /**
+     * @param  Collection<int, Sale>  $sales
+     * @return Collection<int, Sale>
+     */
     private function groupByMonth(Collection $sales, Carbon $date): Collection
     {
         return $sales

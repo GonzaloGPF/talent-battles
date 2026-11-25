@@ -12,6 +12,7 @@ use App\Models\Track;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -77,13 +78,18 @@ class MatchmakingService
     private function candidates(): Collection
     {
         return collect(self::CREATIONS)
-            ->flatMap(fn (array $settings, string $model) => $model::query()
-                ->select(['id', 'created_by', $settings['type']])
-                ->where('can_challenge', true)
-                ->whereHas('createdBy')
-                ->whereDoesntHave('battles', fn (Builder $query) => $query->whereIn('battle_state', [BattleStates::OPEN, BattleStates::IN_PROGRESS]))
-                ->withCount('battles')
-                ->get())
+            ->flatMap(function (array $settings, string $model) {
+                /** @var EloquentCollection<int, Track|Design> $creations */
+                $creations = $model::query()
+                    ->select(['id', 'created_by', $settings['type']])
+                    ->where('can_challenge', true)
+                    ->whereHas('createdBy')
+                    ->whereDoesntHave('battles', fn (Builder $query) => $query->whereIn('battle_state', [BattleStates::OPEN, BattleStates::IN_PROGRESS]))
+                    ->withCount('battles')
+                    ->get();
+
+                return $creations;
+            })
             ->shuffle()
             ->sortBy('battles_count')
             ->values();

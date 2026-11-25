@@ -11,6 +11,10 @@ use Illuminate\Support\Collection;
 
 class InvitationService
 {
+    /**
+     * @param  array<int, array<string, mixed>>  $data
+     * @return Collection<int, Invitation>
+     */
     public function createMultiple(array $data): Collection
     {
         return collect($data)
@@ -18,6 +22,9 @@ class InvitationService
             ->filter();
     }
 
+    /**
+     * @param  array<string, mixed>  $invitationData
+     */
     public function create(array $invitationData): ?Invitation
     {
         try {

@@ -14,6 +14,9 @@ use Laravel\Socialite\Contracts\User as OAuthUser;
 
 class UserService
 {
+    /**
+     * @var array<string, list<Roles>>
+     */
     public static array $groups = [
         'internals' => [Roles::ADMIN, Roles::MANAGER],
         'externals' => [Roles::USER],
@@ -29,6 +32,9 @@ class UserService
         $this->stripeApi = $stripeApi;
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     public function create(array $data): User
     {
         $user = new User($data);
@@ -72,6 +78,9 @@ class UserService
         return $user;
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     public function update(User $user, array $data): User
     {
         $user->update($data);
@@ -84,6 +93,9 @@ class UserService
         return $user ?? auth()->user();
     }
 
+    /**
+     * @return array{token: string, token_type: string, user: UserResource}
+     */
     public function getJWTData(User $user): array
     {
         return [
@@ -121,7 +133,10 @@ class UserService
 
     public function getLevel(?float $experience = 0): ?string
     {
-        return collect(config('company.progress'))
+        /** @var array<string, int> $progress */
+        $progress = config('company.progress');
+
+        return collect($progress)
             ->filter(fn (int $progress) => $experience >= $progress)
             ->keys()
             ->last();

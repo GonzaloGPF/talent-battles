@@ -18,10 +18,19 @@ abstract class Api implements ApiInterface
 
     private PendingRequest $request;
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $options;
 
+    /**
+     * @var array<string, string>
+     */
     private array $headers;
 
+    /**
+     * @var array<int, string>
+     */
     private array $basicAuth;
 
     private ?string $token;
@@ -66,11 +75,17 @@ abstract class Api implements ApiInterface
         $this->queue = $value;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getOptions(): array
     {
         return $this->options;
     }
 
+    /**
+     * @param  array<string, mixed>  $options
+     */
     public function setOptions(array $options): Api
     {
         $this->options = $options;
@@ -78,11 +93,17 @@ abstract class Api implements ApiInterface
         return $this;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getHeaders(): array
     {
         return $this->headers;
     }
 
+    /**
+     * @param  array<string, string>  $headers
+     */
     public function setHeaders(array $headers): Api
     {
         $this->headers = $headers;
@@ -90,6 +111,9 @@ abstract class Api implements ApiInterface
         return $this;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getBasicAuth(): array
     {
         return $this->basicAuth;
@@ -132,31 +156,55 @@ abstract class Api implements ApiInterface
         return $this->response;
     }
 
+    /**
+     * @param  array<string, mixed>  $options
+     * @return array<mixed>
+     */
     public function get(string $url, array $options = []): array
     {
         return $this->makeRequest('get', $url, $options);
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<mixed>
+     */
     public function put(string $url, array $data = []): array
     {
         return $this->makeRequest('put', $url, $data);
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<mixed>
+     */
     public function patch(string $url, array $data = []): array
     {
         return $this->makeRequest('patch', $url, $data);
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<mixed>
+     */
     public function post(string $url, array $data = []): array
     {
         return $this->makeRequest('post', $url, $data);
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<mixed>
+     */
     public function delete(string $url, array $data = []): array
     {
         return $this->makeRequest('delete', $url, $data);
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<mixed>
+     */
     private function makeRequest(string $verb, string $url, array $data = []): array
     {
         if ($this->queue) {
@@ -204,6 +252,9 @@ abstract class Api implements ApiInterface
         return $this;
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     public function doRequest(string $verb, string $url, array $data): Response
     {
         $this->response = $this->canMakeRequest()
@@ -219,8 +270,11 @@ abstract class Api implements ApiInterface
      * It will log correctly depending on environments
      * If its on live, it will throws exceptions logs
      * if its local or testing, it will just log in file
+     *
+     * @param  array<string, mixed>  $data
+     * @param  array<mixed>|Response|null  $response
      */
-    private function doLog(string $verb, string $url, array $data = [], array|Response|null $response = null)
+    private function doLog(string $verb, string $url, array $data = [], array|Response|null $response = null): void
     {
         $config = $this->getConfig();
 
@@ -236,6 +290,9 @@ abstract class Api implements ApiInterface
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getConfig(): array
     {
         return [

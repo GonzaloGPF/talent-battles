@@ -44,6 +44,9 @@ class ApiResource extends JsonResource
         ]);
     }
 
+    /**
+     * @param  array<int, string>  $attributes
+     */
     public function pivotTable(string $pivot, array $attributes): MergeValue|MissingValue
     {
         if (count($attributes) == 0) {

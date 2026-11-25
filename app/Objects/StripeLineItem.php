@@ -5,6 +5,9 @@ namespace App\Objects;
 use Illuminate\Contracts\Support\Arrayable;
 use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * @implements Arrayable<string, mixed>
+ */
 class StripeLineItem implements Arrayable
 {
     public function __construct(

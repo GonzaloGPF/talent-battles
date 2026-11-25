@@ -56,6 +56,9 @@ class EmailService
         ]);
     }
 
+    /**
+     * @param  Collection<int, Sale>  $sales
+     */
     public function createCreationSold(Collection $sales, User $user): ?Email
     {
         return $this->create(EmailTypes::CREATION_SOLD, [$user->email], [
@@ -77,6 +80,9 @@ class EmailService
         ]);
     }
 
+    /**
+     * @param  array<int, string>  $emails
+     */
     public function createContactEmail(string $email, string $message, array $emails): ?Email
     {
         return $this->create(EmailTypes::CONTACT_EMAIL, $emails, [
@@ -133,6 +139,10 @@ class EmailService
         return new InvitationEmail(Invitation::find($email->meta['invitation_id']));
     }
 
+    /**
+     * @param  array<int, string>  $to
+     * @param  array<string, mixed>|null  $meta
+     */
     private function create(BackedEnum $emailType, array $to, ?array $meta = []): ?Email
     {
         if (empty($to)) {

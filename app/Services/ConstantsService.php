@@ -14,6 +14,8 @@ class ConstantsService
     public static int $DAY = 86400; // 86400 seconds = 1 day
 
     /**
+     * @return array<string, list<int|string>>
+     *
      * @throws Exception
      */
     public function getConstants(): array
@@ -24,7 +26,9 @@ class ConstantsService
             return loadConstants()
                 ->mapWithKeys(function (string $enum) {
                     $key = $this->getConstantKey($enum);
-                    $values = collect($enum::cases())
+                    /** @var array<int, BackedEnum> $cases */
+                    $cases = $enum::cases();
+                    $values = collect($cases)
                         ->map(fn (BackedEnum $enum) => $enum->value)
                         ->values()
                         ->toArray();
@@ -35,6 +39,9 @@ class ConstantsService
         });
     }
 
+    /**
+     * @return array<string, mixed>|MissingValue
+     */
     public static function toArray(?Model $model): array|MissingValue
     {
         if (! $model) {
@@ -48,6 +55,9 @@ class ConstantsService
         ];
     }
 
+    /**
+     * @return array<mixed>|MissingValue
+     */
     public static function toResource(Model $model, string $relationship): array|MissingValue
     {
         if (! $model->relationLoaded($relationship)) {

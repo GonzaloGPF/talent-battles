@@ -330,6 +330,9 @@ class PageMetaService
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function creationReplacements(string $name, ?User $author): array
     {
         return [

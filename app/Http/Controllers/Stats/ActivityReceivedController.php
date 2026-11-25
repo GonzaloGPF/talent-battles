@@ -71,6 +71,9 @@ class ActivityReceivedController extends Controller
         ]);
     }
 
+    /**
+     * @param  Collection<int, Activity>  $activities
+     */
     private function countByMonthAndType(Collection $activities, Carbon $date, BackedEnum $type): int
     {
         $activitiesByType = $activities
@@ -79,6 +82,10 @@ class ActivityReceivedController extends Controller
         return $this->groupByMonth($activitiesByType, $date)->count();
     }
 
+    /**
+     * @param  Collection<int, Activity>  $activities
+     * @return Collection<int, Activity>
+     */
     private function groupByMonth(Collection $activities, Carbon $date): Collection
     {
         return $activities
