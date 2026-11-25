@@ -19,13 +19,11 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
-     * Define the application's command schedule.
+     * Production runs no cron: these jobs also run after the battles are listed. The schedule keeps them going wherever
+     * a scheduler runs.
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('inspire')->hourly();
-        $schedule->command('cache:prune-stale-tags')->hourly();
-        $schedule->command('horizon:snapshot')->everyFiveMinutes();
         $schedule->job(new CheckBattlesToFinish)->hourly();
         $schedule->job(new MatchBattles)->hourly();
     }
