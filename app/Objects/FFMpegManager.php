@@ -2,6 +2,7 @@
 
 namespace App\Objects;
 
+use App\Facades\Logger;
 use App\Services\FileService;
 use Exception;
 use FFMpeg\Format\Audio\Mp3;

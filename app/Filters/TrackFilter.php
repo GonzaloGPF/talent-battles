@@ -19,9 +19,6 @@ class TrackFilter extends Filter
         ],
     ];
 
-    /**
-     * @return TrackFilter
-     */
     public function promoted($value): Filter
     {
         if (! $value) {
@@ -41,17 +38,11 @@ class TrackFilter extends Filter
         return $this->boolean('can_challenge', $value);
     }
 
-    /**
-     * @return Builder
-     */
     public function exclusive($value): TrackFilter
     {
         return $this->whereHas('product', fn (Builder $q) => $this->boolean('exclusive', $value, $q));
     }
 
-    /**
-     * @return Builder
-     */
     public function inSale($value): TrackFilter
     {
         return $value
@@ -59,9 +50,6 @@ class TrackFilter extends Filter
             : $this->whereDoesntHave('product');
     }
 
-    /**
-     * @return Builder
-     */
     public function sold($value): TrackFilter
     {
         $operator = $value

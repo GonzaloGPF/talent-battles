@@ -4,7 +4,7 @@ use App\Enums\Roles;
 use App\Models\User;
 use Carbon\CarbonPeriod;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -73,29 +73,21 @@ function toSnake(string $className, ?bool $plural = false): string
 }
 
 /**
- * @param  null  $count
- * @return Collection|Model|mixed
+ * @param  class-string<Model>  $class
  */
-function make($class, array $parameters = [], $count = null): Collection|Model
+function make(string $class, array $parameters = [], ?int $count = null): Collection|Model
 {
-    /** @var HasFactory $model */
-    $model = resolve($class);
-
-    return $model::factory()
+    return Factory::factoryForModel($class)
         ->count($count)
         ->make($parameters);
 }
 
 /**
- * @param  null  $count
- * @return mixed|Collection|Model
+ * @param  class-string<Model>  $class
  */
-function create($class, array $parameters = [], $count = null): Collection|Model
+function create(string $class, array $parameters = [], ?int $count = null): Collection|Model
 {
-    /** @var HasFactory $model */
-    $model = resolve($class);
-
-    return $model::factory()
+    return Factory::factoryForModel($class)
         ->count($count)
         ->create($parameters);
 }

@@ -25,7 +25,7 @@ class MineOrGuestScope implements Scope
         }
 
         if (auth()->check()) {
-            $builder->where('created_by', auth()->id());
+            $builder->where($this->column, auth()->id());
         } else {
             $builder->where('guest_id', CartService::getGuestId())
                 ->whereNotNull('guest_id');

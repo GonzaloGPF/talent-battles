@@ -70,11 +70,6 @@ class EmailService
         ]);
     }
 
-    /**
-     * @param  string  $email
-     * @param  string  $creatorName
-     * @param  string|null  $userName
-     */
     public function createInvitationEmail(Invitation $invitation): ?Email
     {
         return $this->create(EmailTypes::INVITATION_EMAIL, [$invitation->email], [
