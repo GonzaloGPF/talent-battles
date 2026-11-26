@@ -9,7 +9,7 @@ title: 'Terms of Service'
 Legal information about **Talent Battles**
 
 > [!NOTE]
-> Last update: 2022-04-01
+> Last update: 2026-11-26
 
 - [General](#legal-generals)
 - [Section 1: Online Store Terms](#legal-section-1)
@@ -37,7 +37,7 @@ Legal information about **Talent Battles**
 
 ## General {#legal-generals}
 
-**Talent Battles** manages this website. Throughout the site, the terms "we", "us" and "our"
+**Talent Battles** is a website run by its owner, identified in [Section 20](#legal-section-20). Throughout the site, the terms "we", "us" and "our"
 hereinafter refer to **Talent Battles**. **Talent Battles** offers this web page,
 including all information, tools and services made available to you on this site,
 the user, as long as he accepts all the terms, conditions, policies and notices contemplated here.
@@ -198,4 +198,6 @@ We reserve the right, at our sole discretion, to update, change or replace any p
 
 ## SECTION 20: Contact Information {#legal-section-20}
 
-Terms of Service questions should be sent to **noreply@talentbattles.com**.
+Terms of Service questions should be sent to the owner's email:
+
+<LegalOwner />

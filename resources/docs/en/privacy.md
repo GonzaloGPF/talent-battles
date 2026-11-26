@@ -9,7 +9,7 @@ title: 'Privacy Policy'
 Please read the **Privacy Policy** carefully to learn all the details about how we treat your information and data.
 
 > [!NOTE]
-> Last update: 2022-04-01
+> Last update: 2026-11-26
 
 - [User Information](#privacy-user)
 - [Contact](#privacy-contact)
@@ -21,7 +21,7 @@ Please read the **Privacy Policy** carefully to learn all the details about how 
 - [Legal Information](#privacy-legal-info)
 
 ## 1. Information to the user {#privacy-user}
-**Talent Battles**, as Data Controller, informs you that,
+The owner of **Talent Battles**, identified in the [Contact](#privacy-contact) section, as Data Controller, informs you that,
 according to the provisions of Regulation (EU) 2016/679, of April 27, (RGPD) and in the L.O. 3/2018, of December 5,
 of data protection and guarantee of digital rights (LOPDGDD),
 We will treat your data as reflected in this Privacy Policy.
@@ -35,11 +35,7 @@ for the provision of its services. If you accept the measures of this Policy,
 You agree that we process your personal data as defined in this Policy.
 
 ## 2. Contact {#privacy-contact}
-- Company name: Talent Battles
-- Commercial name: Talent Battles
-- CIF: 
-- Address: 
-- Mail: noreply@talentbattles.com
+<LegalOwner />
 
 ## 3. Key Principles {#privacy-principles}
 We have always been committed to providing our services with the highest degree of quality, which includes treating your data with security and transparency. Our principles are:
@@ -94,7 +90,7 @@ In relation to the collection and processing of your personal data, you can cont
 - Oppose the processing of your personal data in accordance with article 21 of the RGPD.
 - If you have given your consent for a specific purpose, you have the right to withdraw the consent granted at any time, without affecting the legality of the treatment based on the consent prior to its withdrawal HR.
 
-You can exercise these rights by sending a reasoned and accredited communication to **noreply@talentbattles.com**
+You can exercise these rights by sending a reasoned and accredited communication to the email in the [Contact](#privacy-contact) section.
 
 You also have the right to file a claim with the competent Control Authority [www.aepd.es](www.aepd.es) if you consider that the treatment does not comply with current regulations.
 

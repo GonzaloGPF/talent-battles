@@ -9,7 +9,7 @@ title: 'Política de Privacidad'
 Lee atentamente la **Política de Privacidad** para conocer todos los detalles sobre cómo tratamos tu información y tus datos.
 
 > [!NOTE]
-> Última actualización: 2022-04-01
+> Última actualización: 2026-11-26
 
 - [Información al Usuario](#privacy-user)
 - [Contacto](#privacy-contact)
@@ -21,7 +21,7 @@ Lee atentamente la **Política de Privacidad** para conocer todos los detalles s
 - [Información Legal](#privacy-legal-info)
 
 ## 1. Información al usuario {#privacy-user}
-**Talent Battles**, como Responsable del Tratamiento, le informa que, 
+El titular de **Talent Battles**, identificado en el apartado [Contacto](#privacy-contact), como Responsable del Tratamiento, le informa que, 
 según lo dispuesto en el Reglamento (UE) 2016/679, de 27 de abril, (RGPD) y en la L.O. 3/2018, de 5 de diciembre, 
 de protección de datos y garantía de los derechos digitales (LOPDGDD), 
 trataremos sus datos tal y como reflejamos en la presente Política de Privacidad.
@@ -35,11 +35,7 @@ para la prestación de sus servicios. Si acepta las medidas de esta Política,
 acepta que tratemos sus datos personales como se define en esta Política.
 
 ## 2. Contacto {#privacy-contact}
-- Denominación social: Talent Battles
-- Nombre comercial: Talent Battles
-- CIF: 
-- Domicilio: 
-- Correo: noreply@talentbattles.com
+<LegalOwner />
 
 ## 3. Principios Clave {#privacy-principles}
 Siempre hemos estado comprometidos con prestar nuestros servicios con el más alto grado de calidad, lo que incluye tratar sus datos con seguridad y transparencia. Nuestros principios son:
@@ -94,7 +90,7 @@ En relación con la recogida y tratamiento de sus datos personales, puede poners
 - Oponerse al tratamiento de sus datos personales de acuerdo con el artículo 21 del RGPD.
 - Si ha otorgado su consentimiento para alguna finalidad concreta, tiene derecho a retirar el consentimiento otorgado en cualquier momento, sin que ello afecte a la licitud del tratamiento basado en el consentimiento previo a su retirada rrhh.
 
-Puede ejercer estos derechos enviando comunicación, motivada y acreditada, a **noreply@talentbattles.com**
+Puede ejercer estos derechos enviando comunicación, motivada y acreditada, al correo electrónico del apartado [Contacto](#privacy-contact).
 
 También tiene derecho a presentar una reclamación ante la Autoridad de control competente [www.aepd.es](www.aepd.es) si considera que el tratamiento no se ajusta a la normativa vigente.
 
