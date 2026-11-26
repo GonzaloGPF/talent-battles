@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FileRequest;
 use App\Http\Resources\FileResource;
-use App\Interfaces\HasFilesInterface;
 use App\Models\File;
 use App\Services\FileService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -39,6 +37,7 @@ class FileController extends Controller
     public function index(): JsonResponse
     {
         $files = File::filter(request()->all())
+            ->visibleTo(auth()->user())
             ->getOrPaginate();
 
         return $this->indexResponse(FileResource::collection($files));
@@ -49,8 +48,11 @@ class FileController extends Controller
      */
     public function store(FileRequest $request): JsonResponse
     {
-        /** @var HasFilesInterface&Model $model */
-        $model = morphedModel($request->get('model_type'), $request->get('model_id'));
+        $model = $request->model();
+
+        if (! $model) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
 
         $files = $this->saveFilesTo($model, 'files', $request->get('file_type'));
 
@@ -95,9 +97,9 @@ class FileController extends Controller
     }
 
     /**
-     * Download multiple files
+     * Download multiple files, if the user may download each of them.
      *
-     * @throws BindingResolutionException
+     * @throws BindingResolutionException|AuthorizationException
      */
     public function zip(): Response
     {
@@ -105,6 +107,10 @@ class FileController extends Controller
             'file_ids' => 'required|array|min:1',
             'file_ids.*' => 'exists:files,id',
         ]);
+
+        File::query()
+            ->findMany($data['file_ids'])
+            ->each(fn (File $file) => $this->authorize('view', $file));
 
         return $this->zipResponse($data['file_ids']);
     }

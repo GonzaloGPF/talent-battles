@@ -109,7 +109,7 @@ class FileService
                 'fileable_type' => get_class($model),
                 'file_type' => $attributes['file_type'] ?? null,
                 'path' => $path,
-                'secret' => uniqid(),
+                'secret' => Str::random(40),
             ]);
 
         $file->save();
@@ -305,7 +305,7 @@ class FileService
         $salt = uniqid();
 
         $copy = $file->replicate();
-        $copy->secret = uniqid();
+        $copy->secret = Str::random(40);
 
         $filename = pathinfo($copy->path, PATHINFO_FILENAME);
         $newPath = str_replace($filename, "{$filename}_$salt", $copy->path);

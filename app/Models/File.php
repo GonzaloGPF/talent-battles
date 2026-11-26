@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\FileTypes;
+use App\Enums\Roles;
 use App\Interfaces\HasCreatedByInterface;
 use App\Observers\FileObserver;
 use App\Services\FileService;
@@ -32,6 +33,14 @@ class File extends Model implements HasCreatedByInterface
 
     const PATH_TMP = 'files/tmp';
 
+    /**
+     * What a product sells, what a buyer bought and the evidence of a report: only their owner,
+     * the admins and whoever has the secret link of the file may download them.
+     *
+     * @var array<int, class-string<Model>>
+     */
+    const PRIVATE_FILEABLE_TYPES = [Product::class, OrderLine::class, Report::class];
+
     protected $fillable = ['name'];
 
     protected $hidden = ['secret'];
@@ -52,6 +61,11 @@ class File extends Model implements HasCreatedByInterface
 
             return trim(str_replace('.', '', str_replace(' ', '_', $name)));
         });
+    }
+
+    public function isPrivate(): bool
+    {
+        return in_array($this->fileable_type, self::PRIVATE_FILEABLE_TYPES, true);
     }
 
     public function fullName(): string
@@ -111,5 +125,22 @@ class File extends Model implements HasCreatedByInterface
     public function scopeByTypes(Builder $builder, array $fileTypes): Builder
     {
         return $builder->whereIn('file_type', $fileTypes);
+    }
+
+    /**
+     * The public files and the private files of the user, or every file for an admin.
+     *
+     * @param  Builder<self>  $builder
+     * @return Builder<self>
+     */
+    public function scopeVisibleTo(Builder $builder, ?User $user): Builder
+    {
+        if ($user && hasRole(Roles::ADMIN, user: $user)) {
+            return $builder;
+        }
+
+        return $builder->where(fn (Builder $query) => $query
+            ->whereNotIn('fileable_type', self::PRIVATE_FILEABLE_TYPES)
+            ->when($user, fn (Builder $query, User $user) => $query->orWhere('created_by', $user->id)));
     }
 }

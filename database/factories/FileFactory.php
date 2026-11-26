@@ -5,8 +5,6 @@ namespace Database\Factories;
 use App\Enums\FileTypes;
 use App\Interfaces\HasFilesInterface;
 use App\Models\File;
-use App\Models\OrderLine;
-use App\Models\Product;
 use App\Services\FileService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
@@ -76,7 +74,7 @@ class FileFactory extends Factory
     public function definition(): array
     {
         $fileableModel = loadModels(HasFilesInterface::class)
-            ->filter(fn (HasFilesInterface $model) => ! in_array(get_class($model), [OrderLine::class, Product::class]))
+            ->filter(fn (HasFilesInterface $model) => ! in_array(get_class($model), File::PRIVATE_FILEABLE_TYPES))
             ->random();
 
         $className = get_class($fileableModel);
