@@ -5,6 +5,7 @@ namespace App\Api;
 use App\Facades\Logger;
 use App\Models\Order;
 use App\Models\OrderLine;
+use App\Models\Sale;
 use App\Models\User;
 use App\Objects\StripeLineItem;
 use App\Responses\SimpleResponse;
@@ -24,6 +25,7 @@ use Stripe\Exception\ApiErrorException;
 use Stripe\Exception\InvalidRequestException;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
+use Stripe\Transfer;
 
 class StripeApi extends Api
 {
@@ -409,21 +411,40 @@ class StripeApi extends Api
         }
     }
 
-    public function transferMoney(User $user, float $amount, string $description, ?string $group = null): ?bool
+    /**
+     * Sends the seller's part of a sale to their connected account. Tied to the charge that paid the order, the
+     * transfer can be made before that money is available, and the idempotency key stops it from being sent twice.
+     */
+    public function transferToSeller(Sale $sale, string $accountId, string $chargeId): ?Transfer
     {
+        if (! $this->isEnabled()) {
+            return null;
+        }
+
         try {
-            $this->createOrGetStripeCustomer($user);
-
-            $user->creditBalance($this->getStripeAmount($amount), $description, [
-                'transfer_group' => $group,
-            ]);
-
-            return true;
+            return Transfer::create([
+                'amount' => $this->getStripeAmount($sale->total),
+                'currency' => $this->currency,
+                'destination' => $accountId,
+                'source_transaction' => $chargeId,
+                'description' => $sale->description,
+                'metadata' => ['sale_id' => (string) $sale->id],
+            ], ['idempotency_key' => "sale_{$sale->id}_transfer"]);
         } catch (Exception $exception) {
-            Logger::exception($exception);
+            Logger::exception($exception, ['sale' => $sale->id]);
 
             return null;
         }
+    }
+
+    /**
+     * The charge that paid a payment intent, which funds the transfers to the sellers.
+     */
+    public function getChargeId(string $paymentIntentId): ?string
+    {
+        $charge = $this->retrievePaymentIntent($paymentIntentId)?->latest_charge;
+
+        return is_string($charge) ? $charge : $charge?->id;
     }
 
     public function retrievePaymentIntent(string $id): ?PaymentIntent
