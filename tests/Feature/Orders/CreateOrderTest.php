@@ -131,10 +131,59 @@ class CreateOrderTest extends TestCase
             ->assertUnprocessable();
     }
 
+    #[Test]
+    public function the_order_keeps_what_the_buyer_accepted()
+    {
+        $this->makeRequest()
+            ->assertSuccessful();
+
+        $order = Order::first();
+
+        $this->assertTrue($order->meta['terms_accepted']);
+        $this->assertTrue($order->meta['immediate_delivery']);
+    }
+
+    #[Test]
+    public function the_buyer_has_to_accept_the_terms()
+    {
+        $this->makeRequest(['terms_and_conditions' => false])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['terms_and_conditions' => trans('help.must_accept_terms_and_conditions')], 'data');
+
+        $this->assertDatabaseEmpty('orders');
+    }
+
+    #[Test]
+    public function the_buyer_has_to_ask_for_the_immediate_delivery_of_what_is_delivered_when_paid()
+    {
+        $this->makeRequest(['immediate_delivery' => false])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['immediate_delivery' => trans('help.must_accept_immediate_delivery')], 'data');
+
+        $this->assertDatabaseEmpty('orders');
+    }
+
+    #[Test]
+    public function a_donation_is_not_delivered_so_it_does_not_ask_for_immediate_delivery()
+    {
+        $donation = create(Product::class, ['product_type' => ProductTypes::DONATION]);
+        $this->cart->forceFill([
+            'items' => [['product_id' => $donation->id, 'product_type' => ProductTypes::DONATION->value]],
+        ])->saveQuietly();
+
+        $this->makeRequest(['immediate_delivery' => false])
+            ->assertSuccessful();
+
+        $this->assertFalse(Order::first()->meta['immediate_delivery']);
+    }
+
     private function makeRequest(array $attributes = []): TestResponse
     {
-        return $this->postJson(route('orders.store', array_merge([
+        return $this->postJson(route('orders.store'), [
             'payment_intent_id' => 'someId',
-        ], $attributes)));
+            'terms_and_conditions' => true,
+            'immediate_delivery' => true,
+            ...$attributes,
+        ]);
     }
 }

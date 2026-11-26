@@ -2,6 +2,7 @@
   <app-button
     v-if="defaultPaymentMethod && totalAmount"
     :loading="loading"
+    :disabled="! hasConsents"
     :label="Translator.tl('pay_now')"
     size="large"
     color="secondary"
@@ -24,7 +25,7 @@ import { useRouter } from 'vue-router';
 const { showConfirm } = useConfirm();
 const { getJson, postJson, loading } = useHttp();
 const { user, isLogged } = storeToRefs(useAuth());
-const { totalAmount } = storeToRefs(useCart());
+const { totalAmount, hasConsents, consents } = storeToRefs(useCart());
 const { push } = useRouter();
 const defaultPaymentMethod = ref(null);
 
@@ -50,7 +51,7 @@ async function doPay() {
 
     if (! accept) return;
 
-    const response = await postJson('pay_now');
+    const response = await postJson('pay_now', consents.value);
 
     if (! response) return;
 

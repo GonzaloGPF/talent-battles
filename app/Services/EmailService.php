@@ -29,6 +29,8 @@ class EmailService
         return $this->create(EmailTypes::ORDER_SUCCESS, [$order->email], [
             'order_id' => $order->id,
             'user_name' => $order->createdBy?->getNickName(),
+            'immediate_delivery' => (bool) ($order->meta['immediate_delivery'] ?? false),
+            'terms_url' => url('docs/'.app()->getLocale().'/conditions'),
             'lines' => $order->orderLines
                 ->map(fn (OrderLine $orderLine) => [
                     'description' => $orderLine->description,
@@ -121,7 +123,12 @@ class EmailService
 
     public function orderSuccess(Email $email): OrderSuccessEmail
     {
-        return new OrderSuccessEmail($email->meta['lines'], $email->meta['user_name']);
+        return new OrderSuccessEmail(
+            $email->meta['lines'],
+            $email->meta['user_name'],
+            $email->meta['immediate_delivery'] ?? false,
+            $email->meta['terms_url'] ?? null,
+        );
     }
 
     private function creationSold(Email $email): CreationSoldEmail

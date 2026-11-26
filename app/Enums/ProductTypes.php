@@ -9,4 +9,12 @@ enum ProductTypes: string
     case PROMO = 'promo';
     case POINTS = 'points';
     case DONATION = 'donation';
+
+    /**
+     * Delivered, or started, as soon as it is paid. Everything but a donation, which is not a purchase.
+     */
+    public function isDeliveredAtOnce(): bool
+    {
+        return $this !== self::DONATION;
+    }
 }

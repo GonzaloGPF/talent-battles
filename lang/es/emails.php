@@ -12,6 +12,8 @@ return [
     'reset_password_body_new' => 'Bienvenido a :app_name! Por favor, establece tu Contraseña haciendo click en el botón de abajo',
     'order_success_body' => 'Tu pedido se ha procesado correctamente.',
     'order_success_body_2' => 'Haz click en los enlaces para descargar los archivos.',
+    'order_success_immediate_delivery' => 'Pediste recibir tu pedido en el momento y aceptaste que, una vez entregados los Puntos o las descargas, pierdes el derecho de desistimiento.',
+    'order_success_terms' => 'Tu compra se rige por nuestros [Términos del Servicio](:url).',
     'email_success_thanks' => 'Gracias por confiar en :app_name.',
     'email_success' => 'Atentamente',
     'contact_email_header' => 'Nuevo mensaje de :email',

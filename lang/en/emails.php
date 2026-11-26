@@ -12,6 +12,8 @@ return [
     'reset_password_body_new' => 'Welcome to :app_name! Please, set your password by clicking the button below',
     'order_success_body' => 'Your order have been processed correctly.',
     'order_success_body_2' => 'Click in links for downloading files.',
+    'order_success_immediate_delivery' => 'You asked to receive your order straight away and accepted that, once the Points or downloads are delivered, you lose the right of withdrawal.',
+    'order_success_terms' => 'Your purchase is governed by our [Terms of Service](:url).',
     'email_success_thanks' => 'Thanks for trusting :app_name.',
     'email_success' => 'Best regards',
     'contact_email_header' => 'New message from :email',

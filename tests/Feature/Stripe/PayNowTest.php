@@ -93,6 +93,8 @@ class PayNowTest extends TestCase
         $this->assertEquals('some_secret', $response['secret']);
         $this->assertEquals('someId', $response['data']['meta']['payment_intent_id']);
         $this->assertEquals('someId', $order['meta']['payment_intent_id']);
+        $this->assertTrue($order['meta']['terms_accepted']);
+        $this->assertTrue($order['meta']['immediate_delivery']);
 
         Event::assertDispatched(OrderSuccess::class);
     }
@@ -158,6 +160,20 @@ class PayNowTest extends TestCase
     }
 
     #[Test]
+    public function nothing_is_charged_until_the_buyer_accepts_the_terms_and_the_immediate_delivery()
+    {
+        $this->mock(StripeApi::class, function (MockInterface $mock) {
+            $mock->shouldNotReceive('createConfirmedPaymentIntent');
+        });
+
+        $this->makeRequest(['terms_and_conditions' => false, 'immediate_delivery' => false])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['terms_and_conditions', 'immediate_delivery'], 'data');
+
+        Event::assertNotDispatched(OrderSuccess::class);
+    }
+
+    #[Test]
     public function unauthenticated_user_cannot_pay_now()
     {
         $this->logout();
@@ -168,8 +184,12 @@ class PayNowTest extends TestCase
         Event::assertNotDispatched(OrderSuccess::class);
     }
 
-    private function makeRequest(): TestResponse
+    private function makeRequest(array $attributes = []): TestResponse
     {
-        return $this->postJson(route('pay_now.store'));
+        return $this->postJson(route('pay_now.store'), [
+            'terms_and_conditions' => true,
+            'immediate_delivery' => true,
+            ...$attributes,
+        ]);
     }
 }

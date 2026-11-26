@@ -16,6 +16,14 @@
 @endif
 @endforeach
 
+@if($immediateDelivery)
+{{ trans('emails.order_success_immediate_delivery') }}
+
+@endif
+@if($termsUrl)
+{{ trans('emails.order_success_terms', ['url' => $termsUrl]) }}
+
+@endif
 {{ trans('emails.email_success_thanks', ['app_name' => config('app.name')]) }}
 
 @endcomponent
