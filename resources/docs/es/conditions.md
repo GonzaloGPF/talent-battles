@@ -6,198 +6,187 @@ title: 'Términos del Servicio'
 
 ---
 
-Información legal de interés sobre **Talent Battles**
+Estas condiciones regulan el uso de **Talent Battles** y las compras que hagas en él. Al registrarte o al comprar, las aceptas, así que léelas con calma.
 
 > [!NOTE]
 > Última actualización: 2026-11-26
 
-- [Generalidades](#legal-generals)
-- [Sección 1: Términos de la Tienda Online](#legal-section-1)
-- [Sección 2: Condiciones Generales](#legal-section-2)
-- [Sección 3: Exactitud, Totalidad y Cronología de la Información](#legal-section-3)
-- [Sección 4: Modificaciones al Servicio y Precios](#legal-section-4)
-- [Sección 5: Productos o Servicios (si corresponde)](#legal-section-5)
-- [Sección 6: Exactitud de la Facturación y de la Información de la Cuenta](#legal-section-6)
-- [Sección 7: Herramientas Opcionales](#legal-section-7)
-- [Sección 8: Enlaces de Terceros](#legal-section-8)
-- [Sección 9: Comentarios de los Usuarios, Opiniones y otras Comunicaciones](#legal-section-9)
-- [Sección 10: Información Personal](#legal-section-10)
-- [Sección 11: Errores, Inexactitudes y Omisiones](#legal-section-11)
-- [Sección 12: Usos Prohibidos](#legal-section-12)
-- [Sección 13: Descargo de Responsabilidad de Garantías; Limitación de Responsabilidad](#legal-section-13)
-- [Sección 14: Indemnización](#legal-section-14)
-- [Sección 15: Divisibilidad](#legal-section-15)
-- [Sección 16: Rescisión](#legal-section-16)
-- [Sección 17: Acuerdo Completo](#legal-section-17)
-- [Sección 18: Ley Aplicable](#legal-section-18)
-- [Sección 19: Cambios en los Términos del Servicio](#legal-section-19)
-- [Sección 20: Información de Contacto](#legal-section-20)
+- [1. Quién está detrás de Talent Battles](#terms-owner)
+- [2. Qué es Talent Battles](#terms-service)
+- [3. Aceptación y cambios](#terms-acceptance)
+- [4. Tu cuenta](#terms-account)
+- [5. Tus Creaciones](#terms-creations)
+- [6. Normas de uso](#terms-rules)
+- [7. Contenido ilegal y moderación](#terms-moderation)
+- [8. Batallas, votos y Puntos](#terms-battles)
+- [9. Compras a Talent Battles](#terms-purchases)
+- [10. Compraventa de Creaciones entre Usuarios](#terms-marketplace)
+- [11. Licencias de las Creaciones compradas](#terms-licenses)
+- [12. Responsabilidad](#terms-liability)
+- [13. Marca y software de Talent Battles](#terms-platform)
+- [14. Privacidad y cookies](#terms-privacy)
+- [15. Ley aplicable y reclamaciones](#terms-law)
 
 ---
 
-## Generalidades {#legal-generals}
+## 1. Quién está detrás de Talent Battles {#terms-owner}
 
-**Talent Battles** es un sitio web gestionado por su titular, identificado en la [Sección 20](#legal-section-20). En todo el sitio, los términos "nosotros", "nos" y "nuestro"
-se refieren en lo sucesivo a **Talent Battles**. **Talent Battles** ofrece esta página web, 
-incluida toda la información, las herramientas y los servicios que se ponen en este sitio a disposición suya, 
-el usuario, siempre y cuando acepte la totalidad de los términos, condiciones, políticas y avisos contemplados aquí.
-
-Al visitar nuestro sitio y/o comprarnos algo, usted interactúa con nuestro "Servicio" y reconoce como vinculantes 
-los siguientes términos y condiciones (denominados en lo sucesivo "Términos del servicio", "Términos"),
-incluidos aquellos términos y condiciones adicionales y las políticas que se mencionan aquí y/o disponibles
-por medio de hipervínculo. Estos Términos del servicio se aplican a todos los usuarios del sitio, 
-incluyendo de manera enunciativa mas no limitativa los usuarios que son navegadores,
-proveedores, clientes, comerciantes y/o que aporten contenido.
-Lea estos Términos del servicio detenidamente antes de acceder o utilizar nuestra página web.
-Al acceder o utilizar cualquier parte del sitio, usted acepta estos Términos del servicio.
-Si no acepta la totalidad de los términos y condiciones de este acuerdo, no podrá acceder al sitio web ni utilizar ningún servicio.
-Si estos Términos del servicio se considerasen una oferta, la aceptación se limita expresamente a los presentes Términos del servicio.
-
-Las nuevas funciones o herramientas que se agreguen a la tienda actual también estarán sujetas a los Términos del servicio. Puede revisar la versión más reciente de los Términos del servicio en cualquier momento en esta página. Nos reservamos el derecho de actualizar, cambiar o reemplazar cualquier parte de los presentes Términos del servicio mediante la publicación de actualizaciones o cambios en nuestra página web. Es su responsabilidad revisar esta página periódicamente para ver los cambios. Su uso de la página web o el acceso a ella de forma continuada después de la publicación de cualquier cambio constituye la aceptación de dichos cambios.
-Nuestra tienda está alojada en Shopify Inc. Nos proporcionan la plataforma de comercio electrónico en línea que nos permite venderle nuestros productos y servicios.
-
-## Sección 1: Términos de la Tienda Online {#legal-section-1}
-
-Al aceptar los presentes Términos del servicio, usted declara que tiene la mayoría de edad en su estado o provincia de residencia, o que es mayor de edad en su estado o provincia de residencia y que nos ha dado su consentimiento para permitir que cualquiera de las personas menores que dependen de usted utilice este sitio.
-
-No puede utilizar nuestros productos para ningún fin ilegal o no autorizado ni puede, al hacer uso del Servicio, infringir las leyes de su jurisdicción (incluyendo de manera enunciativa más no limitativa, las leyes de derechos de autor).
-
-No transmitirá ningún gusano o virus informáticos ni ningún código de naturaleza destructiva.
-
-El incumplimiento o violación de cualquiera de los Términos dará como resultado la rescisión inmediata de sus Servicios.
-
-## Sección 2: Condiciones Generales {#legal-section-2}
-
-Nos reservamos el derecho de rechazar el servicio a cualquier persona, por cualquier motivo, en cualquier momento.
-
-Usted comprende que su contenido (sin incluir la información de la tarjeta de crédito) puede transferirse sin cifrar e implicar (a) transmisiones en varias redes; y (b) cambios para adaptarse a los requisitos técnicos de conexión de redes o dispositivos y cumplir con ellos. La información de la tarjeta de crédito siempre se cifra durante la transferencia a través de las redes.
-
-Usted acepta no reproducir, duplicar, copiar, vender, revender ni aprovechar ninguna parte del Servicio, uso del Servicio o acceso al Servicio o cualquier contacto en el sitio web a través de la cual se presta el servicio, sin nuestro permiso expreso por escrito.
-
-Los encabezados utilizados en este acuerdo se incluyen solo para facilitar la lectura y no limitarán ni afectarán los presentes Términos.
-
-## Sección 3: Exactitud, Totalidad y Cronología de la Información {#legal-section-3}
-
-No nos responsabilizamos si la información disponible en este sitio no es precisa, completa o actualizada. El material presentado en este sitio se proporciona solo para información general y no se debe confiar en él ni utilizarlo como la única base para tomar decisiones sin consultar fuentes de información principales, más precisas, más completas o más recientes. Al confiar en cualquier material de este sitio lo hace por su cuenta y riesgo.
-
-Este sitio puede contener cierta información histórica. La información histórica, inevitablemente, no es actual y se proporciona únicamente como referencia. Nos reservamos el derecho de modificar el contenido de este sitio en cualquier momento, pero no tenemos la obligación de actualizar ninguna información en nuestro sitio. Usted acepta que es su responsabilidad controlar los cambios en nuestro sitio.
-
-## Sección 4: Modificaciones al Servicio y Precios {#legal-section-4}
-
-Los precios de nuestros productos están sujetos a cambios sin previo aviso.
-
-Nos reservamos el derecho de modificar o discontinuar el Servicio (o cualquier parte o contenido del mismo) sin previo aviso en cualquier momento.
-
-No seremos responsables ante usted ni ante ningún tercero por ninguna modificación, cambio de precio, suspensión o interrupción del Servicio.
-
-## Sección 5: Productos o Servicios (si corresponde) {#legal-section-5}
-
-Hemos hecho todo lo viable para mostrar con la mayor precisión posible los colores y las imágenes de nuestros productos que aparecen en la tienda. No podemos garantizar que la visualización de cualquier color en el monitor de su computadora sea precisa.
-Nos reservamos el derecho, pero no estamos obligados, de limitar las ventas de nuestros productos o servicios a cualquier persona, región geográfica o jurisdicción. Podemos ejercer este derecho caso por caso. Nos reservamos el derecho de limitar las cantidades de cualquier producto o servicio que ofrecemos. Todas las descripciones de los productos o los precios de los productos están sujetos a cambios en cualquier momento y sin previo aviso, a nuestra entera discreción. Nos reservamos el derecho de discontinuar cualquier producto en cualquier momento. Cualquier oferta de cualquier producto o servicio que se realice en este sitio no tiene validez donde dicho producto o servicio esté prohibido.
-
-## Sección 6: Exactitud de la Facturación y de la Información de la Cuenta {#legal-section-6}
-
-Nos reservamos el derecho de rechazar cualquier pedido que realice en nuestra tienda. Podemos, a nuestro exclusivo criterio, limitar o cancelar las cantidades compradas por persona, por hogar o por pedido. Estas restricciones pueden incluir pedidos realizados con la misma cuenta de cliente, la misma tarjeta de crédito o pedidos que usen la misma dirección de facturación o de envío. En el caso de que realicemos un cambio o cancelemos un pedido, intentaremos notificarle vía correo electrónico o la dirección de facturación / número de teléfono proporcionados en el momento en que se realizó el pedido. Nos reservamos el derecho de limitar o prohibir los pedidos que, a nuestra entera discreción, parezcan haber sido realizados por comerciantes, revendedores o distribuidores.
-Usted acepta suministrar información completa y precisa de la compra y cuenta actual, para todas las compras realizadas en nuestra tienda. Usted acepta actualizar rápidamente su cuenta y demás informaciones, entre ellas, su dirección de correo electrónico, los números de tarjeta de crédito y las fechas de vencimiento, para que podamos completar sus transacciones y contactarlo según sea necesario.
-
-Para obtener más información, consulte nuestra Política de devoluciones.
-
-## Sección 7: Herramientas Opcionales {#legal-section-7}
-
-Podemos proporcionarle acceso a herramientas de terceros que no supervisamos, ni tenemos ningún control sobre ellas, ni tampoco contribuimos.
-
-Usted reconoce y acepta que brindamos acceso a dichas herramientas "tal como se encuentran" y "según disponibilidad" sin garantías, representaciones ni condiciones de ningún tipo y sin ningún tipo de respaldo. No tendremos ninguna responsabilidad como consecuencia del uso que haga de herramientas opcionales de terceros o en relación a ellas.
-
-Cualquier uso que haga de las herramientas opcionales ofrecidas a través del sitio es por su cuenta y riesgo, y debe asegurarse de estar familiarizado con los términos según los cuales los proveedores externos relevantes suministran dichas herramientas y aprobarlos.
-
-También podemos, en el futuro, ofrecer nuevos servicios o funciones a través del sitio web (incluido el lanzamiento de nuevas herramientas y recursos). Estas nuevas funciones o servicios también estarán sujetos a los presentes Términos de servicio.
-
-## Sección 8: Enlaces de Terceros {#legal-section-8}
-
-Algunos contenidos, productos y servicios disponibles a través de nuestro Servicio pueden incluir recursos de terceros.
-
-Los enlaces de terceros en este sitio pueden dirigirlo a páginas web de terceros que no están afiliados a nosotros. No somos responsables de examinar o evaluar el contenido o la exactitud, ni garantizamos ni asumiremos ninguna obligación ni responsabilidad por los recursos o páginas web de terceros, ni por ningún otro material, producto o servicio de terceros.
-
-No somos responsables de ningún daño o perjuicio relacionado con la compra o el uso de bienes, servicios, recursos, contenido o cualquier otra transacción realizada en conexión con sitios web de terceros. Revise cuidadosamente las políticas y prácticas de terceros, y asegúrese de comprenderlas antes de participar en cualquier transacción. Las quejas, reclamos, inquietudes o preguntas referentes a productos de terceros deben dirigirse a estos.
-
-## Sección 9: Comentarios de los Usuarios, Opiniones y otras Comunicaciones {#legal-section-9}
-
-Si, a petición nuestra, usted envía ciertas comunicaciones específicas (por ejemplo, participaciones en un concurso) o, sin una solicitud nuestra, envía ideas creativas, sugerencias, propuestas, planes u otros materiales, ya sea online, por correo electrónico, por correo postal, o de otro modo (denominado en lo sucesivo y de manera colectiva, 'comentarios'), usted acepta que podemos, en cualquier momento, sin restricción: editar, copiar, publicar, distribuir, traducir y usar en cualquier medio cualquier comentario que usted nos envíe. No tenemos ni tendremos ninguna obligación (1) de mantener ningún comentario de manera confidencial; (2) pagar alguna compensación por cualquier comentario; o (3) responder a cualquier comentario.
-Podemos, pero no tenemos la obligación de monitorear, editar o eliminar contenido que a nuestra entera discreción determinemos que es ilegal, ofensivo, amenazante, calumnioso, difamatorio, pornográfico, obsceno u objetable, o que infrinja la propiedad intelectual de cualquiera de las partes o de los presentes Términos del servicio.
-Usted acepta que sus comentarios no infringirán ningún derecho de terceros, incluidos los derechos de autor, marca registrada, privacidad, personalidad u otro derecho personal o de propiedad. Además, acepta que sus comentarios no contendrán material difamatorio, ilegítimo, abusivo u obsceno, ni contendrán ningún virus informático ni otro software dañino que pueda afectar de cualquier manera el funcionamiento del Servicio o de cualquier sitio web relacionado. No puede utilizar una dirección de correo electrónico falsa, simular ser otra persona o engañarnos o engañar a terceros sobre el origen de los comentarios. Usted es el único responsable de los comentarios que realice y de su exactitud. No asumimos ninguna responsabilidad ni ninguna obligación por los comentarios publicados por usted o por un tercero.
-
-## Sección 10: Información Personal {#legal-section-10}
-
-El envío de la información personal que haga a través de la tienda se rige por nuestra [Política de privacidad](privacy.md).
-
-## Sección 11: Errores, Inexactitudes y Omisiones {#legal-section-11}
-
-Puede haber información en nuestro sitio o en el Servicio que, ocasionalmente, contenga errores tipográficos, inexactitudes u omisiones que puedan relacionarse con descripciones de productos, precios, promociones, ofertas, cargos por envío de productos, tiempos de tránsito y disponibilidad. Nos reservamos el derecho de corregir cualquier error, inexactitud u omisión, de cambiar o actualizar información, o cancelar pedidos si alguna información en el Servicio o en cualquier página web relacionada es inexacta en cualquier momento sin previo aviso (incluso después de haber enviado su pedido).
-
-No asumimos ninguna obligación de actualizar, modificar o aclarar la información en el Servicio o en cualquier sitio web relacionado, incluyendo de manera enunciativa pero no limitativa, la información de precios, excepto cuando lo exija la ley. Ninguna actualización especificada o fecha de actualización aplicada en el Servicio o en cualquier sitio web relacionado debe tomarse para indicar que toda la información en el Servicio o en cualquier sitio web relacionado se modificó o actualizó.
-
-## Sección 12: Usos Prohibidos {#legal-section-12}
-
-Además de las prohibiciones establecidas en los Términos del servicio, se le prohíbe utilizar el sitio o su contenido
-- (a) para cualquier propósito ilegal
-- (b) para solicitar a otros que realicen o participen en cualquier acto ilegal; 
-- (c) para infringir cualquier reglamento, norma, ley u ordenanza local internacional, federal, provincial o estatal; 
-- (d) para infringir o violar nuestros derechos de propiedad intelectual o los derechos de propiedad intelectual de otros; 
-- (e) acosar, abusar, insultar, dañar, difamar, calumniar, denigrar, intimidar o discriminar por motivos de género, orientación sexual, religión, etnia, raza, edad, nacionalidad o discapacidad; 
-- (f) enviar información falsa o engañosa;
-- (g) cargar o transmitir virus o cualquier otro tipo de código dañino que afecte o pueda afectar a la funcionalidad o el funcionamiento del Servicio o de cualquier sitio web relacionado, de otros sitios web o de Internet;
-- (h) recopilar o rastrear la información personal de otros; 
-- (i) enviar correo no deseado, phishing, pharm, pretexto, spider, rastrear o extraer;
-- (j) para cualquier propósito obsceno o inmoral; 
-- (k) para interferir o eludir las funciones de seguridad del Servicio o de cualquier sitio web relacionado, o de otros sitios web o de Internet. 
-
-Nos reservamos el derecho de dar por terminado su uso del Servicio o de cualquier sitio web relacionado por infringir cualquiera de los usos prohibidos.
-
-## Sección 13: Descargo de Responsabilidad de Garantías; Limitación de Responsabilidad {#legal-section-13}
-
-No garantizamos, representamos ni aseguramos que el uso que haga de nuestro servicio será sin interrupciones, oportuno, seguro o sin errores.
-
-No garantizamos que los resultados que se puedan obtener del uso del servicio sean exactos o confiables.
-
-Usted acepta que periódicamente, podamos eliminar el servicio por lapsos de tiempo indefinidos o cancelar el servicio en cualquier momento, sin notificarle.
-Usted acepta expresamente que su uso del servicio o la imposibilidad de utilizarlo corre por su riesgo. El servicio y todos los productos y servicios que se le entregan a través del servicio (salvo que así lo especifiquemos nosotros) se ofrecen "tal como están" y "según disponibilidad" para su uso, sin ninguna representación, garantía o condición de ningún tipo, ya sea expresa o implícita, entre las que se incluyen todas las garantías implícitas o condiciones de comerciabilidad, calidad comercial, idoneidad para un propósito particular, durabilidad, título y no violación.
-En ningún caso **Talent Battles**, nuestros directores, funcionarios, empleados, afiliados, agentes, contratistas, pasantes, proveedores, proveedores de servicios o licenciantes serán responsables de cualquier lesión, pérdida, reclamo o cualquier daño directo, indirecto, incidental, punitivo, especial o consecuente de cualquier tipo, incluyendo de manera enunciativa más no limitativa; la pérdida de beneficios, pérdida de ingresos, pérdida de ahorros, pérdida de datos, costos de reemplazo o daños similares, ya sea por contrato, perjuicio (incluida la negligencia), responsabilidad estricta o de otro tipo, que surjan del uso que haga de cualquiera de los servicios o de cualquier producto adquirido por medio del servicio, o para cualquier otro reclamo relacionado de alguna manera con su uso del servicio o de cualquier producto, incluidos, entre otros, cualquier error u omisión en cualquier contenido, o cualquier pérdida o daño de cualquier tipo en el que se haya incurrido como resultado del uso del servicio o de cualquier contenido (o producto) publicado, transmitido o puesto a disposición a través del servicio, incluso si se informa de su posibilidad.
-Debido a que algunos estados o jurisdicciones no permiten la exclusión o la limitación de la responsabilidad por daños consecuentes o incidentales, en dichos estados o jurisdicciones, nuestra responsabilidad se limitará a la extensión máxima de lo permitido por la ley.
-
-## Sección 14: Indemnización {#legal-section-14}
-
-Usted acepta indemnizar, defender y mantener indemne a **Talent Battles** y a nuestra empresa matriz, subsidiarias, afiliadas, asociados, funcionarios, directores, agentes, contratistas, licenciantes, proveedores de servicios, subcontratistas, proveedores, pasantes y empleados, de cualquier reclamo o demanda, incluidos los honorarios razonables de abogados, en los que un tercero haya incurrido debido a su incumplimiento de los presentes Términos del servicio o de los documentos que incorporan como referencia o que surjan por su incumplimiento de los mismos, o por la violación de cualquier ley o derechos de un tercero que haga.
-
-## Sección 15: Divisibilidad {#legal-section-15}
-
-En caso de que se determine que alguna disposición de los presentes Términos del servicio sea ilegal, nula o inaplicable, dicha disposición será, no obstante, ejecutable en la medida en que lo permita la legislación aplicable, y la parte inaplicable se considerará separada de los presentes Términos del servicio, sin que dicha determinación afecte a la validez y aplicabilidad de las demás disposiciones.
-
-## Sección 16: Rescisión {#legal-section-16}
-
-Las obligaciones y responsabilidades de las partes incurridas antes de la fecha de rescisión seguirán vigentes después de la rescisión de este contrato a todos los efectos.
-Estos Términos del servicio se encuentran vigentes a menos que usted o nosotros los rescindamos. Puede rescindir los presentes Términos del servicio en cualquier momento al notificarnos que ya no desea utilizar nuestros Servicios o cuando cese de utilizar nuestro sitio.
-Si a nuestro juicio usted incumple, o sospechamos que ha incumplido con cualquier término o disposición de los presentes Términos del servicio, podemos rescindir igualmente este acuerdo en cualquier momento sin previo aviso y usted seguirá siendo responsable de todos los importes adeudados, hasta la fecha de rescisión inclusive; y/o en consecuencia podemos denegarle el acceso a nuestros Servicios (o a parte de ellos).
-
-## Sección 17: Acuerdo Completo {#legal-section-17}
-
-El hecho de que no ejerzamos o hagamos valer algún derecho o disposición de los presentes Términos del Servicio no constituirá una renuncia a dicho derecho o disposición.
-
-Estos Términos de servicio y cualquier política o regla de funcionamiento que hayamos publicado en este sitio o con respecto al Servicio constituye el acuerdo y el entendimiento completo entre usted y nosotros, y rigen su uso del Servicio, sustituyendo a cualquier acuerdo, comunicación o propuesta anterior o contemporánea, ya sea oral o escrita, entre usted y nosotros (incluyendo de manera enunciativa más no limitativa, las versiones anteriores de los Términos del servicio).
-Cualquier ambigüedad en la interpretación de los presentes Términos del servicio no se interpretará en contra de la parte redactora.
-
-## Sección 18: Ley Aplicable {#legal-section-18}
-
-Los presentes Términos del servicio y cualquier acuerdo por separado por el cual le proporcionemos Servicios
-se regirán e interpretarán de acuerdo con las leyes de Sevilla, España.
-
-## Sección 19: Cambios en los Términos del Servicio {#legal-section-19}
-
-Puede revisar la versión más reciente de los Términos del servicio en cualquier momento en esta página.
-
-Nos reservamos el derecho, a nuestra entera discreción, de actualizar, cambiar o sustituir cualquier parte de los presentes Términos del servicio mediante la publicación de actualizaciones y cambios en nuestro sitio web. Es su responsabilidad consultar nuestro sitio web periódicamente para ver los cambios. El uso que haga de nuestra página web o del Servicio o su acceso a cualquiera de estos de forma continua después de la publicación de cualquier cambio en los presentes Términos del servicio, constituye la aceptación de dichos cambios.
-
-## Sección 20: Información de Contacto {#legal-section-20}
-
-Las preguntas sobre los Términos del servicio se deben enviar al correo electrónico del titular:
+**Talent Battles** es un proyecto personal de su titular, cuyos datos aparecen a continuación. En estas condiciones, «Talent Battles», «nosotros» y «nos» se refieren a él.
 
 <LegalOwner />
+
+Para cualquier duda, aviso o reclamación sobre estas condiciones, escribe al correo electrónico de arriba.
+
+## 2. Qué es Talent Battles {#terms-service}
+
+**Talent Battles** es una comunidad para productores musicales y diseñadores. En ella puedes:
+
+- Subir tus beats, samples, canciones y diseños (tus «Creaciones») y mostrarlos en tu perfil.
+- Enfrentar tus Creaciones en Batallas que vota la comunidad.
+- Vender tus Creaciones a otros Usuarios y comprar las suyas.
+- Ganar o comprar Puntos, promocionar tus Creaciones y hacer donaciones al proyecto.
+
+Usar **Talent Battles** es gratis. Solo pagas si compras Puntos, una Promoción o una Creación, o si haces una donación.
+
+La [Guía](introduction.md) explica cómo funciona cada parte. Si la Guía y estas condiciones dicen cosas distintas, mandan estas condiciones.
+
+## 3. Aceptación y cambios {#terms-acceptance}
+
+Aceptas estas condiciones al registrarte, al reclamar un perfil o al hacer una compra. Si no estás de acuerdo con ellas, no uses **Talent Battles**.
+
+Podemos cambiar estas condiciones, por ejemplo cuando añadamos funciones nuevas o cambie la ley. Si el cambio es importante, te avisaremos por correo electrónico al menos 15 días antes de que se aplique, y si no estás de acuerdo podrás cerrar tu cuenta antes de esa fecha. Cada compra se rige por las condiciones que estaban vigentes el día en que la hiciste.
+
+## 4. Tu cuenta {#terms-account}
+
+- Necesitas tener al menos 14 años para registrarte. Para comprar o vender necesitas ser mayor de edad o contar con el permiso de tus padres o tutores.
+- Los datos de tu cuenta deben ser ciertos y estar al día, sobre todo si vendes.
+- Cada persona puede tener una sola cuenta. Eres responsable de lo que se haga con la tuya, así que guarda bien tu contraseña.
+- Para votar tienes que verificar tu correo electrónico. También puedes entrar con tu cuenta de Google.
+- Puedes cerrar tu cuenta cuando quieras escribiendo al correo del titular. Al cerrarla borramos tu perfil y tus Creaciones, y pierdes los Puntos que te queden. Quien te haya comprado una Creación podrá seguir descargándola.
+
+## 5. Tus Creaciones {#terms-creations}
+
+**Siguen siendo tuyas.** Subir una Creación a **Talent Battles** no te quita ningún derecho sobre ella.
+
+**Solo puedes subir lo que es tuyo.** Al subir una Creación, garantizas que eres su autor o que tienes el permiso de todas las personas con derechos sobre ella, incluidos los samples, las voces, las letras y las imágenes que contenga. Si alguien reclama por una Creación que has subido sin permiso, la responsabilidad es tuya.
+
+**El permiso que nos das.** Para que **Talent Battles** funcione, nos das un permiso gratuito, no exclusivo y válido en todo el mundo para:
+
+- guardar tus Creaciones, reproducirlas y mostrarlas en **Talent Battles**;
+- crear a partir de ellas versiones con marca de agua, formas de onda, miniaturas y fragmentos;
+- usarlas en Batallas, en listados, en la página principal y en los resultados de búsqueda;
+- generar imágenes y vídeos cortos de tus Creaciones y de sus Batallas, y compartirlos en redes sociales para dar a conocer **Talent Battles**, siempre con tu nombre de artista.
+
+Este permiso dura mientras la Creación esté publicada. Si la borras, dejamos de usarla en cuanto sea posible, y las copias de seguridad desaparecen con el tiempo. Lo que ya se haya compartido en redes sociales puede seguir visible, pero si nos lo pides lo retiramos de nuestras cuentas. No vendemos tus Creaciones ni las cedemos a nadie, salvo que tú las pongas a la venta.
+
+**Marca de agua.** Los archivos públicos de tus Creaciones los puede ver y escuchar cualquiera. Para protegerlas, súbelas con marca de agua o usa la opción de marcarlas automáticamente. El archivo sin marca solo lo descargan quienes compran la Creación.
+
+**Batallas automáticas.** Si activas «Puede retarse» en una Creación, aceptas que otros Usuarios la reten y que **Talent Battles** la empareje en Batallas con otras del mismo tipo. Puedes desactivarlo cuando quieras; las Batallas que ya estén en curso terminarán su plazo.
+
+## 6. Normas de uso {#terms-rules}
+
+En **Talent Battles** no está permitido:
+
+- Subir contenido del que no tienes los derechos, o hacerte pasar por otra persona.
+- Publicar contenido ilegal, violento o sexual, que incite al odio o que acose a otras personas, ya sea en Creaciones, comentarios, perfiles, mensajes de donación o en cualquier otro sitio.
+- Manipular las Batallas: usar varias cuentas, votar con cuentas falsas o automatizadas, comprar votos o ponerte de acuerdo con otros para alterar un resultado. Pedir a tu gente que vote por ti sí está permitido; lo que no vale es fabricar votos.
+- Hacer spam o publicidad no deseada.
+- Atacar o sobrecargar **Talent Battles**, intentar saltarte su seguridad o extraer sus datos de forma automatizada.
+
+## 7. Contenido ilegal y moderación {#terms-moderation}
+
+Si ves algo que infringe la ley o estas condiciones, por ejemplo una Creación que usa tu música sin permiso, avísanos con una [Denuncia](reports.md) o escribiendo al correo del titular. Indica dónde está el contenido, por qué crees que es ilegal y cómo podemos contactar contigo. Revisamos todos los avisos y actuamos con rapidez.
+
+Si incumples estas condiciones, podemos retirar tu contenido, anular votos, Batallas o Puntos, o suspender o cerrar tu cuenta, según la gravedad. Te explicaremos qué hemos hecho y por qué, salvo que la ley nos lo impida. Si no estás de acuerdo, responde al correo del titular y revisaremos la decisión.
+
+## 8. Batallas, votos y Puntos {#terms-battles}
+
+- Una Batalla enfrenta dos Creaciones del mismo tipo durante 5 días. Gana la que suma más puntos de voto; si empatan, no hay ganador.
+- Cada Usuario vota una vez por Batalla y no puede votar en las suyas. El peso de cada voto depende del nivel de experiencia de quien vota.
+- Los Puntos son una unidad interna de **Talent Battles** que sirve para crear Batallas y para otras acciones de la web. No son dinero: no se pueden cambiar por dinero ni pasar a otra cuenta, y no se reembolsan, salvo en los casos de la [sección 9](#terms-purchases).
+- Los Puntos que se ganan o se gastan con cada acción están en la [Guía](points.md) y pueden cambiar. Los cambios no te quitan los Puntos que ya tienes.
+- Si detectamos votos o Puntos conseguidos por error o con trampas, podemos anularlos y corregir el resultado de la Batalla.
+
+## 9. Compras a Talent Battles {#terms-purchases}
+
+**Talent Battles** vende **Puntos** y **Promociones**, y acepta **donaciones**. Los precios están en la Guía y en el carrito, en euros, y son finales: incluyen los impuestos.
+
+- **Pago.** Pagas con tarjeta u otros métodos a través de [Stripe](https://stripe.com/es). Los datos de tu tarjeta los guarda Stripe, no **Talent Battles**.
+- **Confirmación.** Tras el pago recibes un correo electrónico con el pedido. Si tienes la sesión iniciada, también lo verás en tus Pedidos.
+- **Puntos.** Se añaden a tu cuenta en cuanto se confirma el pago. Los Puntos comprados no dan experiencia.
+- **Promociones.** Tu Creación aparece destacada en la página principal durante los meses que pagues, contados desde el pago. Si la Creación o tu cuenta se borran antes de que termine, no se devuelve el tiempo que quede, salvo que la hayamos borrado nosotros sin que hayas incumplido estas condiciones.
+- **Donaciones.** Son voluntarias y no dan derecho a nada a cambio, salvo aparecer en la lista de [Contribuidores](contributors.md) con tu mensaje. Si donas con la sesión iniciada, tu perfil aparece enlazado; si no, la donación es anónima. Puedes donar sin tener cuenta.
+
+**Derecho de desistimiento.** Si eres consumidor, tienes 14 días naturales desde la compra para desistir sin dar explicaciones, escribiendo al correo del titular. Te devolveremos el dinero en un plazo máximo de 14 días, por el mismo medio de pago. Hay excepciones:
+
+- **Puntos:** al comprarlos pides que se añadan a tu cuenta en el momento, y aceptas que, una vez añadidos, pierdes el derecho de desistimiento.
+- **Promociones:** al comprarlas pides que empiecen en el momento. Si desistes dentro de los 14 días, te devolvemos la parte proporcional de los días que queden.
+- **Donaciones:** no son una compra, así que no se devuelven.
+
+## 10. Compraventa de Creaciones entre Usuarios {#terms-marketplace}
+
+Cuando compras una Creación, se la compras a su autor, no a **Talent Battles**. **Talent Battles** pone los medios para que la venta se haga: muestra la Creación, cobra el pago a través de Stripe y te entrega el archivo.
+
+**Para vender** tienes que ser el autor de la Creación, activar tu cuenta de vendedor en Stripe y subir el archivo sin marca de agua que recibirá el comprador. Tú decides el precio y si la venta es exclusiva.
+
+- **Comisión.** **Talent Battles** se queda el 10 % del precio de cada venta, y te transfiere el resto a tu cuenta de Stripe.
+- **Impuestos.** Eres responsable de declarar tus ventas y de pagar los impuestos que te correspondan.
+- **Vendedores profesionales.** Si vendes como empresa o profesional, indícalo en la descripción de la Creación: tendrás las obligaciones que la ley impone a los vendedores profesionales frente a los consumidores. Si no lo indicas, vendes como particular, y en ese caso la normativa de protección de los consumidores no se aplica a la compra.
+- **Creaciones ya vendidas.** Una vez vendida, no puedes retirar la Creación de la venta. Si la venta fue exclusiva, tampoco puedes cambiar sus condiciones.
+
+**Para comprar** no puedes ser el autor de la Creación. No necesitas cuenta: si compras sin ella, te enviamos el pedido al correo electrónico que indiques. Tras el pago puedes descargar el archivo cuando quieras, aunque el autor borre la Creación más tarde.
+
+**Desistimiento.** Al comprar una Creación pides que se te entregue en el momento. Si el vendedor es profesional, aceptas que, una vez el archivo esté disponible para descargar, pierdes el derecho de desistimiento.
+
+**Si algo falla.** Si el archivo no corresponde a la Creación anunciada o no funciona, escríbenos al correo del titular. Hablaremos con el vendedor y, si no se soluciona, podemos anular la venta y devolverte el dinero.
+
+**Creaciones que infringen derechos.** Si una Creación vendida infringe derechos de otras personas, podemos retirarla de la venta, anular las ventas afectadas y descontar al vendedor lo que devolvamos a los compradores.
+
+## 11. Licencias de las Creaciones compradas {#terms-licenses}
+
+Al vender una Creación, el autor concede al comprador una de estas dos licencias, según el tipo de venta. El autor puede ampliarlas en la descripción de la Creación, pero no reducirlas.
+
+### Licencia no exclusiva {#terms-license-standard}
+
+Al comprar una Creación no exclusiva, el autor te concede, para todo el mundo y mientras la Creación esté protegida por la ley, el derecho a:
+
+- usarla en tus propias obras: por ejemplo, grabar una canción sobre un beat, usar un sample en tu producción o un diseño como portada;
+- publicar, distribuir y monetizar esas obras en plataformas de streaming, redes sociales, actuaciones o cualquier otro medio.
+
+No puedes revender ni compartir la Creación tal cual o dentro de un pack de sonidos o de imágenes, ni registrarla a tu nombre en sistemas de identificación de contenido como Content ID. El autor puede seguir vendiendo la misma Creación a otras personas, y conserva siempre su autoría: menciónalo cuando sea posible, por ejemplo con «prod. by» y su nombre de artista.
+
+### Licencia exclusiva {#terms-license-exclusive}
+
+Solo se puede vender en exclusiva una Creación que no se ha vendido antes. Al comprarla:
+
+- el autor te cede en exclusiva los derechos de explotación de la Creación (reproducción, distribución, comunicación pública y transformación), para todo el mundo y mientras esté protegida por la ley;
+- nadie más puede comprarla en **Talent Battles**, y el autor se compromete a no venderla ni cederla a nadie más, ni aquí ni fuera;
+- puedes registrar a tu nombre, en sistemas de identificación de contenido, las obras que hagas con ella.
+
+El autor conserva su autoría, porque la ley no permite cederla. La Creación puede seguir visible en **Talent Battles** con marca de agua y con su historial de Batallas; si prefieres que se retire, escríbenos al correo del titular.
+
+## 12. Responsabilidad {#terms-liability}
+
+Hacemos lo posible para que **Talent Battles** funcione bien y sin interrupciones, pero no podemos garantizarlo: puede haber errores, paradas por mantenimiento o fallos de servicios de terceros, como Stripe o Google. Guarda siempre tus propias copias de tus Creaciones.
+
+Cada Usuario es responsable de lo que publica. **Talent Battles** no revisa el contenido antes de que se publique, y no responde de él mientras no sepa que es ilegal; cuando lo sepa, lo retirará con rapidez.
+
+Nada de estas condiciones limita los derechos que te da la ley como consumidor, ni nuestra responsabilidad en los casos en que la ley no permite limitarla, como el dolo o la negligencia grave.
+
+## 13. Marca y software de Talent Battles {#terms-platform}
+
+El nombre, el logotipo, el diseño y el software de **Talent Battles** pertenecen a su titular. No puedes usarlos sin permiso, salvo para hablar de **Talent Battles** o enlazarlo.
+
+## 14. Privacidad y cookies {#terms-privacy}
+
+Cómo tratamos tus datos se explica en la [Política de Privacidad](privacy.md), y el uso de cookies, en la [Política de Cookies](cookies.md).
+
+## 15. Ley aplicable y reclamaciones {#terms-law}
+
+Estas condiciones se rigen por la ley española. Si eres consumidor y vives en otro país de la Unión Europea, conservas además la protección que te dan las leyes de tu país.
+
+Si tienes una queja, escríbenos primero al correo del titular: te responderemos lo antes posible y, como máximo, en un mes. También puedes acudir a los servicios de consumo de tu comunidad autónoma o de tu país.
+
+Si un conflicto llega a los tribunales y eres consumidor, serán competentes los de tu domicilio. Si no eres consumidor, los de Sevilla.
+
+Estas condiciones están en español y en inglés. Si las dos versiones no coinciden, manda la española.
