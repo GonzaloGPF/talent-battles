@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use App\Enums\Roles;
+use App\Helpers\RelationHelper;
 use App\Interfaces\FilterableMorph;
 use App\Interfaces\HasCreatedByInterface;
 use Carbon\Carbon;
@@ -125,9 +126,7 @@ class Filter extends ModelFilter
 
     private function applyRelations(): void
     {
-        $relations = collect(Arr::wrap($this->input[self::WITH] ?? []))
-            ->mapWithKeys(fn ($relation, $key) => is_numeric($key) ? [$key => Str::camel($relation)] : [Str::camel($key) => $relation])
-            ->toArray();
+        $relations = resolve(RelationHelper::class)->requested($this->query->getModel(), $this->input[self::WITH] ?? null);
 
         $this->query->with($relations);
     }
@@ -148,23 +147,26 @@ class Filter extends ModelFilter
             });
     }
 
+    /**
+     * A count is a relation of the model ("comments") or a relation of one of its relations ("createdBy.tracks").
+     */
     private function applyCounts(): void
     {
-        $input = collect(Arr::wrap($this->input[self::COUNT] ?? []))
-            ->map(fn ($relation) => Str::camel($relation));
+        $counts = collect(resolve(RelationHelper::class)->requested($this->query->getModel(), $this->input[self::COUNT] ?? null, maxDepth: 2));
 
-        $rootCounts = $input
-            ->filter(fn ($relation) => ! str_contains($relation, '.'))
-            ->toArray();
+        $rootCounts = $counts
+            ->reject(fn (string $path) => str_contains($path, '.'))
+            ->values()
+            ->all();
 
-        $nestedCounts = $input
-            ->filter(fn ($relation) => str_contains($relation, '.'))
-            ->mapWithKeys(function ($relation) {
-                $parts = explode('.', $relation);
+        $nestedCounts = $counts
+            ->filter(fn (string $path) => str_contains($path, '.'))
+            ->mapWithKeys(function (string $path) {
+                [$relation, $countedRelation] = explode('.', $path);
 
-                return [$parts[0] => fn ($relation) => $relation->withCount($parts[count($parts) - 1])];
+                return [$relation => fn ($query) => $query->withCount($countedRelation)];
             })
-            ->toArray();
+            ->all();
 
         if (count($nestedCounts)) {
             $this->query->with($nestedCounts);
