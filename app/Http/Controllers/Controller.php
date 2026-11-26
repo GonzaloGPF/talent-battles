@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\FileTypes;
 use App\Exceptions\FilterException;
+use App\Helpers\RelationHelper;
 use App\Interfaces\HasFilesInterface;
 use App\Models\File;
 use App\Responses\FileResponse;
@@ -62,11 +63,14 @@ class Controller extends BaseController
 
     private FileService $fileService;
 
+    private RelationHelper $relationHelper;
+
     public function __construct()
     {
         $this->simpleResponse = resolve(SimpleResponse::class);
         $this->fileResponse = resolve(FileResponse::class);
         $this->fileService = resolve(FileService::class);
+        $this->relationHelper = resolve(RelationHelper::class);
     }
 
     /**
@@ -197,26 +201,19 @@ class Controller extends BaseController
     }
 
     /**
-     * Executes 'load()' method on model to get data from relationships.
-     * It will look for a 'with' input in request body. $with can be a string or an array of strings.
+     * Loads the relations named in the 'with' input, a name or a list of names. Names that are not relations are ignored.
      */
     protected function loadRelations(Model $model): Model
     {
-        $relations = collect(Arr::wrap(request('with')))
-            ->map(fn ($relation) => Str::camel($relation))
-            ->toArray();
-
-        return $model->load($relations);
+        return $model->load($this->relationHelper->requested($model, request('with')));
     }
 
+    /**
+     * Counts the relations named in the 'counts' input, a name or a list of names. Names that are not relations are ignored.
+     */
     protected function loadCounts(Model $model): Model
     {
-        $relations = collect(Arr::wrap(request('counts')))
-            ->map(fn ($relation) => Str::camel($relation))
-            ->filter(fn ($relation) => method_exists($model, $relation))
-            ->toArray();
-
-        return $model->loadCount($relations);
+        return $model->loadCount($this->relationHelper->requested($model, request('counts'), maxDepth: 1));
     }
 
     /**
