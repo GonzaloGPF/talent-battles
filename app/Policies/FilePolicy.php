@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Enums\Roles;
 use App\Models\File;
-use App\Models\Product;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -22,21 +21,22 @@ class FilePolicy
         //
     }
 
+    /**
+     * Anyone may download a public file. A private one is for its owner, the admins and whoever has its secret link.
+     */
     public function view(?User $user, File $file): bool
     {
-        $fileable = $file->fileable;
-
-        if ($fileable instanceof Product) {
-            $file = $fileable->file;
-
-            if (! $user) {
-                return request('secret') === $file->secret;
-            }
-
-            return $user->id === $file->created_by;
+        if (! $file->isPrivate()) {
+            return true;
         }
 
-        return true;
+        if ($user && ($user->id === $file->created_by || hasRole(Roles::ADMIN, user: $user))) {
+            return true;
+        }
+
+        $secret = request('secret');
+
+        return is_string($secret) && hash_equals($file->secret, $secret);
     }
 
     public function update(User $user, File $file): bool

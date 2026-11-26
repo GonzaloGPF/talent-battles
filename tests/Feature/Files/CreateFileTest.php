@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Files;
 
+use App\Enums\Roles;
 use App\Models\File;
+use App\Models\Track;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -43,6 +45,47 @@ class CreateFileTest extends TestCase
         ])->assertStatus(Response::HTTP_CREATED);
 
         $this->assertCount(1, $this->model->files);
+    }
+
+    #[Test]
+    public function a_guest_cannot_add_files()
+    {
+        $this->logout();
+
+        $this->makeRequest()
+            ->assertForbidden();
+
+        $this->assertCount(0, $this->model->files);
+    }
+
+    #[Test]
+    public function a_user_cannot_add_files_to_a_model_of_another_user()
+    {
+        $this->signIn(create(User::class, ['role' => Roles::USER]));
+
+        $this->makeRequest()
+            ->assertForbidden();
+
+        $this->assertCount(0, $this->model->files);
+    }
+
+    #[Test]
+    public function a_user_can_add_files_to_their_own_track()
+    {
+        $user = $this->signIn(create(User::class, ['role' => Roles::USER]));
+        $track = create(Track::class, ['created_by' => $user->id]);
+
+        $this->makeRequest(['model_type' => 'track', 'model_id' => $track->id])
+            ->assertCreated();
+
+        $this->assertCount(1, $track->files);
+    }
+
+    #[Test]
+    public function adding_files_to_a_model_that_does_not_exist_returns_404()
+    {
+        $this->makeRequest(['model_id' => 999999])
+            ->assertNotFound();
     }
 
     private function makeRequest(array $attributes = []): TestResponse

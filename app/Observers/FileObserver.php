@@ -9,12 +9,13 @@ use App\Models\File;
 use App\Services\FileService;
 use Exception;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class FileObserver
 {
     public function saving(File $file): void
     {
-        $file->secret = $file->secret ?? uniqid();
+        $file->secret = $file->secret ?? Str::random(40);
     }
 
     public function saved(File $file): void

@@ -3,20 +3,52 @@
 namespace App\Http\Requests;
 
 use App\Enums\FileTypes;
+use App\Enums\Roles;
+use App\Interfaces\HasCreatedByInterface;
 use App\Interfaces\HasFilesInterface;
+use App\Models\User;
 use App\Rules\ModelInterfaceRule;
 use App\Services\FileService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
 class FileRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Adding files needs a user who may add them to the model. Changing an existing file
+     * is checked by FileController against the FilePolicy.
      */
     public function authorize(): bool
     {
-        return true;
+        if (! $this->isMethod(self::METHOD_POST)) {
+            return true;
+        }
+
+        $user = $this->user();
+        $model = $this->model();
+
+        return $user instanceof User && (! $model || $this->canAddFilesTo($user, $model));
+    }
+
+    /**
+     * The model that the files are added to.
+     */
+    public function model(): (HasFilesInterface&Model)|null
+    {
+        $model = morphedModel($this->get('model_type'), $this->get('model_id'));
+
+        return $model instanceof HasFilesInterface ? $model : null;
+    }
+
+    /**
+     * Only an admin, or the owner of the model, may add files to it: a newer image or audio replaces the one it shows.
+     */
+    private function canAddFilesTo(User $user, Model $model): bool
+    {
+        return hasRole(Roles::ADMIN, user: $user)
+            || ($model instanceof User && $model->is($user))
+            || ($model instanceof HasCreatedByInterface && $model->getAttribute('created_by') === $user->id);
     }
 
     /**
