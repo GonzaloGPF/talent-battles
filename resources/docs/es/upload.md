@@ -66,7 +66,7 @@ Habrás podido notar que, en ambos formularios, existe un apartado especial para
 Estas son una serie de opciones que te permitirán ofrecer tu Creación como un producto que otros Usuarios puedan comprar.
 
 Una vez marcas esta opción, aparecerán nuevos campos:
-- Precio: Indica cuál será el Precio base. El sistema aplicará impuestos y comisiones como montos extra cuando un Usuario quiera comprarlo.
+- Precio: Es lo que pagará quien la compre. De cada venta, **Talent Battles** se queda una [comisión](buy_sell.md#commissions) del **10%** y te transfiere el resto.
 - Exclusivo: Esta opción impedirá que varios Usuarios puedan comprarlo, es decir, en el momento que realices la venta, nadie más podrá comprar esta Creación
 - Auto Marcar: Para que no tengas que subir dos ficheros distintos, puedes solicitar a **Talent Battles** que genere un fichero con Marca de Agua a partir del Fichero sin marcas
 - Fichero: Este es el fichero que los compradores podrán descargar. Este fichero se mantendrá secreto y con acceso restringido.

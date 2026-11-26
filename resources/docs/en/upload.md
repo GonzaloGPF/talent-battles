@@ -66,7 +66,7 @@ You may have noticed that, in both forms, there is a special section for [Sell](
 These are a series of options that will allow you to offer your Creation as a product that other Users can buy.
 
 Once you check this option, new fields will appear:
-- Price: Indicates what the base price will be. The system will apply taxes and commissions as extra amounts when a User wants to buy it.
+- Price: What the buyer will pay. From each sale, **Talent Battles** keeps a [commission](buy_sell.md#commissions) of **10%** and transfers the rest to you.
 - Exclusive: This option will prevent multiple Users from buying it, that is, at the time you make the sale, no one else will be able to buy this Creation
 - Auto Mark: So you don't have to upload two different files, you can ask **Talent Battles** to generate a file with a Watermark from the File without marks
 - File: This is the file that buyers can download. This file will remain secret with restricted access.
