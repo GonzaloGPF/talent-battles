@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Enums\PaymentStates;
 use App\Enums\ProductTypes;
 use App\Models\Product;
 use App\Models\User;
@@ -82,6 +83,18 @@ class ItemDataRule implements Rule
     }
 
     /**
+     * A creation that the user has paid for cannot be bought again. Its order lines keep the product
+     * (their orderable is the track or design), and an unpaid order does not count.
+     */
+    private function isAlreadyBought(?User $user, Product $product): bool
+    {
+        return $user !== null && $user->orderLines()
+            ->where('product_id', $product->id)
+            ->where('orders.payment_state', PaymentStates::SUCCESS)
+            ->exists();
+    }
+
+    /**
      * @param  array<string, mixed>  $data
      */
     private function getValidator(Product $product, array $data): ?\Illuminate\Validation\Validator
@@ -115,11 +128,7 @@ class ItemDataRule implements Rule
                 'is_sold' => $product->exclusive && $product->last_sale,
                 'has_file' => $product->file()->exists(),
                 'in_sale' => ! empty($product->price),
-                'already_ordered' => $user?->orderLines()
-                    ->where('product_id', $product->id)
-                    ->where('orderable_id', $product->id)
-                    ->where('orderable_type', get_class($product))
-                    ->exists(),
+                'already_ordered' => $this->isAlreadyBought($user, $product),
             ], [
                 'product_id' => ['required', new MustNotBeOwner(Str::plural($productType->value))],
                 'is_sold' => ValidationRule::in([false]),

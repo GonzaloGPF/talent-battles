@@ -3,10 +3,12 @@
 namespace Tests\Feature\Carts;
 
 use App\Enums\FileTypes;
+use App\Enums\PaymentStates;
 use App\Enums\ProductTypes;
 use App\Models\Cart;
 use App\Models\Design;
 use App\Models\File;
+use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
 use App\Models\Track;
@@ -16,6 +18,7 @@ use App\Services\CartService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestWith;
 use Tests\TestCase;
 
 class UpdateCartTest extends TestCase
@@ -412,16 +415,33 @@ class UpdateCartTest extends TestCase
     public function it_wont_let_add_items_to_cart_if_it_is_product_already_ordered_by_user()
     {
         $this->initTrackProduct();
+        $this->orderTrack(PaymentStates::SUCCESS);
 
-        /** @var OrderLine $orderLine */
-        create(OrderLine::class, [
-            'created_by' => $this->user->id,
-            'orderable_type' => Track::class,
-            'orderable_id' => $this->track->id,
-        ]);
+        $this->addTrackToCart()
+            ->assertUnprocessable()
+            ->assertSee(trans('validation.already_ordered'));
+    }
 
-        $this->makeRequest()
-            ->assertUnprocessable();
+    #[Test]
+    #[TestWith([PaymentStates::PENDING])]
+    #[TestWith([PaymentStates::ERROR])]
+    public function a_track_whose_order_was_not_paid_can_be_added_to_cart_again(PaymentStates $paymentState)
+    {
+        $this->initTrackProduct();
+        $this->orderTrack($paymentState);
+
+        $this->addTrackToCart()
+            ->assertSuccessful();
+    }
+
+    #[Test]
+    public function a_track_bought_by_another_user_can_be_added_to_cart()
+    {
+        $this->initTrackProduct();
+        $this->orderTrack(PaymentStates::SUCCESS, create(User::class));
+
+        $this->addTrackToCart()
+            ->assertSuccessful();
     }
 
     #[Test]
@@ -510,6 +530,36 @@ class UpdateCartTest extends TestCase
             'fileable_id' => $this->product->id,
             'file_type' => FileTypes::AUDIO,
             'path' => generateTestFile(),
+        ]);
+    }
+
+    /**
+     * An order of the track, by the signed-in user unless another buyer is given.
+     */
+    private function orderTrack(PaymentStates $paymentState, ?User $buyer = null): void
+    {
+        $buyer ??= $this->user;
+        $order = create(Order::class, ['created_by' => $buyer->id, 'payment_state' => $paymentState]);
+
+        create(OrderLine::class, [
+            'order_id' => $order->id,
+            'created_by' => $buyer->id,
+            'product_id' => $this->product->id,
+            'orderable_type' => Track::class,
+            'orderable_id' => $this->track->id,
+        ]);
+    }
+
+    private function addTrackToCart(): TestResponse
+    {
+        return $this->makeRequest([
+            'items_data' => [
+                [
+                    'product_id' => $this->product->id,
+                    'orderable_id' => $this->track->id,
+                    'orderable_type' => Track::class,
+                ],
+            ],
         ]);
     }
 
