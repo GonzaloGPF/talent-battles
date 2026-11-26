@@ -123,6 +123,7 @@ function randomConstant(string $enum, bool $multiple = false): int|string|array
  * If there are any Model, it will grab one randomly, if not, it will create a new one using its Factory
  * When using make() it won't write in Database, instead, it will return a 1
  *
+ * @param  class-string<Model>  $modelClass
  * @param  array<string, mixed>  $attributes
  */
 function associateTo(string $modelClass, array $attributes = [], bool $create = false): int|string
@@ -411,6 +412,10 @@ function loadConstants(): Collection
 
 function implementsInterface(string $class, string $interface): bool
 {
+    if (! class_exists($class) && ! interface_exists($class)) {
+        return false;
+    }
+
     try {
         return (new ReflectionClass($class))->implementsInterface($interface);
     } catch (ReflectionException $e) {

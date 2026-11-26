@@ -58,8 +58,7 @@ class ExceptionRenderer
         }
 
         if ($e instanceof ModelNotFoundException) {
-            preg_match('/\[(.+?)]/', $e->getMessage(), $match);
-            $model = Str::lower(str_replace('App\\Models\\', '', $match[1]));
+            $model = Str::lower(class_basename($e->getModel()));
 
             return $this->simpleResponse->exception(new Exception(trans('exceptions.not_found_data', ['data' => modelTitle($model)])), Response::HTTP_NOT_FOUND);
         }

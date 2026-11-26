@@ -68,7 +68,10 @@ class ProfileClaimController extends Controller
     {
         $this->authorize('claim', [$user, $request->query('key')]);
 
-        $user = $this->profileClaimService->claim($user, $request->safe()->only(['email', 'password']));
+        $user = $this->profileClaimService->claim($user, [
+            'email' => $request->safe()->string('email')->value(),
+            'password' => $request->safe()->string('password')->value(),
+        ]);
 
         $this->authService->login($user);
 

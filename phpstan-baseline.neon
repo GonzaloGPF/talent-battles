@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Access to an undefined property Laravel\\Cashier\\PaymentMethod\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Stripe/PaymentMethodController.php
-
-		-
 			message: '#^Call to an undefined method ProtoneMedia\\LaravelFFMpeg\\Exporters\\MediaExporter\:\:setAdditionalParameters\(\)\.$#'
 			identifier: method.notFound
 			count: 1

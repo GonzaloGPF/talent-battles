@@ -71,7 +71,12 @@ class LoginController extends Controller
             'password' => 'string|required',
         ]);
 
-        if (! $this->authService->attempt($request->only('email', 'password'))) {
+        $credentials = [
+            'email' => $request->string('email')->value(),
+            'password' => $request->string('password')->value(),
+        ];
+
+        if (! $this->authService->attempt($credentials)) {
             throw ValidationException::withMessages([
                 'email' => [trans('auth.failed')],
             ]);

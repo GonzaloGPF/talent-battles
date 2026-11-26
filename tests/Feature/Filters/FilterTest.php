@@ -192,6 +192,19 @@ class FilterTest extends TestCase
         $this->assertCount(2, $data);
     }
 
+    #[Test]
+    #[TestWith(['name|asc', ['Ana', 'Bea', 'Carla']])]
+    #[TestWith(['name|DESC', ['Carla', 'Bea', 'Ana']])]
+    #[TestWith(['name|sideways', ['Ana', 'Bea', 'Carla']])]
+    public function results_are_sorted_in_the_given_direction_and_ascending_for_an_unknown_one(string $sort, array $names)
+    {
+        $users = collect(['Bea', 'Carla', 'Ana'])->map(fn (string $name) => create(User::class, ['name' => $name]));
+
+        $data = $this->makeRequest(route('users.index', ['ids' => $users->pluck('id')->all(), 'sort' => $sort]));
+
+        $this->assertSame($names, array_column($data, 'name'));
+    }
+
     private function makeRequest(string $route): array
     {
         return $this->getJson($route)

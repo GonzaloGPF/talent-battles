@@ -64,7 +64,7 @@ trait HasAddress
             'line2' => $value['line2'] ?? null,
             'longitude' => $value['longitude'] ?? null,
             'latitude' => $value['latitude'] ?? null,
-        ]);
+        ], JSON_THROW_ON_ERROR);
     }
 
     /**

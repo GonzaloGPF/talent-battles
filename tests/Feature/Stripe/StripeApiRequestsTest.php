@@ -30,18 +30,20 @@ class StripeApiRequestsTest extends TestCase
         {
             public array $requests = [];
 
+            public array $customer = [
+                'id' => 'cus_1',
+                'object' => 'customer',
+                'invoice_settings' => [
+                    'default_payment_method' => ['id' => 'pm_1', 'object' => 'payment_method', 'type' => 'card', 'customer' => 'cus_1'],
+                ],
+            ];
+
             public function request($method, $absUrl, $headers, $params, $hasFile, $apiMode = 'v1', $maxNetworkRetries = null)
             {
                 $this->requests[] = compact('method', 'absUrl', 'headers', 'params');
 
                 $body = match (true) {
-                    str_contains($absUrl, '/v1/customers') => [
-                        'id' => 'cus_1',
-                        'object' => 'customer',
-                        'invoice_settings' => [
-                            'default_payment_method' => ['id' => 'pm_1', 'object' => 'payment_method', 'type' => 'card', 'customer' => 'cus_1'],
-                        ],
-                    ],
+                    str_contains($absUrl, '/v1/customers') => $this->customer,
                     str_contains($absUrl, '/v1/payment_intents') => [
                         'id' => 'pi_1',
                         'object' => 'payment_intent',
@@ -112,6 +114,21 @@ class StripeApiRequestsTest extends TestCase
 
         $this->assertArrayNotHasKey('customer', $request['params']);
         $this->assertArrayNotHasKey('setup_future_usage', $request['params']);
+    }
+
+    #[Test]
+    public function a_legacy_default_card_is_not_shown_as_the_default_payment_method()
+    {
+        $this->signIn(create(User::class, ['stripe_id' => 'cus_1']));
+        $this->http->customer = [
+            'id' => 'cus_1',
+            'object' => 'customer',
+            'invoice_settings' => ['default_payment_method' => null],
+            'default_source' => ['id' => 'card_1', 'object' => 'card'],
+        ];
+
+        $this->getJson(route('stripe.default_payment_methods.show'))
+            ->assertNoContent();
     }
 
     #[Test]

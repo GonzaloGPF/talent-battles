@@ -136,7 +136,7 @@ class EmailService
 
     private function invitationEmail(Email $email): InvitationEmail
     {
-        return new InvitationEmail(Invitation::find($email->meta['invitation_id']));
+        return new InvitationEmail(Invitation::query()->whereKey($email->meta['invitation_id'])->firstOrFail());
     }
 
     /**

@@ -35,7 +35,7 @@ class PaymentMethodController extends Controller
         $paymentMethod = $this->stripeApi->addPaymentMethod(request('payment_method_id'), $this->user);
 
         if (! $this->user->hasDefaultPaymentMethod()) {
-            $this->stripeApi->setDefaultPaymentMethod($paymentMethod->id);
+            $this->stripeApi->setDefaultPaymentMethod($paymentMethod->asStripePaymentMethod()->id);
         }
 
         return $this->storeResponse(JsonResource::collection($this->stripeApi->getPaymentMethods()));

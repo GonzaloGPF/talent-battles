@@ -8,6 +8,7 @@ use App\Jobs\AsyncHttp;
 use App\Responses\SimpleResponse;
 use Exception;
 use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\Utils;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -315,7 +316,7 @@ abstract class Api implements ApiInterface
 
     private function fakeResponse(): Response
     {
-        $body = new Stream(fopen(base_path('tests/mocks/ok.json'), 'r'));
+        $body = new Stream(Utils::tryFopen(base_path('tests/mocks/ok.json'), 'r'));
 
         return new Response(new \GuzzleHttp\Psr7\Response(200, [], $body));
     }

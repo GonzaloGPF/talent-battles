@@ -50,7 +50,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request): JsonResponse
     {
-        /** @var HasProductInterface|Model $model */
+        /** @var HasProductInterface&Model $model */
         $model = morphedModel($request->get('model_type'), $request->get('model_id'));
 
         $product = $this->productService->create($request->validated(), $model, $this->getFile());

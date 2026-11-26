@@ -242,7 +242,8 @@ class Controller extends BaseController
         }
 
         if ($files->isEmpty()) {
-            $files = collect([$this->getFile()]);
+            $files = collect([$this->getFile()])
+                ->filter();
         }
 
         return $this->fileService->saveFiles($model, $files, $fileType ? FileTypes::from($fileType) : null);
@@ -252,13 +253,13 @@ class Controller extends BaseController
      * It will look for files in request. All Files must come in a 'files' input
      * it will return a Collection of UploadedFile
      *
-     * @return Collection<array-key, UploadedFile>
+     * @return Collection<int, UploadedFile>
      */
     public function getFiles(?string $input = 'files'): Collection
     {
         $files = request()->allFiles()[$input] ?? [];
 
-        return collect($files);
+        return collect(Arr::wrap($files))->values();
     }
 
     /**
@@ -325,7 +326,7 @@ class Controller extends BaseController
             if (request(self::DONT_PAGINATE)) {
                 $result = $builder->get();
             } else {
-                $result = $builder->paginate(abs(request(self::PER_PAGE) ?? self::PAGE_SIZE));
+                $result = $builder->paginate(abs(request()->integer(self::PER_PAGE, self::PAGE_SIZE)));
             }
         } catch (Throwable $throwable) {
             if ($throwable instanceof RelationNotFoundException) {

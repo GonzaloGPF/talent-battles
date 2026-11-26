@@ -3,8 +3,6 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use ReflectionClass;
-use ReflectionException;
 
 class ModelInterfaceRule implements Rule
 {
@@ -41,13 +39,9 @@ class ModelInterfaceRule implements Rule
             return false;
         }
 
-        try {
-            $reflection = new ReflectionClass(classByString($value));
+        $class = classByString($value);
 
-            return $reflection->implementsInterface($this->interfaceClass);
-        } catch (ReflectionException $e) {
-            return false;
-        }
+        return $class !== null && implementsInterface($class, $this->interfaceClass);
     }
 
     /**
