@@ -42,4 +42,6 @@ Una vez un Usuario realiza la compra de un exclusivo, nadie más podrá comprar 
 - Disponer de los fondos suficientes
 
 ## Comisiones {#commissions}
-Cuando realices una venta, el sistema aplicará una pequeña comisión del **10%** sobre el precio de venta.
+El comprador paga el precio que hayas puesto. **Talent Battles** se queda una comisión del **10%** de ese precio y te transfiere el resto a tu [Cuenta](account.md) de Stripe en cuanto se confirma el pago. Después, Stripe te lo ingresa en tu banco según los plazos de tu cuenta.
+
+Por ejemplo, si vendes un beat por 20 €, recibes 18 €.

@@ -26,6 +26,11 @@ by clicking the delete button for each item. You can also remove all items from 
 ## Checkout {#process-order}
 This option will allow you to access the details of your ** Cart ** and is where you can ** Process the Order **.
 You will be able to see a table with all the information of each element of the **Cart**, such as its description, price, discounts, taxes, etc.
+Before paying you have to turn on two options, and the payment buttons stay disabled until you do:
+
+- Accept the [Terms of Service](conditions.md) and the [Privacy Policy](privacy.md).
+- Ask for your order to be delivered straight away. Points and downloads are delivered as soon as the payment is confirmed, and Promotions start then. By asking for it, you accept that once the Points or downloads are delivered, you lose the right of withdrawal. If your order only has donations, this option does not appear.
+
 To place the Order you must complete the payment process by clicking any of the following buttons:
 
 ### Pay with
@@ -43,7 +48,7 @@ to refill any forms.
 If after filling out the form correctly and sending it no error occurs, the system will create an [Order](orders) with all the items in the **Cart**.
 You will be redirected to a small section with information on the Order and its Order lines, as well as downloadable files, if any.
 
-The System will also send email to the email address that you have filled in when making the payment.
+The System will also send email to the email address that you have filled in when making the payment. That email confirms what you accepted when paying and links to the [Terms of Service](conditions.md).
 
 > [!NOTE]
 > If you are logged in when placing the Order you will be able to access all your Orders from the [Order Management](/commerce/orders) section

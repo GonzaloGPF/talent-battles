@@ -43,4 +43,6 @@ Once a User makes the purchase of an exclusive, no one else will be able to buy 
 
 ## Commissions {#commissions}
 
-When you make a sale, the system will apply a small commission of **10%** on the sale price.
+The buyer pays the price you set. **Talent Battles** keeps a **10%** commission of that price and transfers the rest to your Stripe [Account](account.md) as soon as the payment is confirmed. Stripe then pays it out to your bank, on your account's schedule.
+
+For example, if you sell a beat for 20 €, you receive 18 €.
