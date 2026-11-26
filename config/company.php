@@ -7,13 +7,19 @@ return [
     'commercial_name' => env('APP_NAME', 'Laravel'),
     'acronym' => 'TB',
     'legal' => [
-        'conditions' => '2022-04-01',
-        'privacy' => '2022-04-01',
+        'conditions' => '2026-11-26',
+        'privacy' => '2026-11-26',
         'cookies' => '2022-04-01',
     ],
-    'contact' => [
-        'cif' => '',
-        'address' => 'Sevilla, España',
+
+    /*
+     * The person who runs the site, shown in the legal texts. They are personal data, so they live in the .env
+     */
+    'owner' => [
+        'name' => env('LEGAL_OWNER_NAME'),
+        'nif' => env('LEGAL_OWNER_NIF'),
+        'address' => env('LEGAL_OWNER_ADDRESS'),
+        'email' => env('LEGAL_OWNER_EMAIL'),
     ],
 
     /*

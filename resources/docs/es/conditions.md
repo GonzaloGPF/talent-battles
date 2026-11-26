@@ -9,7 +9,7 @@ title: 'Términos del Servicio'
 Información legal de interés sobre **Talent Battles**
 
 > [!NOTE]
-> Última actualización: 2022-04-01
+> Última actualización: 2026-11-26
 
 - [Generalidades](#legal-generals)
 - [Sección 1: Términos de la Tienda Online](#legal-section-1)
@@ -37,7 +37,7 @@ Información legal de interés sobre **Talent Battles**
 
 ## Generalidades {#legal-generals}
 
-**Talent Battles** gestiona este sitio web. En todo el sitio, los términos "nosotros", "nos" y "nuestro"
+**Talent Battles** es un sitio web gestionado por su titular, identificado en la [Sección 20](#legal-section-20). En todo el sitio, los términos "nosotros", "nos" y "nuestro"
 se refieren en lo sucesivo a **Talent Battles**. **Talent Battles** ofrece esta página web, 
 incluida toda la información, las herramientas y los servicios que se ponen en este sitio a disposición suya, 
 el usuario, siempre y cuando acepte la totalidad de los términos, condiciones, políticas y avisos contemplados aquí.
@@ -198,4 +198,6 @@ Nos reservamos el derecho, a nuestra entera discreción, de actualizar, cambiar 
 
 ## Sección 20: Información de Contacto {#legal-section-20}
 
-Las preguntas sobre los Términos del servicio se deben enviar a **noreply@talentbattles.com**.
+Las preguntas sobre los Términos del servicio se deben enviar al correo electrónico del titular:
+
+<LegalOwner />
