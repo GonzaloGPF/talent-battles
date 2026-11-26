@@ -29,12 +29,12 @@ import { useCart } from '@/stores/cart';
 import Translator from '@/objects/Translator';
 
 const emits = defineEmits(['loading']);
-const { cartItems } = storeToRefs(useCart());
+const { cartItems, hasConsents } = storeToRefs(useCart());
 const { clientSecret, loading, processPayment, lastEmail } = usePaymentIntents();
 const isReady = ref(false);
 const isComplete = ref(false);
 const isDisabled = computed(() => {
-    if (! cartItems.value?.length) return true;
+    if (! cartItems.value?.length || ! hasConsents.value) return true;
 
     if (clientSecret.value) {
         return ! isReady.value || ! isComplete.value;

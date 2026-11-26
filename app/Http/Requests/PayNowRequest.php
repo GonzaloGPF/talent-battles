@@ -3,11 +3,14 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use App\Traits\ValidatesCheckoutConsents;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PayNowRequest extends FormRequest
 {
+    use ValidatesCheckoutConsents;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -44,6 +47,7 @@ class PayNowRequest extends FormRequest
     {
         return [
             'items' => 'array|min:1',
+            ...$this->consentRules(),
         ];
     }
 
@@ -54,6 +58,7 @@ class PayNowRequest extends FormRequest
                 'attribute' => modelTitle('cart'),
                 'min' => 1,
             ]),
+            ...$this->consentMessages(),
         ];
     }
 }

@@ -30,6 +30,32 @@
         @delete="removeCartItems"
       />
 
+      <div class="flex flex-col gap-2 mt-6 md:max-w-md">
+        <div class="flex items-center gap-2">
+          <i-switch
+            v-model="termsAccepted"
+            :label="null"
+            hide-details
+            name="terms_and_conditions"
+            class="flex-shrink-0"
+          />
+          <legal-info />
+        </div>
+        <div
+          v-if="needsImmediateDelivery"
+          class="flex items-center gap-2"
+        >
+          <i-switch
+            v-model="immediateDeliveryAccepted"
+            :label="null"
+            hide-details
+            name="immediate_delivery"
+            class="flex-shrink-0"
+          />
+          <span v-text="Translator.t('help.immediate_delivery')" />
+        </div>
+      </div>
+
       <validation-errors class="my-3 rounded max-w-lg" />
 
       <pay-now-button class="mt-6 md:max-w-md" />
@@ -69,9 +95,11 @@ import PaymentElementsButton from '@/components/buttons/PaymentElementsButton.vu
 import PayNowButton from '@/components/buttons/PayNowButton.vue';
 import ValidationErrors from '@/components/core/ValidationErrors.vue';
 import DocsButton from '@/components/buttons/DocsButton.vue';
+import ISwitch from '@/components/forms/inputs/iSwitch.vue';
+import LegalInfo from '@/components/info/LegalInfo.vue';
 
 const { removeCartItems, clean, openItem } = useCart();
-const { cartItems } = storeToRefs(useCart());
+const { cartItems, termsAccepted, immediateDeliveryAccepted, needsImmediateDelivery } = storeToRefs(useCart());
 const { showConfirm } = useConfirm();
 const loading = ref(false);
 

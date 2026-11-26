@@ -42,6 +42,7 @@ class PayNowController extends Controller
 
         $order = $this->orderService->createFromCart($cart, $this->user->email, [
             'payment_intent_id' => $this->stripeApi->getPaymentIntentId($payment),
+            ...$request->consents(),
         ]);
 
         if (! $order) {

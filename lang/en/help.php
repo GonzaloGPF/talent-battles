@@ -103,6 +103,8 @@ return [
     'pay_with' => 'Pay :total with :name',
     'destroy_user' => 'It will destroy your User and all its data. Are you sure?',
     'must_accept_terms_and_conditions' => 'You must accept Terms and Conditions',
+    'must_accept_immediate_delivery' => 'You must ask for the immediate delivery of the order',
+    'immediate_delivery' => 'I ask to receive my order straight away and accept that, once the Points or downloads are delivered, I lose the right of withdrawal.',
     'could_not_check_payment_status' => 'Could not check Payment Status',
     'new_version_of_app' => 'New version of App',
     'update_to_new_version' => 'Click button to update',

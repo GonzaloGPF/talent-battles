@@ -48,6 +48,30 @@ class EmailServiceTest extends TestCase
     }
 
     #[Test]
+    public function the_order_email_confirms_the_immediate_delivery_and_links_the_terms()
+    {
+        $order = create(Order::class, ['meta' => ['payment_intent_id' => 'pi_1', 'immediate_delivery' => true]]);
+        create(OrderLine::class, ['order_id' => $order->id]);
+
+        $email = $this->service->createOrderSuccess($order);
+        $html = $this->service->getEmail($email)->render();
+
+        $this->assertTrue($email['meta']['immediate_delivery']);
+        $this->assertStringContainsString(trans('emails.order_success_immediate_delivery'), $html);
+        $this->assertStringContainsString(url('docs/'.app()->getLocale().'/conditions'), $html);
+    }
+
+    #[Test]
+    public function an_order_without_immediate_delivery_does_not_mention_it()
+    {
+        $order = create(Order::class, ['meta' => ['payment_intent_id' => 'pi_1', 'immediate_delivery' => false]]);
+
+        $html = $this->service->getEmail($this->service->createOrderSuccess($order))->render();
+
+        $this->assertStringNotContainsString(trans('emails.order_success_immediate_delivery'), $html);
+    }
+
+    #[Test]
     public function it_can_create_a_verify_email()
     {
         /** @var User $user */

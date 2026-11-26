@@ -19,6 +19,16 @@ export const useCart = defineStore('cart', () => {
 
     const totalAmount = computed(() => cartItems.value.reduce((total, item) => item.total_with_taxes + total, 0));
 
+    // What the buyer accepts before paying. Everything but a donation is delivered as soon as it is paid.
+    const termsAccepted = ref(false);
+    const immediateDeliveryAccepted = ref(false);
+    const needsImmediateDelivery = computed(() => cartItems.value.some(item => item.product_type !== 'donation'));
+    const hasConsents = computed(() => termsAccepted.value && (! needsImmediateDelivery.value || immediateDeliveryAccepted.value));
+    const consents = computed(() => ({
+        terms_and_conditions: termsAccepted.value,
+        immediate_delivery: needsImmediateDelivery.value && immediateDeliveryAccepted.value,
+    }));
+
     async function fetch() {
         const { data } = await getJson('carts', { quietly: true });
 
@@ -99,6 +109,14 @@ export const useCart = defineStore('cart', () => {
         return !! cartItems.value?.find(item => isSame(item, newItem));
     }
 
+    // Each purchase is accepted on its own
+    watch(() => cartItems.value.length, (length) => {
+        if (! length) {
+            termsAccepted.value = false;
+            immediateDeliveryAccepted.value = false;
+        }
+    });
+
     watch(user, (newValue, oldValue) => {
         if (! loaded) {
             loaded = true;
@@ -117,6 +135,11 @@ export const useCart = defineStore('cart', () => {
         totalAmount,
         cart,
         cartItems,
+        termsAccepted,
+        immediateDeliveryAccepted,
+        needsImmediateDelivery,
+        hasConsents,
+        consents,
         clean,
         fetch,
         addCartItem,

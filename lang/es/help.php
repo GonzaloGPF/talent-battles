@@ -103,6 +103,8 @@ return [
     'pay_with' => 'Pagar :total con :name',
     'destroy_user' => 'Esto destruirá a tu Usuario y todos sus datos. ¿Estás seguro?',
     'must_accept_terms_and_conditions' => 'Debes aceptar los Términos y Condiciones',
+    'must_accept_immediate_delivery' => 'Debes pedir la entrega inmediata del pedido',
+    'immediate_delivery' => 'Pido recibir mi pedido en el momento y acepto que, una vez entregados los Puntos o las descargas, pierdo el derecho de desistimiento.',
     'could_not_check_payment_status' => 'Could not check Payment Status',
     'new_version_of_app' => 'Nueva versión de la App',
     'update_to_new_version' => 'Haz click en el botón para actualizar',

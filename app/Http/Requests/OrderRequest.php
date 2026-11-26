@@ -5,11 +5,14 @@ namespace App\Http\Requests;
 use App\Interfaces\HasOrderLineInterface;
 use App\Models\Cart;
 use App\Rules\StripePaymentIntentRule;
+use App\Traits\ValidatesCheckoutConsents;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class OrderRequest extends FormRequest
 {
+    use ValidatesCheckoutConsents;
+
     public ?HasOrderLineInterface $model;
 
     /**
@@ -41,6 +44,7 @@ class OrderRequest extends FormRequest
             'items' => 'array|min:1',
             'email' => Rule::requiredIf(auth()->guest()),
             'payment_intent_id' => ['required', 'string', 'max:100', new StripePaymentIntentRule],
+            ...$this->consentRules(),
         ];
     }
 
@@ -51,6 +55,7 @@ class OrderRequest extends FormRequest
                 'attribute' => modelTitle('cart'),
                 'min' => 1,
             ]),
+            ...$this->consentMessages(),
         ];
     }
 }

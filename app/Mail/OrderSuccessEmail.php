@@ -16,13 +16,18 @@ class OrderSuccessEmail extends Mailable
     public bool $hasUrl;
 
     /**
-     * Create a new message instance.
+     * The email confirms, as the law asks, that the buyer asked for immediate delivery and gave up the right of
+     * withdrawal, and links to the terms the purchase is governed by.
      *
      * @param  array<int, array<string, mixed>>  $lines
      * @return void
      */
-    public function __construct(public array $lines, public ?string $userName)
-    {
+    public function __construct(
+        public array $lines,
+        public ?string $userName,
+        public bool $immediateDelivery = false,
+        public ?string $termsUrl = null,
+    ) {
         $this->hasUrl = collect($lines)->some(fn (array $line) => ! empty($line['url']));
     }
 

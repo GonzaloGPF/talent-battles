@@ -12,7 +12,7 @@ import { useErrors } from '@/stores/errors';
 
 export default function () {
     const { postJson, putJson, loading: httpLoading } = useHttp();
-    const { totalAmount, loading: cartLoading } = storeToRefs(useCart());
+    const { totalAmount, loading: cartLoading, consents } = storeToRefs(useCart());
     const { showPrompt } = useConfirm();
     const { user } = storeToRefs(useAuth());
     const { setErrors } = useErrors();
@@ -84,14 +84,19 @@ export default function () {
             return;
         }
 
-        const { return_url } = await postJson('orders', {
+        const order = await postJson('orders', {
             email,
-            payment_intent_id: paymentIntentId
+            payment_intent_id: paymentIntentId,
+            ...consents.value,
         });
+
+        if (! order?.return_url) {
+            return;
+        }
 
         isWorking.value = true;
 
-        const errorMsg = await Stripe.confirmPayment(email, return_url);
+        const errorMsg = await Stripe.confirmPayment(email, order.return_url);
 
         errors.value = {
             stripe_error: [errorMsg]

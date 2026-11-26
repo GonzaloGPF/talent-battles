@@ -57,6 +57,7 @@ class OrderController extends Controller
 
         $order = $this->orderService->createFromCart($this->cartService->getOrCreateCart(), $email, [
             'payment_intent_id' => $request->get('payment_intent_id'),
+            ...$request->consents(),
         ]);
 
         if (! $order) {
