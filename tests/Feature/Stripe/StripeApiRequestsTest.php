@@ -3,6 +3,7 @@
 namespace Tests\Feature\Stripe;
 
 use App\Api\StripeApi;
+use App\Models\Sale;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
@@ -49,7 +50,9 @@ class StripeApiRequestsTest extends TestCase
                         'object' => 'payment_intent',
                         'status' => 'succeeded',
                         'client_secret' => 'pi_1_secret',
+                        'latest_charge' => 'ch_1',
                     ],
+                    str_contains($absUrl, '/v1/transfers') => ['id' => 'tr_1', 'object' => 'transfer'],
                 };
 
                 return [json_encode($body), 200, []];
@@ -129,6 +132,32 @@ class StripeApiRequestsTest extends TestCase
 
         $this->getJson(route('stripe.default_payment_methods.show'))
             ->assertNoContent();
+    }
+
+    #[Test]
+    public function the_seller_part_of_a_sale_goes_to_their_account_from_the_charge_of_the_order()
+    {
+        /** @var Sale $sale */
+        $sale = create(Sale::class, ['amount' => 20, 'commission_amount' => 2, 'total' => 18]);
+
+        $transfer = resolve(StripeApi::class)->transferToSeller($sale, 'acct_1', 'ch_1');
+
+        $this->assertSame('tr_1', $transfer->id);
+
+        $request = collect($this->http->requests)->firstWhere('absUrl', 'https://api.stripe.com/v1/transfers');
+
+        $this->assertSame(1800, $request['params']['amount']);
+        $this->assertSame('eur', $request['params']['currency']);
+        $this->assertSame('acct_1', $request['params']['destination']);
+        $this->assertSame('ch_1', $request['params']['source_transaction']);
+        $this->assertSame(['sale_id' => (string) $sale->id], $request['params']['metadata']);
+        $this->assertContains("Idempotency-Key: sale_{$sale->id}_transfer", $request['headers']);
+    }
+
+    #[Test]
+    public function the_charge_of_a_payment_intent_is_the_one_that_paid_it()
+    {
+        $this->assertSame('ch_1', resolve(StripeApi::class)->getChargeId('pi_1'));
     }
 
     #[Test]

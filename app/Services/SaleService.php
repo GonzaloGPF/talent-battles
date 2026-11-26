@@ -26,6 +26,7 @@ class SaleService
         $sale->forceFill([
             'created_by' => $orderLine->seller_id,
             'product_id' => $orderLine->product_id,
+            'order_line_id' => $orderLine->id,
             'description' => trans('help.you_sold_product', ['product' => $orderLine->product?->name]),
             'amount' => $orderLine->total_with_taxes,
             'commission' => $this->creationCommission,

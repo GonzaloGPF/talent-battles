@@ -51,6 +51,7 @@ class SaleServiceTest extends TestCase
         $sale = $this->service->createFrom($orderLine);
 
         $this->assertEquals($seller->id, $sale->created_by);
+        $this->assertEquals($orderLine->id, $sale->order_line_id);
         $this->assertEquals(trans('help.you_sold_product', ['product' => 'Some Name']), $sale->description);
         $this->assertEquals(100, $sale->amount);
         $this->assertEquals($this->creationCommission, $sale->commission);

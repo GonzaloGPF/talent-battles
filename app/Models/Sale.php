@@ -23,6 +23,7 @@ class Sale extends Model implements HasCreatedByInterface
 
     protected $casts = [
         'product_id' => 'int',
+        'order_line_id' => 'int',
         'amount' => 'float',
         'commission' => 'float',
         'commission_amount' => 'float',
@@ -43,5 +44,16 @@ class Sale extends Model implements HasCreatedByInterface
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * The order line the sale comes from. Order lines are only visible to their buyer, and the sale belongs to the
+     * seller, so its scopes are left out.
+     *
+     * @return BelongsTo<OrderLine, $this>
+     */
+    public function orderLine(): BelongsTo
+    {
+        return $this->belongsTo(OrderLine::class)->withoutGlobalScopes();
     }
 }
