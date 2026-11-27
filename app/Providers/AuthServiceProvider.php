@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\Roles;
 use App\Interfaces\HasCreatedByInterface;
 use App\Models\Order;
 use App\Models\User;
@@ -29,5 +30,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('is_owner', function (User $user, HasCreatedByInterface&Model $model) {
             return $user->id === $model->getAttribute('created_by');
         });
+
+        /*
+         * The activity of the whole site is for the staff: admins and managers.
+         */
+        Gate::define('view_platform_activity', fn (User $user) => hasRole(Roles::MANAGER, true, $user));
     }
 }

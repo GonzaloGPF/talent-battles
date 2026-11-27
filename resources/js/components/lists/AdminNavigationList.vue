@@ -32,6 +32,13 @@ const items = computed(() => [
   //   }
   // },
   {
+    value: 'admin.activity.index',
+    title: Translator.tl('weekly_activity'),
+    props: {
+      prependIcon: 'mdi-chart-line',
+    }
+  },
+  {
     value: 'admin.users.index',
     title: Translator.modelTitle('user', true),
     props: {

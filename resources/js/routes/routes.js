@@ -203,6 +203,12 @@ export default [
         beforeEnter: [auth],
         children: [
             {
+                path: 'activity',
+                name: 'admin.activity.index',
+                component: () => import('@/pages/admin/AdminActivityIndex.vue'),
+                beforeEnter: [internal]
+            },
+            {
                 path: 'users',
                 name: 'admin.users.index',
                 component: () => import('@/pages/admin/AdminUserIndex.vue'),
