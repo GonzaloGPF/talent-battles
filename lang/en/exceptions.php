@@ -25,4 +25,5 @@ return [
     'invalid_customer' => 'invalid Customer',
     'unverified_email' => 'Unverified Email',
     'invalid_signature' => 'Invalid Signature',
+    'illegal_transition' => 'Cannot go from :from to :to',
 ];

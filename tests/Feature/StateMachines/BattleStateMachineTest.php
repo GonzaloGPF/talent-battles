@@ -70,6 +70,7 @@ class BattleStateMachineTest extends TestCase
     public function it_cannot_jump_to_a_state_that_is_not_allowed_from_the_current_one()
     {
         $this->expectException(AuthorizationException::class);
+        $this->expectExceptionMessage('Cannot go from Open to Finished');
 
         $this->battle->changeState(BattleStates::FINISHED);
     }
@@ -233,18 +234,12 @@ class BattleStateMachineTest extends TestCase
     #[Test]
     public function it_wont_transition_track_battle_to_in_progress_from_open_if_tracks_has_different_types()
     {
-        $this->battle
-            ->forceFill(['battle_type' => BattleTypes::TRACK])
-            ->saveQuietly();
-
         $this->trackB
             ->forceFill(['track_type' => TrackTypes::SAMPLE])
             ->saveQuietly();
 
         $this->expectException(ValidationException::class);
 
-        $this->battle = $this->battle->changeState(BattleStates::IN_PROGRESS);
-
-        $this->assertEquals(BattleStates::OPEN, $this->battle->battle_state);
+        $this->battle->changeState(BattleStates::IN_PROGRESS);
     }
 }
