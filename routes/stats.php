@@ -10,6 +10,7 @@ use App\Http\Controllers\Stats\DesignSummaryController;
 use App\Http\Controllers\Stats\SalesCardController;
 use App\Http\Controllers\Stats\TrackSummaryCardController;
 use App\Http\Controllers\Stats\TrackSummaryController;
+use App\Http\Controllers\Stats\WeeklyActivityController;
 
 Route::prefix('stats')
     ->name('stats.')
@@ -26,4 +27,6 @@ Route::prefix('stats')
         Route::get('battles_summary', BattleSummaryController::class)->name('battles.summary');
         Route::get('activity_received', ActivityReceivedController::class)->name('activities.received');
         Route::get('creation_sales', CreationSalesController::class)->name('creation.sales');
+
+        Route::get('weekly_activity', WeeklyActivityController::class)->name('weekly_activity');
     });
