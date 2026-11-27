@@ -30,6 +30,8 @@ class PageMetaService
 
     private const LOGO = 'images/logo_black_on_white.webp';
 
+    public function __construct(private readonly BattleShareImageService $battleShareImageService) {}
+
     public function home(): PageMeta
     {
         $home = route('welcome');
@@ -113,7 +115,7 @@ class PageMetaService
 
     /**
      * A battle is named after its two creations. Its description invites to vote while it is open, and gives the
-     * result once it has finished.
+     * result once it has finished. Its image shows the two creations face to face.
      */
     public function battle(Battle $battle): PageMeta
     {
@@ -127,6 +129,7 @@ class PageMetaService
             title: $this->title($name),
             description: $this->battleDescription($battle, $creations),
             url: $url,
+            drawnImageUrl: $this->battleShareImageService->url($battle),
             structuredData: [$this->breadcrumbs([
                 [trans('seo.pages.battles.title'), route('pages.index', ['section' => 'battles'])],
                 [$name, $url],
@@ -211,6 +214,8 @@ class PageMetaService
     }
 
     /**
+     * A page shares its own image, a JPEG of the default size drawn for it, or the default image.
+     *
      * @param  array<int, array<string, mixed>>  $structuredData
      */
     private function page(
@@ -218,6 +223,7 @@ class PageMetaService
         string $description,
         string $url,
         ?File $image = null,
+        ?string $drawnImageUrl = null,
         string $type = 'website',
         bool $indexable = true,
         array $structuredData = [],
@@ -226,7 +232,7 @@ class PageMetaService
             title: $title,
             description: $description,
             url: $url,
-            image: $this->imageUrl($image),
+            image: $drawnImageUrl ?? $this->imageUrl($image),
             imageType: $image ? $image->mime : self::DEFAULT_IMAGE_TYPE,
             locale: app()->getLocale() === 'es' ? 'es_ES' : 'en_US',
             type: $type,
