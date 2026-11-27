@@ -60,7 +60,10 @@ Route::get('files/{file}', [FileController::class, 'show'])
 Route::get('emails/{email}/render', [EmailController::class, 'render'])
     ->name('emails.render');
 
-Route::get('battles/{battle}/share.jpg', BattleShareImageController::class)
+/**
+ * Without an extension: nginx serves paths ending in .jpg as static files and never hands them to Laravel.
+ */
+Route::get('battles/{battle}/share-image', BattleShareImageController::class)
     ->whereNumber('battle')
     ->name('battles.share_image');
 
