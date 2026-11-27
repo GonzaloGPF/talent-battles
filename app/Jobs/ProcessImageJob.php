@@ -22,6 +22,8 @@ class ProcessImageJob implements ShouldQueue
 
     private const TARGET_EXTENSION = 'webp';
 
+    private const TARGET_MIME = 'image/webp';
+
     /**
      * Create a new job instance.
      */
@@ -69,6 +71,7 @@ class ProcessImageJob implements ShouldQueue
 
         if ($saved && Storage::exists($newPath)) {
             $this->file->path = $newPath;
+            $this->file->mime = self::TARGET_MIME;
             $this->file->saveQuietly();
 
             Storage::delete($oldPath);
