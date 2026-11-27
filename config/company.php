@@ -9,7 +9,7 @@ return [
     'legal' => [
         'conditions' => '2026-11-27',
         'privacy' => '2026-11-26',
-        'cookies' => '2022-04-01',
+        'cookies' => '2026-11-27',
     ],
 
     /*

@@ -6,21 +6,36 @@ title: 'Política de Cookies'
 
 ---
 
-Aquí tienes toda la información que necesitas saber para conocer cómo tratamos las Cookies.
-Las cookies son pequeñas cantidades de información que se almacenan en el navegador utilizado por cada usuario para que el servidor recuerde cierta información que posteriormente pueda utilizar.
+Las cookies son pequeños archivos que una web guarda en tu navegador para recordar información entre una visita y otra. Aquí te contamos cuáles usa **Talent Battles** y para qué.
 
 > [!NOTE]
-> Última actualización: 2022-04-01
+> Última actualización: 2026-11-27
 
-- [Tipos de Cookies que Utilizamos](#cookies-types)
+- [Cookies que usamos](#cookies-types)
+- [Almacenamiento en tu navegador](#cookies-storage)
+- [Cómo borrarlas](#cookies-delete)
 
-## Tipos de Cookies que Utilizamos {#cookies-types}
-Esta página web utiliza cookies de terceros que son aquellas que se envían a tu ordenador o terminal desde un dominio o una página web que no es gestionada por nosotros, sino por otra entidad que trata los datos obtenidos a través de las cookies.
+## Cookies que usamos {#cookies-types}
 
-En este caso las Cookies son utilizadas con fines estadísticos relacionados con las visitas que recibe y las páginas que se consultan, quedando aceptado su uso al navegar por ella.
+**Talent Battles** solo usa cookies técnicas, las necesarias para que la web funcione. No usa cookies de analítica, de publicidad ni de redes sociales, así que no tiene que pedirte permiso para ninguna.
 
-| Cookie (y Proveedor)  | Duración | Descripción
-|           :           |     :    |   :-
-|     _ga (Google)      |  2 años  | Se usa para distinguir a los usuarios.
-|    _gid (Google)      | 24 horas | Se usa para distinguir a los usuarios.
-| talentbattles_session | 2 horas  | Se usa para guardar la sesión del Usuario.
+| Cookie | Quién la pone | Duración | Para qué sirve |
+| :- | :- | :- | :- |
+| talentbattles_session | Talent Battles | 2 horas | Mantiene tu sesión iniciada y tu carrito. |
+| XSRF-TOKEN | Talent Battles | 2 horas | Protege tus acciones frente a ataques que intentan hacerse pasar por ti. |
+| \_\_stripe_mid | Stripe | 1 año | Previene el fraude en los pagos. Solo se crea cuando abres el formulario de pago. |
+| \_\_stripe_sid | Stripe | 30 minutos | Previene el fraude en los pagos. Solo se crea cuando abres el formulario de pago. |
+
+Si entras con tu cuenta de Google, Google usa sus propias cookies en sus páginas, según su política de privacidad.
+
+## Almacenamiento en tu navegador {#cookies-storage}
+
+La web también guarda algunos datos en tu navegador, sin enviarlos a nadie:
+
+- La versión de la web y algunos datos de configuración, para cargar más rápido.
+- Tu voto mientras entras con Google, para que cuente al volver a la Batalla.
+- En la Guía, si prefieres el tema claro o el oscuro y si tienes el menú oculto.
+
+## Cómo borrarlas {#cookies-delete}
+
+Puedes borrar o bloquear las cookies y el resto de datos desde la configuración de tu navegador. Si bloqueas las de **Talent Battles**, no podrás iniciar sesión ni comprar.
