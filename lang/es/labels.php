@@ -238,6 +238,7 @@ return [
     'already_voted_until' => 'Ya has votado. La Batalla termina el :date',
     'your_battle_until' => 'Tu creación está en esta Batalla. Termina el :date',
     'more_battles' => 'Más Batallas',
+    'ask_for_votes' => 'Pide votos',
     'see_battle' => 'Ver Batalla',
     'vote_with_google' => 'Votar con Google',
     'deleted_user' => 'Usuario eliminado',

@@ -103,6 +103,8 @@ return [
     'pay_with' => 'Pay :total with :name',
     'destroy_user' => 'It will destroy your User and all its data. Are you sure?',
     'must_accept_terms_and_conditions' => 'You must accept Terms and Conditions',
+    'vote_for_me' => 'I am in a battle on Talent Battles! Listen to both and vote for “:name”.',
+    'vote_for_me_copied' => 'Message copied: paste it wherever you want to ask for votes.',
     'weekly_activity' => 'What real users did each week, starting on Monday. Staff accounts are left out. Paired battles are the ones Talent Battles creates with its own account.',
     'must_accept_immediate_delivery' => 'You must ask for the immediate delivery of the order',
     'immediate_delivery' => 'I ask to receive my order straight away and accept that, once the Points or downloads are delivered, I lose the right of withdrawal.',
