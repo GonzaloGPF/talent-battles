@@ -48,6 +48,14 @@ class BattleShareImageTest extends TestCase
     }
 
     #[Test]
+    public function the_image_url_has_no_extension_so_nginx_hands_it_to_laravel()
+    {
+        $path = (string) parse_url($this->service()->url($this->battle()), PHP_URL_PATH);
+
+        $this->assertSame('', pathinfo($path, PATHINFO_EXTENSION));
+    }
+
+    #[Test]
     public function an_old_version_gets_the_current_image_cached_for_an_hour()
     {
         $battle = $this->battle();
