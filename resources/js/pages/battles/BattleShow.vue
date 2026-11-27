@@ -14,6 +14,11 @@
       show-help
     />
     <div class="d-flex flex-wrap justify-center align-center ga-3 mt-6">
+      <vote-for-me-button
+        v-if="canAskForVotes"
+        :battle="battle"
+        :creation="myCreation"
+      />
       <share-button :model="battle" />
       <app-button
         :route="{ name: 'battles.index' }"
@@ -38,6 +43,7 @@ import AppButton from '@/components/core/AppButton.vue';
 import BattleCard from '@/components/cards/BattleCard.vue';
 import BattleVoteCard from '@/components/cards/BattleVoteCard.vue';
 import ShareButton from '@/components/buttons/ShareButton.vue';
+import VoteForMeButton from '@/components/buttons/VoteForMeButton.vue';
 import CommentsManager from '@/components/modules/comments/CommentsManager.vue';
 import Formatter from '@/objects/Formatter';
 import Translator from '@/objects/Translator';
@@ -58,9 +64,11 @@ const { takePendingVote } = useOAuthLogin();
 const state = computed(() => battle.value?.battle_state);
 const creations = computed(() => battle.value?.tracks || battle.value?.designs || []);
 const isMine = (model) => !! user.value?.id && model?.created_by === user.value.id;
-const isParticipant = computed(() => creations.value.some(isMine));
+const myCreation = computed(() => creations.value.find(isMine));
+const isParticipant = computed(() => !! myCreation.value);
 const hasVoted = computed(() => (battle.value?.votes || []).some(isMine));
 const canVote = computed(() => state.value === 'in_progress' && ! isParticipant.value && ! hasVoted.value);
+const canAskForVotes = computed(() => state.value === 'in_progress' && isParticipant.value);
 const ending = computed(() => Formatter.date(battle.value?.ending));
 const title = computed(() => Translator.tl(`battle_${ state.value }`));
 const bottomText = computed(() => {

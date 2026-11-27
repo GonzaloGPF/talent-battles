@@ -103,6 +103,8 @@ return [
     'pay_with' => 'Pagar :total con :name',
     'destroy_user' => 'Esto destruirá a tu Usuario y todos sus datos. ¿Estás seguro?',
     'must_accept_terms_and_conditions' => 'Debes aceptar los Términos y Condiciones',
+    'vote_for_me' => '¡Estoy en una batalla de Talent Battles! Escucha las dos y vota por «:name».',
+    'vote_for_me_copied' => 'Mensaje copiado: pégalo donde quieras pedir votos.',
     'weekly_activity' => 'Lo que han hecho los usuarios reales cada semana, empezando en lunes. No cuenta las cuentas del equipo. Las batallas emparejadas son las que crea Talent Battles con su cuenta.',
     'must_accept_immediate_delivery' => 'Debes pedir la entrega inmediata del pedido',
     'immediate_delivery' => 'Pido recibir mi pedido en el momento y acepto que, una vez entregados los Puntos o las descargas, pierdo el derecho de desistimiento.',

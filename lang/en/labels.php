@@ -237,6 +237,7 @@ return [
     'battle_finished' => 'Finished Battle',
     'already_voted_until' => 'You have already voted. The Battle ends on :date',
     'your_battle_until' => 'Your creation is in this Battle. It ends on :date',
+    'ask_for_votes' => 'Ask for votes',
     'more_battles' => 'More Battles',
     'see_battle' => 'See Battle',
     'vote_with_google' => 'Vote with Google',
