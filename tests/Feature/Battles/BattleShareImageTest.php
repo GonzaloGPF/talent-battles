@@ -9,7 +9,9 @@ use App\Models\File;
 use App\Models\Track;
 use App\Models\User;
 use App\Services\BattleShareImageService;
+use App\Services\FileService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -91,6 +93,19 @@ class BattleShareImageTest extends TestCase
     }
 
     #[Test]
+    public function a_replaced_cover_is_drawn_in_place_of_the_old_one()
+    {
+        $battle = $this->battle();
+        Storage::put('images/cover.jpg', $this->jpeg('#FF0000'));
+        $cover = File::factory()->image()->for($battle->tracks->first(), 'fileable')->create(['path' => 'images/cover.jpg', 'mime' => 'image/jpeg']);
+        $this->service()->path($battle->fresh());
+
+        app(FileService::class)->updateFile($cover, UploadedFile::fake()->createWithContent('cover.jpg', $this->jpeg('#0000FF')));
+
+        $this->assertLeftCoverIs([0, 0, 255], $battle->fresh());
+    }
+
+    #[Test]
     public function a_creation_without_a_cover_that_can_be_read_is_shown_with_its_color()
     {
         $battle = $this->battle();
@@ -157,6 +172,14 @@ class BattleShareImageTest extends TestCase
         foreach ($rgb as $channel => $value) {
             $this->assertEqualsWithDelta($value, $color[$channel], 30, 'The JPEG keeps the color of the cover, give or take');
         }
+    }
+
+    /**
+     * A small square of one color, encoded as a JPEG.
+     */
+    private function jpeg(string $color): string
+    {
+        return app(ImageManager::class)->createImage(50, 50)->fill($color)->encodeUsingMediaType('image/jpeg')->toString();
     }
 
     private function decode(string $jpeg): ImageInterface
