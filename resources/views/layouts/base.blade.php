@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ isset($user) ?  $user['locale'] : app()->getLocale() }}">
 <head>
-    @include('partials.gtm')
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="app_url" content="{{ config('app.url') }}">

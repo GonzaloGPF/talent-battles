@@ -66,10 +66,6 @@ return [
         'redirect' => '/linkedin/callback',
     ],
 
-    'gtm' => [
-        'id' => env('GTM_ID'),
-    ],
-
     'aws' => [
         'api_gateway_endpoint' => env('AWS_API_GATEWAY_ENDPOINT'),
     ],
