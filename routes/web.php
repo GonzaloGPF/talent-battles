@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\TrackTypes;
+use App\Http\Controllers\BattleShareImageController;
 use App\Http\Controllers\BillingPortalController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
@@ -58,6 +59,10 @@ Route::get('files/{file}', [FileController::class, 'show'])
 
 Route::get('emails/{email}/render', [EmailController::class, 'render'])
     ->name('emails.render');
+
+Route::get('battles/{battle}/share.jpg', BattleShareImageController::class)
+    ->whereNumber('battle')
+    ->name('battles.share_image');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('billing-portal', BillingPortalController::class)
