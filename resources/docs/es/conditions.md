@@ -9,7 +9,7 @@ title: 'Términos del Servicio'
 Estas condiciones regulan el uso de **Talent Battles** y las compras que hagas en él. Al registrarte o al comprar, las aceptas, así que léelas con calma.
 
 > [!NOTE]
-> Última actualización: 2026-11-26
+> Última actualización: 2026-11-27
 
 - [1. Quién está detrás de Talent Battles](#terms-owner)
 - [2. Qué es Talent Battles](#terms-service)

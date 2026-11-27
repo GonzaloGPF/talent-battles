@@ -9,7 +9,7 @@ title: 'Terms of Service'
 These terms govern the use of **Talent Battles** and the purchases you make on it. You accept them when you sign up or buy something, so please read them carefully.
 
 > [!NOTE]
-> Last update: 2026-11-26
+> Last update: 2026-11-27
 
 - [1. Who runs Talent Battles](#terms-owner)
 - [2. What Talent Battles is](#terms-service)

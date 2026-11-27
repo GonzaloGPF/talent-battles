@@ -7,7 +7,7 @@ return [
     'commercial_name' => env('APP_NAME', 'Laravel'),
     'acronym' => 'TB',
     'legal' => [
-        'conditions' => '2026-11-26',
+        'conditions' => '2026-11-27',
         'privacy' => '2026-11-26',
         'cookies' => '2022-04-01',
     ],
