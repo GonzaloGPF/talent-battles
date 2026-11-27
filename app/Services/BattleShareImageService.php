@@ -52,7 +52,8 @@ class BattleShareImageService
     }
 
     /**
-     * Changes whenever something the image shows changes: a creation, its name, its author or its cover.
+     * Changes whenever something the image shows changes: a creation, its name, its author or its cover. A cover is
+     * replaced in place, keeping its id, so its path is what tells it has changed.
      */
     public function version(Battle $battle): string
     {
@@ -61,7 +62,7 @@ class BattleShareImageService
             $creation->name,
             $creation->color,
             $creation->createdBy?->getNickName(),
-            $this->cover($creation)?->id,
+            $this->cover($creation)?->path,
         ]);
 
         return substr(md5((string) json_encode($shown)), 0, 12);
