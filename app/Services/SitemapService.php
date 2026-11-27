@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Controllers\PageController;
 use App\Models\Album;
+use App\Models\Battle;
 use App\Models\Design;
 use App\Models\Track;
 use App\Models\User;
@@ -36,6 +37,10 @@ class SitemapService
 
             foreach (Design::query()->select(['id', 'updated_at'])->lazyById() as $design) {
                 yield $this->entry(route('pages.designs.show', $design), $design->updated_at);
+            }
+
+            foreach (Battle::query()->select(['id', 'updated_at'])->lazyById() as $battle) {
+                yield $this->entry(route('pages.battles.show', $battle), $battle->updated_at);
             }
 
             foreach (Album::query()->select(['id', 'updated_at'])->lazyById() as $album) {
