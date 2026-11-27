@@ -4,6 +4,7 @@ namespace Tests\Feature\Pages;
 
 use App\Enums\TrackTypes;
 use App\Models\Album;
+use App\Models\Battle;
 use App\Models\Design;
 use App\Models\Track;
 use App\Models\User;
@@ -51,6 +52,17 @@ class SitemapTest extends TestCase
             "http://talentbattles.test/albums/$album->id" => '2026-01-02T03:04:05+00:00',
             "http://talentbattles.test/users/$author->id" => '2026-01-02T03:04:05+00:00',
         ], $urls);
+    }
+
+    #[Test]
+    public function sitemap_lists_every_battle_with_its_last_change()
+    {
+        $this->travelTo('2026-01-02 03:04:05');
+        $battle = create(Battle::class);
+
+        $urls = $this->sitemapUrls();
+
+        $this->assertSame('2026-01-02T03:04:05+00:00', $urls["http://talentbattles.test/battles/$battle->id"] ?? null);
     }
 
     #[Test]

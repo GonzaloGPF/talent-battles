@@ -2,6 +2,7 @@ import { START_LOCATION } from 'vue-router';
 import global from '@/config/global';
 import Translator from '@/objects/Translator';
 import { useAlbum } from '@/stores/albums';
+import { useBattle } from '@/stores/battles';
 import { useDesign } from '@/stores/designs';
 import { useTrack } from '@/stores/tracks';
 import { useUser } from '@/stores/users';
@@ -59,9 +60,27 @@ const getPageTitle = (to) => {
             return Translator.t('seo.album_title', { name: album.name, author: getAuthor(album) });
         }
 
+        case 'battles.show':
+            return getBattleTitle(useBattle().battle);
+
         case 'users.show':
             return useUser().user.nick_name;
     }
 }
 
 const getAuthor = (creation) => creation.createdBy?.nick_name || Translator.t('seo.unknown_author');
+
+/**
+ * A battle is named after its two creations, or after the one waiting for a rival (PageMetaService::battleName).
+ */
+const getBattleTitle = (battle) => {
+    const [first, second] = (battle.battle_type === 'design' ? battle.designs : battle.tracks) ?? [];
+
+    if (second) {
+        return Translator.t('seo.battle_title', { first: first.name, second: second.name });
+    }
+
+    return first
+        ? Translator.t('seo.open_battle_title', { name: first.name })
+        : Translator.t('seo.pages.battles.title');
+}
