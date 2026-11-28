@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Invitations;
 
+use App\Enums\Roles;
 use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -51,6 +52,19 @@ class ViewInvitationTest extends TestCase
             $this->assertEquals($invitation->id, $invitationItem['id']);
             $this->assertEquals($invitation->user_id, $invitationItem['user_id']);
         });
+    }
+
+    #[Test]
+    public function a_user_only_sees_the_invitations_they_sent()
+    {
+        $user = $this->signIn(create(User::class, ['role' => Roles::USER]));
+        $sent = create(Invitation::class, ['created_by' => $user->id]);
+
+        $data = $this->makeRequest()
+            ->assertSuccessful()
+            ->json('data');
+
+        $this->assertSame([$sent->id], array_column($data, 'id'));
     }
 
     #[Test]
