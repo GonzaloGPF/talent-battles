@@ -3,6 +3,7 @@
 use App\Exceptions\ExceptionRenderer;
 use App\Facades\Logger;
 use App\Http\Middleware\AddContentSecurityPolicyHeaders;
+use App\Http\Middleware\AddFrontendVersionHeader;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\ConvertStringsToBoolean;
 use App\Http\Middleware\EncryptCookies;
@@ -80,6 +81,7 @@ return Application::configure(basePath: dirname(__DIR__))
             Language::class,
             ThrottleRequests::class.':api',
             SubstituteBindings::class,
+            AddFrontendVersionHeader::class,
         ]);
 
         $middleware->alias([

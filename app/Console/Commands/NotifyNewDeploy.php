@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Events\NewDeploy;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Vite;
 
 class NotifyNewDeploy extends Command
 {
@@ -26,6 +27,6 @@ class NotifyNewDeploy extends Command
      */
     public function handle(): void
     {
-        NewDeploy::dispatch();
+        NewDeploy::dispatch(Vite::manifestHash());
     }
 }

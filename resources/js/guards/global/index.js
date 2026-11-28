@@ -1,4 +1,3 @@
-// import version from '@/guards/global/version';
 import constants from '@/guards/global/constants';
 import company from '@/guards/global/company';
 import title from '@/guards/global/title';
@@ -15,7 +14,6 @@ export default async (to, from) => {
 
     return await Promise.all([
         cookies(),
-        // version(to, from),
         constants(to, from),
         company(to, from),
         identity(),

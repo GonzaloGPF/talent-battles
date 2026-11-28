@@ -5,6 +5,7 @@ import eventTypes from '@/events/EventTypes';
 import Http from '@/objects/Http';
 import Utils from '@/objects/Utils';
 import CookiesHelper from '@/objects/Cookies';
+import AppVersion from '@/objects/AppVersion';
 
 let WebSocket = null;
 let options = null;
@@ -38,7 +39,7 @@ const Echo = {
 
         webSockets
             .channel('deployments')
-            .listen('NewDeploy', (event) => EventBus.emit(eventTypes.backend.NewDeploy, event));
+            .listen('NewDeploy', (event) => AppVersion.check(event.version));
 
         return Echo.getSocketId(webSockets);
     },
