@@ -67,13 +67,20 @@ class Filter extends ModelFilter
     /**
      * Each input key calls the filter method with its name. Only public methods are filters:
      * the protected and private ones are helpers, and calling them with the input would fail.
+     * The key has to spell the method exactly. PHP finds a method whatever its case, but the
+     * blacklist compares names exactly, so "EMAIL" would run email() even when it is blacklisted.
      *
      * @param  string  $method
      */
     public function methodIsCallable($method): bool
     {
-        return parent::methodIsCallable($method)
-            && (new ReflectionMethod($this, $method))->isPublic();
+        if (! parent::methodIsCallable($method)) {
+            return false;
+        }
+
+        $reflection = new ReflectionMethod($this, $method);
+
+        return $reflection->isPublic() && $reflection->getName() === $method;
     }
 
     /**
@@ -364,8 +371,13 @@ class Filter extends ModelFilter
             && $this->canUseColumn(Str::singular($constant));
     }
 
+    /**
+     * Only a column name in snake case may reach the query. MySQL reads "EMAIL" as the column "email",
+     * so any other spelling could use a private column under a name that is not on the list.
+     */
     private function canUseColumn(string $column): bool
     {
-        return ! in_array($column, $this->privateColumns, true) || hasRole(Roles::ADMIN);
+        return preg_match('/^[a-z0-9_]+$/', $column) === 1
+            && (! in_array($column, $this->privateColumns, true) || hasRole(Roles::ADMIN));
     }
 }

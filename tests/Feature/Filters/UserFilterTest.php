@@ -125,6 +125,24 @@ class UserFilterTest extends TestCase
     }
 
     #[Test]
+    #[TestWith([['EMAIL' => 'private']])]
+    #[TestWith([['not_EMAIL' => 'zz-private@mail.com']])]
+    #[TestWith([['min_BIRTHDATE' => '2000-01-01']])]
+    #[TestWith([['sort' => 'EMAIL|asc']])]
+    public function private_fields_cannot_be_used_by_changing_the_case_of_their_name(array $input)
+    {
+        User::query()->update(['birthdate' => '1980-01-01']);
+        create(User::class, [
+            'email' => 'zz-private@mail.com',
+            'birthdate' => '2005-01-01',
+            'created_at' => now()->addMinute(),
+        ]);
+        $everyone = User::filter([])->pluck('id')->all();
+
+        $this->assertSame($everyone, User::filter($input)->pluck('id')->all());
+    }
+
+    #[Test]
     public function it_can_filter_tracks_by_skills()
     {
         User::query()->update(['skills' => null]);

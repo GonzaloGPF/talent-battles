@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InvitationRequest;
 use App\Http\Resources\InvitationResource;
 use App\Models\Invitation;
+use App\Scopes\ViewOnlyMine;
 use App\Services\InvitationService;
 use Illuminate\Http\JsonResponse;
 
@@ -17,11 +18,14 @@ class InvitationController extends Controller
     }
 
     /**
-     * Display a listing of the Invitation.
+     * The invitations the user has sent, or every invitation for admins. The resource only shows the email to whoever
+     * sent the invitation, and listing the others would let anyone search them by email.
      */
     public function index(): JsonResponse
     {
-        $invitations = Invitation::filter(request()->all())
+        $invitations = Invitation::query()
+            ->withGlobalScope('mine', new ViewOnlyMine(allowAdmin: true))
+            ->filter(request()->all())
             ->getOrPaginate();
 
         return $this->indexResponse(InvitationResource::collection($invitations));
