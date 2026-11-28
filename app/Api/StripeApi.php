@@ -44,6 +44,8 @@ class StripeApi extends Api
 
     const OK_PAYMENT_STATUS = 'succeeded';
 
+    const FAILED_PAYMENT_STATUS = 'requires_payment_method';
+
     private ?User $user;
 
     private string $currency;
@@ -505,6 +507,21 @@ class StripeApi extends Api
         }
 
         return $isFullyPaid;
+    }
+
+    /**
+     * After a failed attempt, Stripe keeps the error and waits for another payment method. A payment that has not been
+     * tried yet waits too, but without an error.
+     */
+    public function hasPaymentFailed(string $paymentIntentId): bool
+    {
+        if (! $this->isEnabled()) {
+            return false;
+        }
+
+        $paymentIntent = $this->retrievePaymentIntent($paymentIntentId);
+
+        return $paymentIntent?->status === self::FAILED_PAYMENT_STATUS && isset($paymentIntent->last_payment_error);
     }
 
     public function getPaymentIntentId(Payment $payment): string

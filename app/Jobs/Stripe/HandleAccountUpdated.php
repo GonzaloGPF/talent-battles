@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Stripe;
 
+use App\Api\StripeApi;
 use App\Facades\Logger;
 use App\Models\User;
 use Exception;
@@ -24,25 +25,32 @@ class HandleAccountUpdated implements ShouldQueue
     public function __construct(public array $payload) {}
 
     /**
-     * Execute the job.
+     * The webhook only reports which account has changed, and it could be forged. The account saved is the one Stripe
+     * returns, since it decides if the user can sell, and the user keeps theirs if Stripe cannot be reached.
      */
-    public function handle(): void
+    public function handle(StripeApi $stripeApi): void
     {
         try {
-            $account = data_get($this->payload, 'data.object');
+            $accountId = data_get($this->payload, 'data.object.id');
 
-            if (empty($account['id'])) {
+            if (! is_string($accountId) || $accountId === '') {
                 return;
             }
 
-            $user = User::firstWhere('account->id', $account['id']);
+            $user = User::firstWhere('account->id', $accountId);
 
             if (! $user) {
                 return;
             }
 
+            $account = $stripeApi->getAccount($user);
+
+            if (! $account) {
+                return;
+            }
+
             $user
-                ->forceFill(['account' => $account])
+                ->forceFill(['account' => $account->toArray()])
                 ->save();
         } catch (Exception $e) {
             Logger::exception($e);

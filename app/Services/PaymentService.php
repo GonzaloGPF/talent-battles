@@ -40,6 +40,29 @@ class PaymentService
     }
 
     /**
+     * Marks an order as failed if Stripe has its payment as failed: the webhook that reports it could be forged. An order
+     * completed in the meantime, by a retried payment for example, is never undone, and the lock is the one of confirmOrder.
+     */
+    public function failOrder(Order $order): bool
+    {
+        $paymentIntentId = $order->meta['payment_intent_id'] ?? null;
+
+        if (! $paymentIntentId) {
+            return false;
+        }
+
+        return (bool) Cache::lock("payment_intent.$paymentIntentId", 60)->get(function () use ($order, $paymentIntentId) {
+            if ($order->refresh()->payment_state === PaymentStates::SUCCESS || ! resolve(StripeApi::class)->hasPaymentFailed($paymentIntentId)) {
+                return false;
+            }
+
+            $order->forceFill(['payment_state' => PaymentStates::ERROR])->save();
+
+            return true;
+        });
+    }
+
+    /**
      * Nothing stops an order from being created with the payment intent of another one, which would get it for free.
      */
     private function isPaymentIntentUsed(Order $order, string $paymentIntentId): bool
