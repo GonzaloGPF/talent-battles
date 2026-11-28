@@ -4,6 +4,7 @@
         window.flash_message = {!! json_encode(session('message')) !!};
         window.invitation = JSON.parse('{!! json_encode($invitation ?? null) !!}');
         window.profile_claim = {!! json_encode($profileClaim ?? null, JSON_HEX_TAG) !!};
+        window.app_version = {!! json_encode(\Illuminate\Support\Facades\Vite::manifestHash()) !!};
     </script>
 @endpush
 

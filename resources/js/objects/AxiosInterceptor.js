@@ -1,6 +1,7 @@
 import Translator from '@/objects/Translator';
 import EventBus from '@/events/EventBus';
 import EventTypes from '@/events/EventTypes';
+import AppVersion from '@/objects/AppVersion';
 
 const NO_CONTENT = 204;
 const CREATED = 201;
@@ -28,6 +29,8 @@ export default class AxiosInterceptor {
         return response => {
             const status = response.status;
             const { message } = response.data;
+
+            AppVersion.check(response.headers?.['x-app-version']);
 
             if (! response.config.quietly) {
                 if (status === NO_CONTENT) {
@@ -61,6 +64,8 @@ export default class AxiosInterceptor {
             if (! error.response) throw 'no_response';
 
             const { status, data, config } = error.response;
+
+            AppVersion.check(error.response.headers?.['x-app-version']);
 
             // if (status === PERMANENTLY_REDIRECT) {
             //     authStore.setUser(data.data);

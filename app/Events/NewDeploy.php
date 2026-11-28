@@ -13,12 +13,9 @@ class NewDeploy implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * Create a new event instance.
+     * The build of the frontend that has been deployed. Open pages only offer to update when it is not theirs.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(public ?string $version) {}
 
     /**
      * Get the channels the event should broadcast on.

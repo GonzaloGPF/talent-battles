@@ -9,10 +9,28 @@ import registerPlugins from '@/plugins';
 import AppRoot from '@/components/core/AppRoot.vue';
 import { createApp } from 'vue';
 
-// https://stackoverflow.com/questions/69300341/typeerror-failed-to-fetch-dynamically-imported-module-on-vue-vite-vanilla-set
-window.addEventListener('vite:preloadError', () => {
-    window.location.reload()
-})
+const PRELOAD_RELOAD_KEY = 'vite_preload_reload_at';
+const PRELOAD_RELOAD_INTERVAL = 10000;
+
+/**
+ * After a deployment, a page loaded before it asks for chunks of the old build, which are gone, and reloading loads the
+ * new one. Only once every few seconds: a chunk missing from the new build too would reload the page forever. Without
+ * session storage a loop cannot be told apart, so the error is left to the router.
+ */
+window.addEventListener('vite:preloadError', (event) => {
+    try {
+        const lastReload = Number(sessionStorage.getItem(PRELOAD_RELOAD_KEY)) || 0;
+
+        if (Date.now() - lastReload < PRELOAD_RELOAD_INTERVAL) return;
+
+        sessionStorage.setItem(PRELOAD_RELOAD_KEY, String(Date.now()));
+    } catch {
+        return;
+    }
+
+    event.preventDefault();
+    window.location.reload();
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
