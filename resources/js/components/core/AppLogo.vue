@@ -1,5 +1,8 @@
 <template>
-  <div class="d-flex flex-column justify-center align-center">
+  <div
+    ref="root"
+    class="d-flex flex-column justify-center align-center"
+  >
     <h4
       id="welcome"
       class="mini-title-brand mb-5"
@@ -16,7 +19,6 @@
       id="title"
       v-text-split="'d-inline-block m-0 md:mx-1'"
       class="title-brand"
-      @split="animateTitle"
       v-text="global.getAppName()"
     />
     <div
@@ -35,26 +37,35 @@ import { gsap } from 'gsap';
 import global from '@/config/global';
 import Translator from '@/objects/Translator';
 import { default as vTextSplit } from '@/directives/textSplit';
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import AppIcon from '@/components/core/AppIcon.vue';
 
+const root = ref(null);
+let media = null;
+let replay = null;
+
+/**
+ * The letters of the title fall into place one after another.
+ */
 const animateTitle = () => {
     gsap.set('#title span', {
         transformOrigin: 'center center',
     });
-    gsap.from('#title span', {
+
+    return gsap.from('#title span', {
         opacity: 0,
         yPercent: -100,
         stagger: .1,
         rotate: -20
     });
 }
+
 const animateLogo = () => {
-    gsap.set("#welcome, #logo #the_t, #logo #star, #subtitle, #separator", {
+    gsap.set('#welcome, #logo #the_t, #logo #star, #subtitle, #separator', {
         transformOrigin: 'center center',
     });
 
-    gsap.timeline()
+    return gsap.timeline()
         .from('#welcome', {
             opacity: 0,
             duration: 0.5
@@ -62,8 +73,6 @@ const animateLogo = () => {
         .from('#logo #the_t', {
             opacity: 0,
             scale: 0,
-            // yPercent: -100,
-            // ease: "elastic.out(1, 0.3)"
         })
         .from('#logo #star', {
             opacity: 0,
@@ -72,12 +81,12 @@ const animateLogo = () => {
             ease: 'elastic.out(1, 0.4)',
             rotate: 360
         }, '<')
-        .from('#logo #upper_right, #lower_right', {
+        .from('#logo #upper_right, #logo #lower_right', {
             opacity: 0,
             xPercent: 100,
             ease: 'back'
         }, '-=1.25')
-        .from('#logo #upper_left, #lower_left', {
+        .from('#logo #upper_left, #logo #lower_left', {
             opacity: 0,
             xPercent: -100,
             ease: 'back'
@@ -92,11 +101,33 @@ const animateLogo = () => {
         });
 }
 
-const onClick = () => {
-    animateTitle();
-    animateLogo();
-}
+/**
+ * A click replays the animations created on mount. New from() tweens would take the halfway values of the running
+ * ones as their end, and a quick second click would leave the logo hidden.
+ */
+const onClick = () => replay?.();
 
-onMounted(() => animateLogo());
+/**
+ * Selectors only look inside this component, and nothing moves for those who ask their system for reduced motion.
+ * Leaving the page, or turning reduced motion on, reverts everything to how it was.
+ */
+onMounted(() => {
+    media = gsap.matchMedia();
 
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+        const title = animateTitle();
+        const logo = animateLogo();
+
+        replay = () => {
+            title.restart();
+            logo.restart();
+        };
+
+        return () => {
+            replay = null;
+        };
+    }, root.value);
+});
+
+onUnmounted(() => media?.revert());
 </script>
