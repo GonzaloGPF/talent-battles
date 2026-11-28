@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Enums\PaymentStates;
 use App\Facades\Logger;
 use App\Models\Order;
 use App\Services\PaymentService;
@@ -29,7 +28,8 @@ class HandlePaymentIntent implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * The webhook only reports that a payment has changed. Its order is completed or marked as failed only if Stripe
+     * agrees, so a forged webhook cannot do either.
      */
     public function handle(PaymentService $paymentService): void
     {
@@ -50,10 +50,8 @@ class HandlePaymentIntent implements ShouldQueue
                 $paymentService->confirmOrder($order);
             }
 
-            if ($this->paymentIntentEvent === 'payment_intent.payment_failed' && $order->payment_state !== PaymentStates::SUCCESS) {
-                $order->forceFill([
-                    'payment_state' => PaymentStates::ERROR,
-                ])->save();
+            if ($this->paymentIntentEvent === 'payment_intent.payment_failed') {
+                $paymentService->failOrder($order);
             }
         } catch (Exception $exception) {
             Logger::exception($exception);

@@ -178,12 +178,54 @@ class OrderPaymentTest extends TestCase
     #[Test]
     public function a_failed_payment_does_not_undo_a_completed_order()
     {
-        $this->stripeHasPayment();
+        $this->stripeHasFailedPayment();
         $order = $this->order(['payment_state' => PaymentStates::SUCCESS]);
 
-        (new HandlePaymentIntent($this->payload($order), 'payment_intent.payment_failed'))->handle(resolve(PaymentService::class));
+        $this->failWithWebhook($order);
 
         $this->assertSame(PaymentStates::SUCCESS, $order->refresh()->payment_state);
+    }
+
+    #[Test]
+    public function a_payment_that_stripe_has_as_failed_marks_its_order_as_failed()
+    {
+        $this->stripeHasFailedPayment();
+        $order = $this->order();
+
+        $this->failWithWebhook($order);
+
+        $this->assertSame(PaymentStates::ERROR, $order->refresh()->payment_state);
+    }
+
+    #[Test]
+    #[DataProvider('paymentsThatHaveNotFailed')]
+    public function a_failure_that_stripe_does_not_have_leaves_the_order_pending(array $payment)
+    {
+        $this->stripeHasPayment($payment);
+        $order = $this->order();
+
+        $this->failWithWebhook($order);
+
+        $this->assertSame(PaymentStates::PENDING, $order->refresh()->payment_state);
+    }
+
+    public static function paymentsThatHaveNotFailed(): array
+    {
+        return [
+            'paid' => [[]],
+            'not tried yet' => [['status' => 'requires_payment_method', 'amount_received' => 0, 'last_payment_error' => null]],
+            'still processing' => [['status' => 'processing', 'amount_received' => 0]],
+        ];
+    }
+
+    #[Test]
+    public function a_failure_of_a_payment_unknown_to_stripe_leaves_the_order_pending()
+    {
+        $order = $this->order();
+
+        $this->failWithWebhook($order);
+
+        $this->assertSame(PaymentStates::PENDING, $order->refresh()->payment_state);
     }
 
     #[Test]
@@ -217,6 +259,15 @@ class OrderPaymentTest extends TestCase
         ], $payment);
     }
 
+    private function stripeHasFailedPayment(): void
+    {
+        $this->stripeHasPayment([
+            'status' => 'requires_payment_method',
+            'amount_received' => 0,
+            'last_payment_error' => ['code' => 'card_declined'],
+        ]);
+    }
+
     private function visitSuccessPage(Order $order): TestResponse
     {
         return $this->get(URL::signedRoute('orders.success', ['order' => $order->id]));
@@ -225,6 +276,11 @@ class OrderPaymentTest extends TestCase
     private function confirmWithWebhook(Order $order): void
     {
         (new HandlePaymentIntent($this->payload($order), 'payment_intent.succeeded'))->handle(resolve(PaymentService::class));
+    }
+
+    private function failWithWebhook(Order $order): void
+    {
+        (new HandlePaymentIntent($this->payload($order), 'payment_intent.payment_failed'))->handle(resolve(PaymentService::class));
     }
 
     private function payload(Order $order): array
