@@ -72,7 +72,8 @@ activate() {
 }
 
 # Asks for a page without following redirects: it has to answer 200, and its headers or body have to
-# match the pattern. The status alone proves little, the fallback route answers any path with a 200.
+# match the pattern. The status alone proves little: an error page of PHP, the default page of the
+# panel or a stale cache can answer 200 too.
 responds() {
     local response ok='^HTTP/[0-9.]+ 200'
 

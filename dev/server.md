@@ -16,8 +16,9 @@ The server only needs PHP: it does not need Composer, Node.js or access to the r
 
 Releases are atomic. They are prepared in their own folder and `current` is switched at the very end, so a failing step
 leaves the live release untouched. After the switch, the home page, the API and the documentation are checked, and if one
-of them fails, it goes back to the previous release. Any path answers 200 because of the fallback route, so each check
-also looks for something only that page has. A redirect is a failure: `APP_URL` has to be the final URL, with `https`.
+of them fails, it goes back to the previous release. A 200 alone proves little, since an error page of PHP, the default
+page of the panel or a stale cache can answer 200 too, so each check also looks for something only that page has. A
+redirect is a failure: `APP_URL` has to be the final URL, with `https`.
 Horizon is only restarted when `QUEUE_CONNECTION=redis`, and Reverb when `BROADCAST_DRIVER=reverb`, so the server does
 not need Redis until they are in use.
 
